@@ -1,0 +1,21 @@
+cose da sapere:
+nell inclusione delle librerie nel file .h
+	"Since some of the definitions in readline.h use the stdio library, 
+	the file <stdio.h> should be included before readline.h"
+	reference: https://tiswww.case.edu/php/chet/readline/readline.html#Readline-Bare-Essentials
+
+readline:	
+va compilata usando le flags 
+	-lreadline -lcurses -L/Users/$(USER)/.brew/opt/readline/lib -I/Users/$(USER)/.brew/opt/readline/include
+come argomento accetta una stringa che rappresenta il prompt che verrá
+	visualizzato durante l inserimento dell input utente,
+	se la stringa é NULL non verrá visualizzato nessun prompt
+il valore ritornato viene allocato usando malloc,
+	perció deve essere freeato
+la stringa viene ritornata senza il "\n" finale
+
+readline history:
+	add_history:
+	
+	rl_clear_history:
+
