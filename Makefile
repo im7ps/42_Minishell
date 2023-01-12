@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+         #
+#    By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/02 19:49:41 by sgerace           #+#    #+#              #
-#    Updated: 2022/12/02 20:02:41 by sgerace          ###   ########.fr        #
+#    Updated: 2023/01/12 19:55:12 by sgerace          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ USER = sgerace
 #LDFLAGS = -L/opt/homebrew/opt/readline/lib
 #CPPFLAGS = -I/opt/homebrew/opt/readline/include
 
-FLAGS = -g #-fsanitize=address #-Wall -Werror -Wextra
+FLAGS = -g -L/usr/local/lib -I/usr/local/include -lreadline #-fsanitize=address #-Wall -Werror -Wextra
 
 #F_IRINA = -lreadline -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include
 FLAG_READLINE = -lreadline -lcurses -L/Users/$(USER)/.brew/opt/readline/lib -I/Users/$(USER)/.brew/opt/readline/include
@@ -34,7 +34,7 @@ FLAG_READLINE = -lreadline -lcurses -L/Users/$(USER)/.brew/opt/readline/lib -I/U
 all: $(NAME)
 
 $(NAME) : $(SRC)
-	@$(CC) $(FLAGS) $(FLAG_READLINE) $(SRC) -o $(NAME)
+	@$(CC)  $(FLAG_READLINE) $(SRC) $(FLAGS) -o $(NAME)
 
 clean:
 	@rm -f $(OBJS)

@@ -5,8 +5,8 @@ nell inclusione delle librerie nel file .h
 	reference: https://tiswww.case.edu/php/chet/readline/readline.html#Readline-Bare-Essentials
 
 readline:	
-va compilata usando le flags 
-	-lreadline -lcurses -L/Users/$(USER)/.brew/opt/readline/lib -I/Users/$(USER)/.brew/opt/readline/include
+va compilato in questo modo
+	gcc main.c -L/usr/local/lib -I/usr/local/include -lreadline
 come argomento accetta una stringa che rappresenta il prompt che verrá
 	visualizzato durante l inserimento dell input utente,
 	se la stringa é NULL non verrá visualizzato nessun prompt
@@ -18,4 +18,3 @@ readline history:
 	add_history:
 	
 	rl_clear_history:
-
