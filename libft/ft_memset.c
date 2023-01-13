@@ -1,36 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/13 18:36:18 by sgerace          ###   ########.fr       */
+/*   Created: 2022/03/24 15:17:46 by sgerace           #+#    #+#             */
+/*   Updated: 2022/04/06 19:50:01 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+// memset() is used to fill a block of memory with a particular value.
+// source: https://www.geeksforgeeks.org/memset-c-example/
 
-# include "libft/libft.h"
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdlib.h>
-# include <unistd.h>
+#include "libft.h"
 
-# define QUOTEERR 1
-# define MALLOCERR 2
-# define ENVERR 3
-# define ACCESSERR 4
-
-typedef struct s_prompt
+void	*ft_memset(void *str, int c, size_t len)
 {
-	const char *name;
-	int 	pid;
-	char 	**envp;
-	t_list 	*cmds;
-}	t_prompt;
+	char	l;
+	char	*k;
 
-#endif
+	k = str;
+	l = c;
+	while (len--)
+	{
+		*k++ = l;
+	}
+	return (str);
+}

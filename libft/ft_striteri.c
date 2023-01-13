@@ -1,36 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/13 18:36:18 by sgerace          ###   ########.fr       */
+/*   Created: 2022/03/31 19:21:07 by sgerace           #+#    #+#             */
+/*   Updated: 2022/04/06 20:14:32 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdlib.h>
-# include <unistd.h>
-
-# define QUOTEERR 1
-# define MALLOCERR 2
-# define ENVERR 3
-# define ACCESSERR 4
-
-typedef struct s_prompt
+void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
-	const char *name;
-	int 	pid;
-	char 	**envp;
-	t_list 	*cmds;
-}	t_prompt;
+	size_t	i;
 
-#endif
+	if (!s)
+		return ;
+	i = 0;
+	while (s[i] != '\0')
+	{
+		f(i, &s[i]);		//gli passiamo l indirizzo per lavorare sulla vera stringa, non una copia! (in realta' il prototipo accetta un puntatore, s[i] sarebbe "solo" un valore)
+		i++;
+	}
+}

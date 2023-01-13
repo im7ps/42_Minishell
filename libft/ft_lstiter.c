@@ -1,36 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_lstiter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/13 18:36:18 by sgerace          ###   ########.fr       */
+/*   Created: 2022/04/03 17:45:50 by sgerace           #+#    #+#             */
+/*   Updated: 2022/04/03 17:56:21 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdlib.h>
-# include <unistd.h>
-
-# define QUOTEERR 1
-# define MALLOCERR 2
-# define ENVERR 3
-# define ACCESSERR 4
-
-typedef struct s_prompt
+void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
-	const char *name;
-	int 	pid;
-	char 	**envp;
-	t_list 	*cmds;
-}	t_prompt;
-
-#endif
+	if (lst == NULL)
+		return ;
+	while (lst != NULL)
+	{
+		f(lst->content);
+		lst = lst->next;
+	}
+}

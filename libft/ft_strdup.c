@@ -1,36 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/13 18:36:18 by sgerace          ###   ########.fr       */
+/*   Created: 2022/03/27 17:40:54 by sgerace           #+#    #+#             */
+/*   Updated: 2022/04/06 20:12:34 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdlib.h>
-# include <unistd.h>
-
-# define QUOTEERR 1
-# define MALLOCERR 2
-# define ENVERR 3
-# define ACCESSERR 4
-
-typedef struct s_prompt
+char	*ft_strdup(const char *s1)
 {
-	const char *name;
-	int 	pid;
-	char 	**envp;
-	t_list 	*cmds;
-}	t_prompt;
+	size_t	dim;
+	char	*stack;
 
-#endif
+	dim = ft_strlen(s1) + 1;
+	stack = (char *) malloc(sizeof(char) * dim);
+	if (s1 == NULL)
+		return (NULL);
+	else
+		ft_memcpy(stack, s1, dim);
+	return (stack);
+}

@@ -1,36 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/13 18:36:18 by sgerace          ###   ########.fr       */
+/*   Created: 2022/04/01 18:15:46 by sgerace           #+#    #+#             */
+/*   Updated: 2022/04/01 18:59:01 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include <unistd.h>
 
-# include "libft/libft.h"
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdlib.h>
-# include <unistd.h>
-
-# define QUOTEERR 1
-# define MALLOCERR 2
-# define ENVERR 3
-# define ACCESSERR 4
-
-typedef struct s_prompt
+void	ft_putstr_fd(char *s, int fd)
 {
-	const char *name;
-	int 	pid;
-	char 	**envp;
-	t_list 	*cmds;
-}	t_prompt;
+	int	i;
 
-#endif
+	i = 0;
+	while (s[i] != '\0')
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
+}
