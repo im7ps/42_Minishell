@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:45:51 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/13 19:07:37 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/01/14 19:44:53 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,83 @@ int	ft_input_check(char *input)
 	return (0);
 }
 
+int	ft_matrixlen(char **matrix)
+{
+	int	i;
+	
+	i = 0;
+	while (matrix[i] && matrix)
+	{
+		i++;
+	}
+	return (i);
+}
+
+int	ft_path_case(char *input)
+{
+	char	**args;
+	char	*path;			//una stringa dove verrà copiata l intera variabile PATH
+	char	**path_token;	//una matrice con tutti gli absolute PATH in cui il programma cercherà l eseguibile se non è specificato dall utente nè un path assoluto nè uno relativo
+	int		path_num;		//numero dei percorsi contenuti in PATH in cui bisogna cercare
+	char	executable_path[1024]; //gli do abbastanza spazio per copiarci dentro un path di lunghezza max 1024
+
+	path = getenv("PATH");
+	if (!path)
+		return (ft_perror(PATHERR));
+	path_token = ft_split(path, ':');
+	path_num = ft_matrixlen(path_token);
+	while (path_num > 0)
+	{
+		ft_strlcpy(executable_path, path_token[path_num - 1], ft_strlen(path_token[path_num - 1]) + 1); //+1 per il NULL terminator
+		if (executable_path[ft_strlen(executable_path) - 1] != '/')				//quasi tutti i path sono separati da ":" ma alcuni path terminano con "/:", perciò va fatto un controllo per evitare di creare path del tipo: usr/bin//:
+			ft_strlcat(executable_path, "/", ft_strlen(executable_path) + 2); 	//+1 per il NULL terminator delle stringhe di exec_path e +1 per il nuovo carattere da appendere
+		ft_strlcat(executable_path, input, ft_strlen(executable_path) + ft_strlen(input) + 1);
+		if (access(executable_path, X_OK) == 0)
+		{
+			args = malloc(sizeof(char *) * 2);
+			args[0] = executable_path;
+			args[1] = NULL;
+			execve(executable_path, args, NULL);
+		}
+		path_num--;
+	}
+	printf("PATH non trovato o accesso negato!\n");	//se riusciamo ad arrivare fuori dal while vuol dire che in nessun percorso di PATH è stata trovata la corrispondenza PATH/input, quindi non è stato trovato l eseguibile
+	ft_perror(ACCESSERR);
+}
+
+int	ft_abs_rel_path_case(char *input)
+{
+	char	**args;
+
+	if (access(input, X_OK) == 0)
+	{
+		args = malloc(sizeof(char *) * 2);
+		args[0] = input;
+		args[1] = NULL;
+        execve(input, args, NULL);
+    }
+	else 
+	{
+		printf("Path non trovato o accesso negato!\n");
+        ft_perror(ACCESSERR);
+    }
+}
+
+int ft_manage_executable()
+{
+	char	*input;
+
+	input = readline("Enter the path to the executable: ");
+	if (!input)
+		return (ft_perror(READLINEERR));
+	//if utente usa la variabile d ambiente PATH
+	if (ft_path_case(input))
+		return (1);
+	//if utente usa un path relativo "./ o ../" o assoluto "/"
+	if (ft_abs_rel_path_case(input))
+		return (1);
+}
+
 int	ft_setprompt(t_prompt *prompt, char **envp)
 {
 	int	i;
@@ -87,25 +164,10 @@ int	ft_setprompt(t_prompt *prompt, char **envp)
 int	main(int argc, char **argv, char **envp)
 {
 	t_prompt prompt;
-	char	*input;
-	char	**args;
 
 	ft_setprompt(&prompt, envp);	//copies the envp content into prompt.envp
 
-
-    input = readline("Enter the path to the executable: ");
-    if (access(input, X_OK) == 0)
-	{
-		args = malloc(sizeof(char *) * 2);
-		args[0] = input;
-		args[1] = NULL;
-        execve(input, args, NULL);
-    }
-	else 
-	{
-		printf("Path non trovato o accesso negato!\n");
-        ft_perror(ACCESSERR);
-    }
+	ft_manage_executable();
 
 	/*while (argc && argv)
 	{
@@ -117,7 +179,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 	}*/
 	//printf("Percorso: %s\n", getcwd(NULL, 0));
-	ft_free_stuff(input, prompt.envp);
+	//ft_free_stuff(input, prompt.envp);
 	return (0);
 }
 

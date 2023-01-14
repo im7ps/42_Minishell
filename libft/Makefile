@@ -6,7 +6,7 @@
 #    By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/26 15:43:03 by sgerace           #+#    #+#              #
-#    Updated: 2022/04/03 17:58:10 by sgerace          ###   ########.fr        #
+#    Updated: 2023/01/14 19:12:15 by sgerace          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ BONUS		=	ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c\
 
 BONUS_OBJS	= ${BONUS:.c=.o}
 
-CC			= gcc
+CC			= gcc -g
 
 RM			= rm -f
 
