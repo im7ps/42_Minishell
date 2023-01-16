@@ -16,5 +16,4 @@ la stringa viene ritornata senza il "\n" finale
 
 readline history:
 	add_history:
-	
 	rl_clear_history:

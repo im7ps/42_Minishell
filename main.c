@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:45:51 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/14 19:44:53 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/01/16 19:53:28 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,14 +161,49 @@ int	ft_setprompt(t_prompt *prompt, char **envp)
 	return 0;
 }
 
+int	ft_echo_handler();
+
+void	ft_find_cmd(char *input)
+{
+	if (!(ft_strncmp("echo", input, ft_strlen("echo"))))
+		ft_echo_handler();
+	else if (!(ft_strncmp("cd", input, ft_strlen("echo"))))
+		ft_cd_handler();
+	else if (!(ft_strncmp("pwd", input, ft_strlen("echo"))))
+		ft_pwd_handler();
+	else if (!(ft_strncmp("export", input, ft_strlen("echo"))))
+		ft_export_handler();
+	else if (!(ft_strncmp("unset", input, ft_strlen("echo"))))
+		ft_unset_handler();
+	else if (!(ft_strncmp("env", input, ft_strlen("echo"))))
+		ft_env_handler();
+	else if (!(ft_strncmp("exit", input, ft_strlen("echo"))))
+		ft_exit_handler();
+	else
+		printf("Command %s not found.\n", input);
+}
+
+int	ft_lexer(t_prompt *prompt)
+{
+	char	*input;
+	int		i;
+
+	input = readline(prompt->name);
+	//ECHO -N CD (ONLY RELATIVE OR ABSOLUTE) PWD EXPORT UNSET ENV EXIT
+	ft_find_cmd(input);
+	return (0);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_prompt prompt;
 
 	ft_setprompt(&prompt, envp);	//copies the envp content into prompt.envp
 
-	ft_manage_executable();
+	//ft_manage_executable();
 
+	ft_lexer(&prompt); //legge l input lo suddivide in comando - opzione - argomento
+	
 	/*while (argc && argv)
 	{
 		input = readline(prompt.name);	//legge l input dell utente e salva la stringa
