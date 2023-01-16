@@ -3,34 +3,28 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+         #
+#    By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/12/02 19:49:41 by sgerace           #+#    #+#              #
-#    Updated: 2023/01/13 16:52:03 by sgerace          ###   ########.fr        #
+#    Created: 2023/01/16 21:39:43 by dgioia            #+#    #+#              #
+#    Updated: 2023/01/16 21:41:37 by dgioia           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minishell
+NAME	=	minishell
 
-SRC =	./main.c \
+CC		=	gcc #-Wall -Wextra -Werror
 
-OBJC = $(SRC:%.c=%.o)
+FLAGS	=	-g -L/usr/local/lib -I/usr/local/include -lreadline
 
-CC = gcc 
-
-#-Wall -Wextra -Werror
-
-USER = sgerace
-
-#LDFLAGS = -L/opt/homebrew/opt/readline/lib
-#CPPFLAGS = -I/opt/homebrew/opt/readline/include
-
-FLAGS = -g -L/usr/local/lib -I/usr/local/include -lreadline #-fsanitize=address #-Wall -Werror -Wextra
-
-#F_IRINA = -lreadline -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include
 FLAG_READLINE = -lreadline -lcurses -L/Users/$(USER)/.brew/opt/readline/lib -I/Users/$(USER)/.brew/opt/readline/include
 
 LIBFT = libft/libft.a
+
+SRC	=	src/main.c \
+
+OBJ	=	$(SRC:.c=.o)
+
+RM	=	rm -rf
 
 all: $(NAME)
 

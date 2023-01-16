@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:45:51 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/16 19:53:28 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/01/16 21:35:19 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../inc/minishell.h"
 
 void	ft_free_stuff(char *input, char **matrix)
 {
@@ -163,25 +163,25 @@ int	ft_setprompt(t_prompt *prompt, char **envp)
 
 int	ft_echo_handler();
 
-void	ft_find_cmd(char *input)
-{
-	if (!(ft_strncmp("echo", input, ft_strlen("echo"))))
-		ft_echo_handler();
-	else if (!(ft_strncmp("cd", input, ft_strlen("echo"))))
-		ft_cd_handler();
-	else if (!(ft_strncmp("pwd", input, ft_strlen("echo"))))
-		ft_pwd_handler();
-	else if (!(ft_strncmp("export", input, ft_strlen("echo"))))
-		ft_export_handler();
-	else if (!(ft_strncmp("unset", input, ft_strlen("echo"))))
-		ft_unset_handler();
-	else if (!(ft_strncmp("env", input, ft_strlen("echo"))))
-		ft_env_handler();
-	else if (!(ft_strncmp("exit", input, ft_strlen("echo"))))
-		ft_exit_handler();
-	else
-		printf("Command %s not found.\n", input);
-}
+// void	ft_find_cmd(char *input)
+// {
+// 	if (!(ft_strncmp("echo", input, ft_strlen("echo"))))
+// 		ft_echo_handler();
+// 	else if (!(ft_strncmp("cd", input, ft_strlen("echo"))))
+// 		ft_cd_handler();
+// 	else if (!(ft_strncmp("pwd", input, ft_strlen("echo"))))
+// 		ft_pwd_handler();
+// 	else if (!(ft_strncmp("export", input, ft_strlen("echo"))))
+// 		ft_export_handler();
+// 	else if (!(ft_strncmp("unset", input, ft_strlen("echo"))))
+// 		ft_unset_handler();
+// 	else if (!(ft_strncmp("env", input, ft_strlen("echo"))))
+// 		ft_env_handler();
+// 	else if (!(ft_strncmp("exit", input, ft_strlen("echo"))))
+// 		ft_exit_handler();
+// 	else
+// 		printf("Command %s not found.\n", input);
+// }
 
 int	ft_lexer(t_prompt *prompt)
 {
@@ -190,7 +190,7 @@ int	ft_lexer(t_prompt *prompt)
 
 	input = readline(prompt->name);
 	//ECHO -N CD (ONLY RELATIVE OR ABSOLUTE) PWD EXPORT UNSET ENV EXIT
-	ft_find_cmd(input);
+	//ft_find_cmd(input);
 	return (0);
 }
 
