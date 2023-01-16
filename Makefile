@@ -6,7 +6,7 @@
 #    By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 21:39:43 by dgioia            #+#    #+#              #
-#    Updated: 2023/01/16 21:41:37 by dgioia           ###   ########.fr        #
+#    Updated: 2023/01/16 22:15:02 by dgioia           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,8 @@ FLAG_READLINE = -lreadline -lcurses -L/Users/$(USER)/.brew/opt/readline/lib -I/U
 LIBFT = libft/libft.a
 
 SRC	=	src/main.c \
+		src/error.c \
+		src/builtin.c \
 
 OBJ	=	$(SRC:.c=.o)
 

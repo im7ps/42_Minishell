@@ -6,7 +6,7 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:45:51 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/16 21:35:19 by dgioia           ###   ########.fr       */
+/*   Updated: 2023/01/16 22:19:17 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,6 @@ void	ft_free_stuff(char *input, char **matrix)
 	rl_clear_history();
 }
 
-int	ft_perror(int err)
-{
-	if(err == QUOTEERR)
-		printf("Double quotes not closed properly!\n");
-	return (1);
-}
-
 int	ft_input_check(char *input)
 {
 	int i;
@@ -52,7 +45,7 @@ int	ft_input_check(char *input)
 		i++;
 	}
 	if (dquotes % 2 == 1)
-		return (ft_perror(QUOTEERR));
+		return (ft_perror(ERR_QUOTE));
 	return (0);
 }
 
@@ -189,6 +182,7 @@ int	ft_lexer(t_prompt *prompt)
 	int		i;
 
 	input = readline(prompt->name);
+	builtin(input);
 	//ECHO -N CD (ONLY RELATIVE OR ABSOLUTE) PWD EXPORT UNSET ENV EXIT
 	//ft_find_cmd(input);
 	return (0);
