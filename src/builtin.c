@@ -24,10 +24,14 @@ int	get_pwd()
 
 int	get_echo(char *cmd)
 {
-	if (!ft_strncmp(cmd, "-n", 6))
-		return (printf("%s\n", cmd));
-	else
-		return (printf("%s", cmd));
+	/* 	echo test -> test\n
+		echo -n test -> test
+		echo -nnnnn test -> test
+		echo -n -n -n test -> test
+		echo -n echo -n -> echo -n
+		echo echo -n -> echo -n\n
+	*/
+	
 	return (0);
 }
 

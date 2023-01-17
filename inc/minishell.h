@@ -27,6 +27,7 @@
 # define ACCESSERR 4
 # define PATHERR 5
 # define READLINEERR 6
+# define ERR_INPUT 7
 
 typedef struct s_prompt
 {
@@ -43,5 +44,6 @@ int	ft_perror(int err);
 //builtins
 int	builtin(char *cmd);
 
+void	rl_replace_line(const char *text, int clear_undo);
 
 #endif

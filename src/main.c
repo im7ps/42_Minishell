@@ -28,7 +28,7 @@ void	ft_free_stuff(char *input, char **matrix)
 		}
 		free(matrix);
 	}
-	rl_clear_history();
+	//rl_clear_history();
 }
 
 int	ft_input_check(char *input)
@@ -91,6 +91,7 @@ int	ft_path_case(char *input)
 	}
 	printf("PATH non trovato o accesso negato!\n");	//se riusciamo ad arrivare fuori dal while vuol dire che in nessun percorso di PATH è stata trovata la corrispondenza PATH/input, quindi non è stato trovato l eseguibile
 	ft_perror(ACCESSERR);
+	return (0);
 }
 
 int	ft_abs_rel_path_case(char *input)
@@ -109,6 +110,7 @@ int	ft_abs_rel_path_case(char *input)
 		printf("Path non trovato o accesso negato!\n");
         ft_perror(ACCESSERR);
     }
+	return (0);
 }
 
 int ft_manage_executable()
@@ -124,6 +126,7 @@ int ft_manage_executable()
 	//if utente usa un path relativo "./ o ../" o assoluto "/"
 	if (ft_abs_rel_path_case(input))
 		return (1);
+	return (0);
 }
 
 int	ft_setprompt(t_prompt *prompt, char **envp)
@@ -176,13 +179,33 @@ int	ft_echo_handler();
 // 		printf("Command %s not found.\n", input);
 // }
 
+// int	ft_check_input(char *input)
+// {
+// 	int	i;
+// 	int	quotes;
+
+// 	i = 0;
+// 	quotes = 0;
+// 	while (input[i])
+// 	{
+// 		if (input[i] == '"' || input[i] == '\'')
+// 		if (input[i] == '&')
+// 	}
+// 	return (0);
+// }
+
 int	ft_lexer(t_prompt *prompt)
 {
 	char	*input;
 	int		i;
 
-	input = readline(prompt->name);
-	builtin(input);
+	while (1)
+	{
+		input = readline(prompt->name);
+		// if (ft_check_input(input))
+		// 	return (ft_perror(ERR_INPUT));
+		builtin(input);
+	}
 	//ECHO -N CD (ONLY RELATIVE OR ABSOLUTE) PWD EXPORT UNSET ENV EXIT
 	//ft_find_cmd(input);
 	return (0);

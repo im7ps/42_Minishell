@@ -12,11 +12,12 @@
 
 NAME	=	minishell
 
-CC		=	gcc #-Wall -Wextra -Werror
+CC		=	gcc -g #-Wall -Wextra -Werror
 
-FLAGS	=	-g -L/usr/local/lib -I/usr/local/include -lreadline
-
-FLAG_READLINE = -lreadline -lcurses -L/Users/$(USER)/.brew/opt/readline/lib -I/Users/$(USER)/.brew/opt/readline/include
+#LINUX
+FLAGS	=	-L/usr/local/lib -I/usr/local/include -lreadline
+#MACOS
+FLAG_READLINE = -L/usr/include -lreadline -L$(HOME)/.brew/opt/readline/lib -I$(HOME)/.brew/opt/readline/include
 
 LIBFT = libft/libft.a
 
@@ -32,7 +33,7 @@ all: $(NAME)
 
 $(NAME) : $(SRC)
 	@make -C ./libft
-	@$(CC) $(SRC) $(FLAGS) -o $(NAME) $(LIBFT)
+	@$(CC) $(SRC) -o $(NAME) $(LIBFT) $(FLAG_READLINE)
 
 clean:
 	@make clean -C libft
