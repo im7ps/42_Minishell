@@ -6,7 +6,7 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/16 22:25:21 by dgioia           ###   ########.fr       */
+/*   Updated: 2023/01/18 00:16:28 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ typedef struct s_prompt
 
 
 //error
-int	ft_perror(int err);
+int	ft_perror(int err, char *cmd);
 
 //builtins
-int	builtin(char *cmd);
+int	builtin(char **cmd);
 
 void	rl_replace_line(const char *text, int clear_undo);
 

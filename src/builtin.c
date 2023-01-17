@@ -6,7 +6,7 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 22:04:10 by dgioia            #+#    #+#             */
-/*   Updated: 2023/01/16 22:48:22 by dgioia           ###   ########.fr       */
+/*   Updated: 2023/01/18 00:10:05 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	get_pwd()
 	return (0);
 }
 
-int	get_echo(char *cmd)
+int	get_echo(char **cmd)
 {
 	/* 	echo test -> test\n
 		echo -n test -> test
@@ -31,25 +31,45 @@ int	get_echo(char *cmd)
 		echo -n echo -n -> echo -n
 		echo echo -n -> echo -n\n
 	*/
-	
+	int i;
+	int newline;
+	i = 1;
+	newline = 0;
+
+	while (cmd[i] && !ft_strncmp(cmd[i], "-n", 2))
+	{
+		newline = 1;
+		i++;
+	}
+	while (cmd[i])
+	{
+		printf("%s", cmd[i]);
+		if(cmd[i + 1] && cmd[i][0] != '\0');
+			printf(" ");
+		i++;
+	}
+	if(newline == 0)
+		printf("\n");
 	return (0);
 }
 
-int	builtin(char *cmd)
+int	builtin(char **cmd)
 {
-	if (!ft_strncmp(cmd, "echo", 4))
+	if (!ft_strncmp(cmd[0], "echo", 4))
 		get_echo(cmd);
-	if (!ft_strncmp(cmd, "cd", 2))
+	else if (!ft_strncmp(cmd[0], "cd", 2))
 		printf("test cd");
-	if (!ft_strncmp(cmd, "pwd", 3))
+	else if (!ft_strncmp(cmd[0], "pwd", 3))
 		get_pwd();
-	if (!ft_strncmp(cmd, "export", 6))
+	else if (!ft_strncmp(cmd[0], "export", 6))
 		printf("test export");
-	if (!ft_strncmp(cmd, "unset", 5))
+	else if (!ft_strncmp(cmd[0], "unset", 5))
 		printf("test unset");
-	if (!ft_strncmp(cmd, "env", 3))
+	else if (!ft_strncmp(cmd[0], "env", 3))
 		printf("test env");
-	if (!ft_strncmp(cmd, "exit", 4))
+	else if (!ft_strncmp(cmd[0], "exit", 4))
 		printf("test exit");
+	else
+		return (1);
 	return (0);
 }
