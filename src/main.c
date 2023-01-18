@@ -6,30 +6,28 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/01/18 00:16:18 by dgioia           ###   ########.fr       */
+/*   Updated: 2023/01/18 11:13:00 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	check_cmd(char *output)
+void	check_cmd(t_minishell mini)
 {
-	char **cmd;
-
-	cmd = ft_split(output, ' ');
-	if(builtin(cmd))
-		ft_perror(ERR_NCMD, cmd[0]);
+	mini.full_cmd = ft_split(mini.input, ' ');
+	if(builtin(mini))
+		ft_perror(ERR_NCMD, mini.full_cmd[0]);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*output;
+	t_minishell	mini;
 
-	while (argc && argv)
+	while (mini.exit_status == 0)
 	{
-		output = readline("minishell> ");
-		add_history(output);	
-		check_cmd(output);
+		mini.input = readline("minishell> ");
+		add_history(mini.input);	
+		check_cmd(mini);
 	}
 	return (0);
 }

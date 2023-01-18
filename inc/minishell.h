@@ -6,7 +6,7 @@
 /*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/18 00:16:28 by dgioia           ###   ########.fr       */
+/*   Updated: 2023/01/18 11:08:06 by dgioia           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,19 @@ typedef struct s_prompt
 	t_list 	*cmds;
 }	t_prompt;
 
+typedef struct s_minishell
+{
+	int		exit_status; // serve a controllare se la shell deve essere ancora in esecuzione (vedi while nel main) [non funziona sto provando a fixare PD]
+	char	*input; // qui viene storato l'input originale dell'utente
+	char	**full_cmd; // qui l'input viene splittato in un array per essere gestito
+}	t_minishell;
+
 
 //error
 int	ft_perror(int err, char *cmd);
 
 //builtins
-int	builtin(char **cmd);
+int	builtin(t_minishell mini);
 
 void	rl_replace_line(const char *text, int clear_undo);
 
