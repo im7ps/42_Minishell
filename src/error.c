@@ -18,5 +18,7 @@ int	ft_perror(int err, char *cmd)
 		printf("%s: Command not found!\n", cmd);
 	if (err == ERR_QUOTE)
 		printf("Double quotes not closed properly!\n");
+	if (err == ERR_INPUT)
+		printf("Character not valid!\n");
 	return (1);
 }

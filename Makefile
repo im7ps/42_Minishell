@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+         #
+#    By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 21:39:43 by dgioia            #+#    #+#              #
-#    Updated: 2023/01/16 22:15:02 by dgioia           ###   ########.fr        #
+#    Updated: 2023/01/18 20:05:20 by sgerace          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ LIBFT = libft/libft.a
 SRC	=	src/main.c \
 		src/error.c \
 		src/builtin.c \
+		src/lexer.c \
 
 OBJ	=	$(SRC:.c=.o)
 

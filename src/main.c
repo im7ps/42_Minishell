@@ -12,11 +12,11 @@
 
 #include "../inc/minishell.h"
 
-void	check_cmd(t_minishell mini)
+void	check_cmd(t_minishell *mini)
 {
-	mini.full_cmd = ft_split(mini.input, ' ');
+	mini->full_cmd = ft_split(mini->input, ' ');
 	if(builtin(mini))
-		ft_perror(ERR_NCMD, mini.full_cmd[0]);
+		ft_perror(ERR_NCMD, mini->full_cmd[0]);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -26,8 +26,10 @@ int	main(int argc, char **argv, char **envp)
 	while (mini.exit_status == 0)
 	{
 		mini.input = readline("minishell> ");
-		add_history(mini.input);	
-		check_cmd(mini);
+		add_history(mini.input);
+		if (ft_lexer(&mini))
+			return (1);
+		//check_cmd(&mini);
 	}
 	return (0);
 }

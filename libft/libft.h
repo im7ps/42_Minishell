@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 16:23:15 by sgerace           #+#    #+#             */
-/*   Updated: 2022/04/03 17:57:54 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/01/18 19:59:51 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,22 @@
 # include <unistd.h>
 # include <stddef.h>
 
+/*nodo che conterra' un solo comando, viene salvato il nome del comando, le sue eventuali flag, i suoi 
+eventuali argomenti, viene notata la presenza di pipes e dei vari tipi di redirection*/
 typedef struct s_list
 {
-	void			*content;
+	char	**cmd_m;
+	char	*cmd_name;
+	char	*flag;
+	char	*arg;
+	int		pipe;
+	int		red_i;
+	int		red_o;
+	int		read_i;
+	int		append_o;
 	struct s_list	*next;
 }	t_list;
+
 void	ft_bzero(void *s, size_t n);
 int		ft_isalnum(int c);
 int		ft_isalpha(int c);

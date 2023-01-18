@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+         #
+#    By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/26 15:43:03 by sgerace           #+#    #+#              #
-#    Updated: 2023/01/14 19:12:15 by sgerace          ###   ########.fr        #
+#    Updated: 2023/01/18 20:42:11 by sgerace          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,15 +18,11 @@ SRCS		=	ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c\
   				ft_striteri.c ft_strjoin.c ft_strlcat.c ft_strlcpy.c\
 				ft_strlen.c ft_strmapi.c ft_strncmp.c ft_strnstr.c\
 				ft_strtrim.c ft_substr.c ft_tolower.c ft_toupper.c\
-				ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c\
-				ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c\
-				ft_lstmap.c
 
 OBJS		= ${SRCS:.c=.o}
 
-BONUS		=	ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c\
-				ft_lstdelone.c ft_lstiter.c ft_lstlast.c\
-				ft_lstnew.c ft_lstsize.c ft_lstmap.c\
+BONUS		=	ft_lstadd_back.c ft_lstnew.c\
+				
 
 BONUS_OBJS	= ${BONUS:.c=.o}
 

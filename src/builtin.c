@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 22:04:10 by dgioia            #+#    #+#             */
-/*   Updated: 2023/01/18 11:14:21 by dgioia           ###   ########.fr       */
+/*   Updated: 2023/01/18 20:03:52 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	get_exit(t_minishell mini)
+void	get_exit(t_minishell *mini)
 {
 	printf("exit\n");
-	mini.exit_status = 1;
+	mini->exit_status = 1;
 }
 
 void	get_pwd()
@@ -49,23 +49,23 @@ void	get_echo(char **cmd)
 		printf("\n");
 }
 
-int	builtin(t_minishell mini)
+int	builtin(t_minishell *mini)
 {
-	if (!ft_strncmp(mini.full_cmd[0], "echo", 4))
-		get_echo(mini.full_cmd);
-	else if (!ft_strncmp(mini.full_cmd[0], "cd", 2))
+	if (!ft_strncmp(mini->full_cmd[0], "echo", 4))
+		get_echo(mini->full_cmd);
+	else if (!ft_strncmp(mini->full_cmd[0], "cd", 2))
 		printf("test cd");
-	else if (!ft_strncmp(mini.full_cmd[0], "pwd", 3))
+	else if (!ft_strncmp(mini->full_cmd[0], "pwd", 3))
 		get_pwd();
-	else if (!ft_strncmp(mini.full_cmd[0], "export", 6))
+	else if (!ft_strncmp(mini->full_cmd[0], "export", 6))
 		printf("test export");
-	else if (!ft_strncmp(mini.full_cmd[0], "unset", 5))
+	else if (!ft_strncmp(mini->full_cmd[0], "unset", 5))
 		printf("test unset");
-	else if (!ft_strncmp(mini.full_cmd[0], "env", 3))
+	else if (!ft_strncmp(mini->full_cmd[0], "env", 3))
 		printf("test env");
-	else if (!ft_strncmp(mini.full_cmd[0], "exit", 4))
+	else if (!ft_strncmp(mini->full_cmd[0], "exit", 4))
 		get_exit(mini);
 	else
 		return (1);
-	return (0);
+    return (0);
 }
