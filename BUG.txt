@@ -1,0 +1,2 @@
+CONSIDERAZIONI E BUG TROVATI
+- quando nella shell si preme invio senza alcun comando va in seg fault
