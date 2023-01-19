@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:44:36 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/18 20:57:57 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/01/19 11:13:44 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,52 +54,33 @@ int	ft_check_quotes(char	*input)
 	return (0);
 }
 
-/*diocan non funziona*/
-t_list	*ft_lstnew(void *content)
+
+t_list	*ft_lstnew(void *full_cmd)
 {
 	t_list	*nodo;
-	int		i;
-	int		j;
 
-	i = 0;
-	j = 0;
 	nodo = (t_list *) malloc (sizeof(t_list));	//crea un nuovo nodo, come grandezza per l area di memoria da allocare usiamo la grandezza della struttura
 	if (nodo == NULL)
 		return (NULL);
-	nodo->cmd_m = ft_split(content, ' ');
-	while (nodo->cmd_m[j])
-	{
-		j++;
-	}
-	nodo->flag = NULL;
-	while (nodo->cmd_m[i])
-	{
-		nodo->cmd_name = nodo->cmd_m[0];
-		if (i != 0 && i != j)
-			nodo->flag = ft_strjoin(nodo->flag, nodo->cmd_m[i]);
-		if (i != 0)
-			nodo->arg = nodo->cmd_m[i - 1];
-		i++;
-	}
+	nodo->cmd_m = ft_split(full_cmd, ' ');
 	nodo->next = NULL;
 	return (nodo);
 }
 
-/*diocan non funziona*/
-void	ft_create_list(t_minishell *mini)
+void	ft_create_list(t_list **cmd_list, char	**full_cmd)
 {
-	t_list	*cmd_list;
+	t_list	*tmp;
 	int		i;
-
+	
 	i = 0;
-	cmd_list = NULL;
-	while (mini->full_cmd[i])
+	tmp = *cmd_list;
+	while (full_cmd[i])
 	{
-		cmd_list = ft_lstnew(mini->full_cmd[i]);
-		//ft_lstadd_back(&mini->cmd_list, cmd_list);
+		tmp = ft_lstnew(full_cmd[i]);
+		ft_lstadd_back(cmd_list, tmp);
 		i++;
 	}
-	printf("%s\n", cmd_list->flag);
+	return ;
 }
 
 int	ft_lexer(t_minishell *mini)
@@ -109,6 +90,12 @@ int	ft_lexer(t_minishell *mini)
 	if (ft_check_quotes(mini->input))
 		return (ft_perror(ERR_QUOTE, NULL));
 	mini->full_cmd = ft_split(mini->input, '|');
-	ft_create_list(mini);
+	ft_create_list(&mini->cmd_list, mini->full_cmd);
+	while (mini->cmd_list)
+	{
+		printf("CMD: %s\n", mini->cmd_list->cmd_m[0]);
+		printf("ARG: %s\n", mini->cmd_list->cmd_m[1]);
+		mini->cmd_list = mini->cmd_list->next;
+	}
 	return (0);
 }

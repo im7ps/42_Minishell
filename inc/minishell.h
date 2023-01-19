@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/18 20:07:43 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/01/19 10:57:43 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,6 @@ void	rl_replace_line(const char *text, int clear_undo);
 int		ft_lexer(t_minishell *mini);
 int		ft_check_special_char(char	*input);
 int		ft_check_quotes(char	*input);
-void	ft_create_list(t_minishell *mini);
+void	ft_create_list(t_list **cmd_list, char **full_cmd);
 
 #endif

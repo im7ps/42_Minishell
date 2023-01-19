@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 16:23:15 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/18 19:59:51 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/01/19 10:53:13 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,6 @@ eventuali argomenti, viene notata la presenza di pipes e dei vari tipi di redire
 typedef struct s_list
 {
 	char	**cmd_m;
-	char	*cmd_name;
-	char	*flag;
-	char	*arg;
 	int		pipe;
 	int		red_i;
 	int		red_o;
