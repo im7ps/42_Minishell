@@ -6,7 +6,7 @@
 #    By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 21:39:43 by dgioia            #+#    #+#              #
-#    Updated: 2023/01/19 11:07:25 by sgerace          ###   ########.fr        #
+#    Updated: 2023/01/19 12:44:23 by sgerace          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,9 +15,9 @@ NAME	=	minishell
 CC		=	gcc -g #-Wall -Wextra -Werror
 
 #LINUX
-FLAGS	=	-L/usr/local/lib -I/usr/local/include -lreadline
+READLINE_LINUX	=	-L/usr/local/lib -I/usr/local/include -lreadline
 #MACOS
-FLAG_READLINE = -L/usr/include -lreadline -I$(HOME)/.brew/opt/readline/include
+READLINE_MACOS = -L/usr/include -lreadline -I$(HOME)/.brew/opt/readline/include
 
 LIBFT = libft/libft.a
 
@@ -34,7 +34,7 @@ all: $(NAME)
 
 $(NAME) : $(SRC)
 	@make -C ./libft
-	@$(CC) $(SRC) -o $(NAME) $(LIBFT) $(FLAG_READLINE)
+	@$(CC) $(SRC) -o $(NAME) $(LIBFT) $(READLINE_MACOS)
 
 clean:
 	@make clean -C libft
