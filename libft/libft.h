@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 16:23:15 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/19 10:53:13 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/01/19 14:51:27 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,14 @@
 eventuali argomenti, viene notata la presenza di pipes e dei vari tipi di redirection*/
 typedef struct s_list
 {
-	char	**cmd_m;
 	int		pipe;
 	int		red_i;
 	int		red_o;
 	int		read_i;
 	int		append_o;
+	int		s_quote;
+	int		d_quote;
+	char	**cmd_m;
 	struct s_list	*next;
 }	t_list;
 

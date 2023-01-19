@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:44:36 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/19 12:42:24 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/01/19 18:44:56 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,42 +54,58 @@ int	ft_check_quotes(char	*input)
 	return (0);
 }
 
+// void	ft_check_redirection(t_list **cmd_node, char *cmd)
+// {
+// 	int		i;
+// 	t_list 	*node;
 
-t_list	*ft_lstnew(void *full_cmd)
+// 	i = 0;
+// 	node = *cmd_node;
+// 	while (cmd[i])
+// 	{
+// 		if (cmd[i] == '\'')
+// 			node->s_quote++;
+// 		if (cmd[i] == '"')
+// 			node->d_quote++;
+// 		if (i + 2 < ft_strlen(cmd))
+// 		{
+// 			if (cmd[i] == '>' && !(node->s_quote % 2) && !(node->d_quote % 2))
+// 			{	
+// 				if (cmd[i + 1] == '>' && cmd[i + 2] == ' ')
+// 					node->append_o++;
+// 			}
+// 			else
+// 				node->red_o++;
+// 			else if (cmd[i] == '<' && !(node->s_quote % 2) && !(node->d_quote % 2))
+// 			{
+// 					if (cmd[i + 1] == '<' && cmd[i + 2] == ' ')
+// 						node->read_i++;
+// 			}
+// 				else
+// 					node->red_i++;
+// 		}
+// 		i++;
+// 	}
+// }
+
+void ft_addback_node(t_list **cmd_list, char *cmd)
 {
-	t_list	*nodo;
+    t_list *new_node;
+	t_list *current;
 
-	nodo = (t_list *) malloc (sizeof(t_list));	//crea un nuovo nodo, come grandezza per l area di memoria da allocare usiamo la grandezza della struttura
-	if (nodo == NULL)
-		return (NULL);
-	nodo->cmd_m = ft_split(full_cmd, ' ');
-	nodo->next = NULL;
-	return (nodo);
-}
-
-void	ft_lstadd_back(t_list **lst, t_list *new)
-{
-	t_list	*tmp_l;
-
-	if (*lst == NULL)			//se la lista punta a NULL e' una lista vuota, facciamola puntare a new e l'avremo aggiunto "in fondo"
-		*lst = new;
-	else
-	{
-		tmp_l = ft_lstlast(*lst);		//tmp_l punta all ultimo elemento non nullo
-		tmp_l->next = new;				//settiamo new come il nuovo ultimo nodo modificando il nodo puntato da tmp_l
-	}
-}
-
-void add_node(t_list **head, char *data) {
-    t_list *new_node = (t_list *)malloc(sizeof(t_list));
-    new_node->cmd_m = ft_split(data, ' ');
+	new_node = (t_list *)malloc(sizeof(t_list));
+    new_node->cmd_m = ft_split(cmd, ' ');
+	ft_check_redirection(&new_node, cmd);
     new_node->next = NULL;
-
-    if (*head == NULL) {
-        *head = new_node;
-    } else {
-        t_list *current = *head;
-        while (current->next != NULL) {
+    if (*cmd_list == NULL) 
+	{
+        *cmd_list = new_node;
+    } 
+	else 
+	{
+        current = *cmd_list;
+        while (current->next != NULL) 
+		{
             current = current->next;
         }
         current->next = new_node;
@@ -103,14 +119,10 @@ void	ft_create_list(t_list **cmd_list, char	**full_cmd)
 	i = 0;
 	while (full_cmd[i])
 	{
-		add_node(cmd_list, full_cmd[i]);
-		// tmp = ft_lstnew(full_cmd[i]);
-		// printf("Sto aggiungendo: %s\n", tmp->cmd_m[0]);
-		// ft_lstadd_back(cmd_list, tmp);
-		// printf("Ho aggiunto: %s\n", tmp->cmd_m[0]);
+		ft_addback_node(cmd_list, full_cmd[i]);
+		ft_check_redirection(cmd_list, full_cmd[i]);
 		i++;
 	}
-	printf("Cicli: %d\n", i);
 	return ;
 }
 
@@ -122,11 +134,20 @@ int	ft_lexer(t_minishell *mini)
 		return (ft_perror(ERR_QUOTE, NULL));
 	mini->full_cmd = ft_split(mini->input, '|');
 	ft_create_list(&mini->cmd_list, mini->full_cmd);
-	while (mini->cmd_list)
-	{
-		printf("CMD: %s\n", mini->cmd_list->cmd_m[0]);
-		printf("ARG: %s\n", mini->cmd_list->cmd_m[1]);
-		mini->cmd_list = mini->cmd_list->next;
-	}
-	return (0); //uno prova | de provo | tre provoli | quatt provolons
+
+	// int i = 0;
+	// while (mini->cmd_list)
+	// {
+	// 	i++;
+	// 	if (mini->cmd_list->red_o > 0)
+	// 		printf("Nodo %d redirect output at index: %d\n", i, mini->cmd_list->red_o);
+	// 	if (mini->cmd_list->red_i > 0)
+	// 		printf("Nodo %d redirect input at index: %d\n", i, mini->cmd_list->red_i);
+	// 	if (mini->cmd_list->append_o > 0)
+	// 		printf("Nodo %d append output at index: %d\n", i, mini->cmd_list->append_o);
+	// 	if (mini->cmd_list->read_i > 0)
+	// 		printf("Nodo %d read input at index: %d\n", i, mini->cmd_list->read_i);
+	// 	mini->cmd_list = mini->cmd_list->next;
+	// }
+	return (0);
 }

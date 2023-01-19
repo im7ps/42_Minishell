@@ -2,32 +2,85 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 
-int main() {
-    char *input = readline("Enter the name of the executable: ");
-    char *path = getenv("PATH");
-    char *path_token;
+typedef struct s_list
+{
+	int		pipe;
+	int		red_i;
+	int		red_o;
+	int		read_i;
+	int		append_o;
+	int		s_quote;
+	int		d_quote;
+	char	**cmd_m;
+	struct s_list	*next;
+}	t_list;
 
-    if(input == NULL) return 1;
-    if(path == NULL) return 1;
+int	ft_strlen(const char *s)
+{
+	int	i;
 
-    // Split the PATH variable into individual directories
-    path_token = strtok(path, ":");
-    while (path_token != NULL) {
-        char executable_path[1024];
-        snprintf(executable_path, sizeof(executable_path), "%s/%s", path_token, input);
-        if (access(executable_path, X_OK) == 0) {
-            char *args[] = {executable_path, NULL};
-            execve(executable_path, args, NULL);
-            //we should not reach this point
-            printf("execve failed: %s\n", strerror(1));
-            return 1;
-        }
-        path_token = strtok(NULL, ":");
-    }
-    printf("%s: command not found\n", input);
-    free(input);
-    return 1;
+	i = 0;
+	while (*s != '\0')
+	{
+		s++;
+		i++;
+	}
+	return (i);
+}
+
+void	ft_check_redirection(char *cmd)
+{
+	int		i;
+    int     s_quote = 0;
+    int     d_quote = 0;
+    int     append_o = 0;
+    int     red_o = 0;
+    int     read_i = 0;
+    int     read_i = 0;
+
+	i = 0;
+	while (cmd[i])
+	{
+		if (cmd[i] == '\'')
+			s_quote++;
+		if (cmd[i] == '"')
+			d_quote++;
+		if (cmd[i] == '>' && !(s_quote % 2) && !(d_quote % 2))
+		{
+			if (i + 2 < ft_strlen(cmd))
+			{
+				if (cmd[i + 1] == '>' && cmd[i + 2] == ' ')
+					append_o++;
+			}
+			else
+				red_o++;
+		}
+		else if (cmd[i] == '<' && !(s_quote % 2) && !(d_quote % 2))
+		{
+			if (i + 2 < ft_strlen(cmd))
+			{
+				if (cmd[i + 1] == '<' && cmd[i + 2] == ' ')
+					read_i++;
+			}
+			else
+				red_i++;
+		}
+		i++;
+	}
+    if (red_o > 0)
+        printf("Nodo %d redirect output %d times\n", i, red_o);
+    if (red_i > 0)
+        printf("Nodo %d redirect input %d times\n", i, red_i);
+    if (append_o > 0)
+        printf("Nodo %d append output %d times\n", i, append_o);
+    if (read_o > 0)
+        printf("Nodo %d read input %d times\n", i, read_i);
+}
+
+int main() 
+{
+    char *str = "echo >> < lel | << grep >";
+
+    ft_check_redirection(str);
 }

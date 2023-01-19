@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/19 10:57:43 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/01/19 15:05:10 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,6 @@ int		ft_lexer(t_minishell *mini);
 int		ft_check_special_char(char	*input);
 int		ft_check_quotes(char	*input);
 void	ft_create_list(t_list **cmd_list, char **full_cmd);
+void 	ft_addback_node(t_list **head, char *data);
 
 #endif
