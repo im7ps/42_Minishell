@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+         #
+#    By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 21:39:43 by dgioia            #+#    #+#              #
-#    Updated: 2023/01/19 12:44:23 by sgerace          ###   ########.fr        #
+#    Updated: 2023/01/20 17:35:50 by sgerace          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ all: $(NAME)
 
 $(NAME) : $(SRC)
 	@make -C ./libft
-	@$(CC) $(SRC) -o $(NAME) $(LIBFT) $(READLINE_MACOS)
+	@$(CC) $(SRC) -o $(NAME) $(READLINE_LINUX)  $(LIBFT)
 
 clean:
 	@make clean -C libft

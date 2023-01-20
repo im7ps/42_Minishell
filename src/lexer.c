@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:44:36 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/19 18:46:26 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/01/20 17:42:32 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,14 +101,13 @@ void ft_addback_node(t_list **cmd_list, char *cmd)
 	{
         *cmd_list = new_node;
     } 
-	else 
+	else
 	{
-        current = *cmd_list;
-        while (current->next != NULL) 
+		while (new_node->next != NULL)
 		{
-            current = current->next;
-        }
-        current->next = new_node;
+			new_node = new_node->next;
+		}
+		//new_node = ft_lstlast(*cmd_list);		//new_node punta all ultimo elemento non nullo
     }
 }
 
@@ -119,6 +118,7 @@ void	ft_create_list(t_list **cmd_list, char	**full_cmd)
 	i = 0;
 	while (full_cmd[i])
 	{
+		printf("CMD: %s\n", full_cmd[i]);
 		ft_addback_node(cmd_list, full_cmd[i]);
 		//ft_check_redirection(cmd_list, full_cmd[i]);
 		i++;
