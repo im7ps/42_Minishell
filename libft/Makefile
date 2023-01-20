@@ -3,12 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+         #
+#    By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/26 15:43:03 by sgerace           #+#    #+#              #
-#    Updated: 2023/01/18 20:42:11 by sgerace          ###   ########.fr        #
+#    Updated: 2023/01/20 17:03:59 by sgerace          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+NAME = libft.a
 
 SRCS		=	ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c\
   				ft_isascii.c ft_isdigit.c ft_isprint.c ft_itoa.c\
@@ -19,10 +21,7 @@ SRCS		=	ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c\
 				ft_strlen.c ft_strmapi.c ft_strncmp.c ft_strnstr.c\
 				ft_strtrim.c ft_substr.c ft_tolower.c ft_toupper.c\
 
-OBJS		= ${SRCS:.c=.o}
-
-BONUS		=	ft_lstadd_back.c ft_lstnew.c\
-				
+OBJS		= ${SRCS:.c=.o}		
 
 BONUS_OBJS	= ${BONUS:.c=.o}
 
@@ -31,8 +30,6 @@ CC			= gcc -g
 RM			= rm -f
 
 CFLAGS		= -Wall -Wextra -Werror
-
-NAME = libft.a
 
 all:		${NAME}
 

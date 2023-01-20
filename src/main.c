@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/01/19 13:19:09 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/01/20 17:05:39 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	mini;
 
-	while (mini.exit_status == 0)
+	/*modificato condizione while da mini.exit_status == 0 a 1*/
+	while (1)
 	{
 		mini.input = readline("minishell> ");
 		add_history(mini.input);
 		if (ft_lexer(&mini))
 			return (1);
-		
 		//check_cmd(&mini);
 	}
 	return (0);
