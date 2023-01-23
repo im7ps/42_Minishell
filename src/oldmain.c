@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   oldmain.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgioia <dgioia@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:45:51 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/18 00:12:17 by dgioia           ###   ########.fr       */
+/*   Updated: 2023/01/23 12:05:18 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,18 +221,18 @@ void	check_cmd(char *output)
 		ft_perror(ERR_NCMD);
 }
 
-int	main(int argc, char **argv, char **envp)
-{
-	char	*output;
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	char	*output;
 
-	while (argc && argv)
-	{
-		output = readline("minishell> ");
-		add_history(output);	
-		check_cmd(output);
-	}
-	return (0);
-}
+// 	while (argc && argv)
+// 	{
+// 		output = readline("minishell> ");
+// 		add_history(output);	
+// 		check_cmd(output);
+// 	}
+// 	return (0);
+// }
 
 
 // int	main(int argc, char **argv, char **envp)

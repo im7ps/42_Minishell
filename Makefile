@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+         #
+#    By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 21:39:43 by dgioia            #+#    #+#              #
-#    Updated: 2023/01/20 17:35:50 by sgerace          ###   ########.fr        #
+#    Updated: 2023/01/23 12:09:35 by sgerace          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,31 +19,34 @@ READLINE_LINUX	=	-L/usr/local/lib -I/usr/local/include -lreadline
 #MACOS
 READLINE_MACOS = -L/usr/include -lreadline -I$(HOME)/.brew/opt/readline/include
 
-LIBFT = libft/libft.a
-
-SRC	=	src/main.c \
-		src/error.c \
-		src/builtin.c \
-		src/lexer.c \
-
 OBJ	=	$(SRC:.c=.o)
 
-RM	=	rm -rf
+LIBFT = libft/libft.a
 
-all: $(NAME)
+RM		=	rm -rf
 
-$(NAME) : $(SRC)
-	@make -C ./libft
-	@$(CC) $(SRC) -o $(NAME) $(READLINE_LINUX)  $(LIBFT)
+SRC	=	./src/main.c \
+		./src/builtin.c \
+		./src/error.c \
+		./src/lexer.c \
+
+%.o: %.c
+			$(CC) ${CFLAGS} -g -c $< -o $@
+
+$(NAME):	$(OBJ)
+			@make -C ./libft
+			$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(READLINE_MACOS)
+
+all:		$(NAME)
 
 clean:
-	@make clean -C libft
-	@rm -f $(OBJS)
+			@make clean -C libft
+			${RM} $(OBJ)
 
-fclean: clean
-	@make clean -C libft
-	@rm -f $(NAME)
-	
-re: fclean all
+fclean: 	clean
+			@make fclean -C libft
+			${RM} $(NAME) ${OBJ}
 
-.PHONY: all clean fclean re
+re:			fclean all
+
+.PHONY:		all clean fclean re
