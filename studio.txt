@@ -17,3 +17,5 @@ la stringa viene ritornata senza il "\n" finale
 readline history:
 	add_history:
 	rl_clear_history:
+
+gcc ./libft/ft_lstadd_back.c ./libft/ft_split.c ./libft/ft_lstlast.c ./libft/ft_substr.c test.c 

@@ -105,7 +105,6 @@ int	ft_strlen(const char *s)
 void	ft_create_list(t_list **cmd_list, char	**full_cmd)
 {
 	int		i;
-	int		j;
     t_list *new_node;
 	
 	i = 0;
@@ -117,22 +116,13 @@ void	ft_create_list(t_list **cmd_list, char	**full_cmd)
 		ft_lstadd_back(cmd_list, new_node);
 		i++;
 	}
-	while (*cmd_list)
-	{
-		j = 0;
-		while ((*cmd_list)->cmd_m[j])
-		{
-			printf("%s\n", (*cmd_list)->cmd_m[j]);
-			j++;
-		}
-		(*cmd_list) = (*cmd_list)->next;
-	}
+
 	return ;
 }
 
 int main() 
 {
-    char *str = "prova 1 ses | provolone 2 seven | alleluja";
+    char *str = "echo test | echo testone";
 	char **full_cmd = ft_split(str, '|');
 	t_list *cmd_l;
 
