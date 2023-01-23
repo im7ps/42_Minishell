@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+         #
+#    By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/26 15:43:03 by sgerace           #+#    #+#              #
-#    Updated: 2023/01/20 17:36:53 by sgerace          ###   ########.fr        #
+#    Updated: 2023/01/23 17:26:16 by sgerace          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRCS		=	ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c\
   				ft_striteri.c ft_strjoin.c ft_strlcat.c ft_strlcpy.c\
 				ft_strlen.c ft_strmapi.c ft_strncmp.c ft_strnstr.c\
 				ft_strtrim.c ft_substr.c ft_tolower.c ft_toupper.c\
-				ft_lstlast.c \
+				ft_lstlast.c ft_lstadd_back.c \
 
 OBJS		= ${SRCS:.c=.o}
 
