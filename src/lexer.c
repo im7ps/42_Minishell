@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:44:36 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/23 17:26:00 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/01/23 17:42:11 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	ft_create_list(t_list **cmd_list, char	**full_cmd)
 	i = 0;
 	while (full_cmd[i])
 	{
-		new_node = (t_list *)malloc(sizeof(t_list));
+		new_node = ft_malloc_stuff(NODE_NUM);
 		new_node->cmd_m = ft_split(full_cmd[i], ' ');
 		new_node->next = NULL;
 		ft_lstadd_back(cmd_list, new_node);
@@ -114,7 +114,7 @@ int	ft_lexer(t_minishell *mini)
 	mini->full_cmd = ft_split(mini->input, '|');
 	ft_create_list(&mini->cmd_list, mini->full_cmd);
 	int j = 0;
-	while (mini->cmd_list)
+		while (mini->cmd_list)
 	{
 		j = 0;
 		while ((mini->cmd_list)->cmd_m[j])

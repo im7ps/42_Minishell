@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/19 15:05:10 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/01/23 17:45:28 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define PATHERR 5
 # define READLINEERR 6
 # define ERR_INPUT 7
+# define NODE_NUM 90
 
 typedef struct s_prompt
 {
@@ -60,5 +61,8 @@ int		ft_check_special_char(char	*input);
 int		ft_check_quotes(char	*input);
 void	ft_create_list(t_list **cmd_list, char **full_cmd);
 void 	ft_addback_node(t_list **head, char *data);
+
+//malloc & free
+void    *ft_malloc_stuff(int n);
 
 #endif
