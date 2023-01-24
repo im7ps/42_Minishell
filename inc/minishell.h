@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/23 17:45:28 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/01/24 14:29:35 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,12 @@ int		ft_lexer(t_minishell *mini);
 int		ft_check_special_char(char	*input);
 int		ft_check_quotes(char	*input);
 void	ft_create_list(t_list **cmd_list, char **full_cmd);
-void 	ft_addback_node(t_list **head, char *data);
 
 //malloc & free
 void    *ft_malloc_stuff(int n);
+
+//executing commands
+int		ft_start_executing(t_list	**cmd_list);
+int		ft_exec_cmd(t_list	*head);
 
 #endif
