@@ -116,8 +116,28 @@ void	ft_create_list(t_list **cmd_list, char	**full_cmd)
 		ft_lstadd_back(cmd_list, new_node);
 		i++;
 	}
-
 	return ;
+}
+
+void	ft_exec_first(t_list *cmdl, int fd[2])
+{
+
+}
+
+int	ft_execute(t_list *cmdl)
+{
+	int	cpid;
+	static int i;
+	int	fd[2];
+
+	cpid = fork();
+	if (cpid == -1)
+		return (1);
+	if (i == 0)
+	{
+		ft_exec_first(cmdl, fd);
+	}
+	return (0);
 }
 
 int main() 
@@ -127,4 +147,10 @@ int main()
 	t_list *cmd_l;
 
 	ft_create_list(&cmd_l, full_cmd);
+	while (cmd_l)
+	{
+		ft_execute(cmd_l);
+		cmd_l = cmd_l->next;
+	}
+	return (0);
 }

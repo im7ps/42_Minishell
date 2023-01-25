@@ -6,13 +6,13 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 19:31:05 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/24 14:30:34 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/01/25 17:27:00 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int		ft_exec_cmd(t_list	*head)
+int		ft_exec_cmd(t_list	*head, int	cmd_num)
 {
 	//fd[0] = read from the pipe, fd[1] = write into the pipe
 	int fd[2];
@@ -51,17 +51,33 @@ int		ft_exec_cmd(t_list	*head)
 	close(fd[1]);
 	waitpid(pid1, NULL, 0);
 	waitpid(pid2, NULL, 0);
+	return (0);
+}
+
+int	ft_count_commands(t_list **cmd_list)
+{
+	t_list	*head;
+	int		i;
+
+	head = *cmd_list;
+	while(head)
+	{
+		i++;
+		head = head->next;
+	}
+	return (i);
 }
 
 int ft_start_executing(t_list	**cmd_list)
 {
 	t_list	*head;
+	int		cmd_num;
 
 	head = *cmd_list;
-
+	cmd_num = ft_count_commands(cmd_list);
 	while(head)
 	{
-		ft_exec_cmd(head);
+		ft_exec_cmd(head, cmd_num);
 		head = head->next;
 	}
 	return (0);

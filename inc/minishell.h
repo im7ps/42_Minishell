@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/24 14:29:35 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/01/25 17:26:42 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,6 @@ void    *ft_malloc_stuff(int n);
 
 //executing commands
 int		ft_start_executing(t_list	**cmd_list);
-int		ft_exec_cmd(t_list	*head);
+int		ft_exec_cmd(t_list	*head, int cmd_num);
 
 #endif
