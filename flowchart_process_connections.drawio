@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="lQBfscxoMevyfBHIxW_O" name="Page-1">
-        <mxGraphModel dx="852" dy="640" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="813" dy="982" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -26,10 +26,10 @@
                 <mxCell id="7" value="i = 1" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
                     <mxGeometry x="170" y="280" width="80" height="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="8" value="1 &amp;lt; i &amp;lt; CMD_NUM" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-                    <mxGeometry x="350" y="560" width="130" height="100" as="geometry"/>
+                <mxCell id="8" value="1 &amp;lt; i &amp;lt; CMD_NUM - 1" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="355" y="560" width="140" height="100" as="geometry"/>
                 </mxCell>
-                <mxCell id="9" value="i = CMD_NUM" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="9" value="i = CMD_NUM - 1" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
                     <mxGeometry x="550" y="565" width="130" height="90" as="geometry"/>
                 </mxCell>
                 <mxCell id="10" value="" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="3" target="7">

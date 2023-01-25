@@ -18,4 +18,4 @@ readline history:
 	add_history:
 	rl_clear_history:
 
-gcc ./libft/ft_lstadd_back.c ./libft/ft_split.c ./libft/ft_lstlast.c ./libft/ft_substr.c test.c 
+gcc -g ./libft/ft_lstadd_back.c ./libft/ft_split.c ./libft/ft_lstlast.c ./libft/ft_substr.c test.c 

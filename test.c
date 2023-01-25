@@ -119,37 +119,89 @@ void	ft_create_list(t_list **cmd_list, char	**full_cmd)
 	return ;
 }
 
-void	ft_exec_first(t_list *cmdl, int fd[2])
+void	ft_exec_first(t_list **cmdl, int fd[2])
 {
+	t_list	*head;
+	char	*input;
+	size_t	rd;
 
+	head = *cmdl;
+	input = (char *) malloc (sizeof(char) * 6);
+
+	if (pipe(fd) == 1)
+		return ;
+	dup2(fd[0], STDIN_FILENO);
+	//legge "echo test e lo salva su fd[0]"
+	//read(fd[0], &input, 5);
+	//printf("NOW %s\n", input);
+	close(fd[0]);
+	//calcolare l output modificato dal comando, metterlo in &input e scriverlo su fd[1]
+	//write(fd[1], &input, (sizeof(char) * ft_strlen(head->cmd_m[1])));
+	close(fd[1]);
+	//execve("/bin/echo", &head->cmd_m[0], NULL);
 }
 
-int	ft_execute(t_list *cmdl)
+int	ft_execute(t_list **cmdl, int	cmd_num)
 {
 	int	cpid;
 	static int i;
 	int	fd[2];
 
-	cpid = fork();
-	if (cpid == -1)
-		return (1);
-	if (i == 0)
-	{
-		ft_exec_first(cmdl, fd);
-	}
+	i++;
+	// cpid = fork();
+	// if (cpid == -1)
+	// 	return (1);
+	//il child process gestisce il comando
+	// if (cpid == 0)
+	// {
+		if (i == 1)
+		{
+			ft_exec_first(cmdl, fd);
+		}
+		// if (i == cmd_num - 1)
+		// {
+		// 	i++;
+		// 	ft_exec_last(cmdl, fd);
+		// }
+	// }
+	close(fd[0]);
+	close(fd[1]);
+	// waitpid(cpid, NULL, 0);
 	return (0);
 }
 
-int main() 
+int	ft_count_commands(t_list **cmd_list)
 {
-    char *str = "echo test | echo testone";
-	char **full_cmd = ft_split(str, '|');
+	t_list	*head;
+	int		i;
+
+	i = 0;
+	head = *cmd_list;
+	while(head)
+	{
+		i++;
+		head = head->next;
+	}
+	return (i);
+}
+
+
+int main(int argc, char **argv) 
+{
+    //char *str = "echo test | echo testone | echo testardo";
+	char **full_cmd = ft_split(argv[1], '|');
 	t_list *cmd_l;
+	int	cmd_num;
 
 	ft_create_list(&cmd_l, full_cmd);
+	printf("NOW!\n");
+	// printf("%s\n", cmd_l->cmd_m[0]);
+	// printf("%s\n", cmd_l->cmd_m[1]);
+	cmd_num = ft_count_commands(&cmd_l);
+	printf("NOW\n");
 	while (cmd_l)
 	{
-		ft_execute(cmd_l);
+		ft_execute(&cmd_l, cmd_num);
 		cmd_l = cmd_l->next;
 	}
 	return (0);

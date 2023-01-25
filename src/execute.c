@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 19:31:05 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/25 17:27:00 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/01/25 17:41:13 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		ft_exec_cmd(t_list	*head, int	cmd_num)
 	if (pipe(fd) == -1)
 		return (1);
 	pid1 = fork();
-	if (pid1 < 0)
+	if (pid1 == -1)
 		return (2);
 	if (pid1 == 0)
 	{
