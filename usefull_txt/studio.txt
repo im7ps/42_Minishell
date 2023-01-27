@@ -6,7 +6,7 @@ nell inclusione delle librerie nel file .h
 
 readline:	
 va compilato in questo modo
-	gcc main.c -L/usr/local/lib -I/usr/local/include -lreadline
+	gcc test2.c -L/usr/local/lib -I/usr/local/include -lreadline
 come argomento accetta una stringa che rappresenta il prompt che verrá
 	visualizzato durante l inserimento dell input utente,
 	se la stringa é NULL non verrá visualizzato nessun prompt

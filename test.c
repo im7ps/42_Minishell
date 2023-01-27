@@ -174,12 +174,13 @@ void	ft_exec_first(t_list **cmdl, int fd[2])
 	head = *cmdl;
 	input = (char *) malloc (sizeof(char) * 6);
 
-	if (pipe(fd) == 1)
+	if (pipe(fd) == -1)
 		return ;
+	//dup2 mette in collegamento due estremità delle pipes, in questo caso sto collegando STDIN a fd[0]
 	dup2(fd[0], STDIN_FILENO);
 	//legge "echo test e lo salva su fd[0]"
-	//read(fd[0], &input, 5);
-	//printf("NOW %s\n", input);
+	read(fd[0], &input, 10);
+	printf("NOW %s\n", input);
 	close(fd[0]);
 	//calcolare l output modificato dal comando, metterlo in &input e scriverlo su fd[1]
 	//write(fd[1], &input, (sizeof(char) * ft_strlen(head->cmd_m[1])));
@@ -187,33 +188,13 @@ void	ft_exec_first(t_list **cmdl, int fd[2])
 	//execve("/bin/echo", &head->cmd_m[0], NULL);
 }
 
+
+
 int	ft_execute(t_list **cmdl, int	cmd_num)
 {
-	int	cpid;
-	static int i;
-	int	fd[2];
-
-	i++;
-	// cpid = fork();
-	// if (cpid == -1)
-	// 	return (1);
-	//il child process gestisce il comando
-	// if (cpid == 0)
-	// {
-		if (i == 1)
-		{
-			ft_exec_first(cmdl, fd);
-		}
-		// if (i == cmd_num - 1)
-		// {
-		// 	i++;
-		// 	ft_exec_last(cmdl, fd);
-		// }
-	// }
-	close(fd[0]);
-	close(fd[1]);
-	// waitpid(cpid, NULL, 0);
-	return (0);
+	//a seconda del comando da eseguire il parent si dovrà comportare in maniera diversa
+	//quindi prima gli faccio capire se è un comando built in o no, poi gli dico quale comando è
+	//di preciso e lo rimando ad un execute_command fatto apposta
 }
 
 int	ft_count_commands(t_list **cmd_list)
@@ -234,17 +215,42 @@ int	ft_count_commands(t_list **cmd_list)
 int main(int argc, char **argv) 
 {
 	t_list *cmd_l = NULL;
-	int	cmd_num;
+	int	cmd_num = 0;
 	char *str = "echo test";
     char *str1 = "echo test | echo testone | echo testardo";
 
-	char **full_cmd = ft_split(str, '|');
-	ft_create_list(&cmd_l, full_cmd);
-	cmd_num = ft_count_commands(&cmd_l);
-	while (cmd_l)
+	if (argc != 1)
 	{
-		ft_execute(&cmd_l, cmd_num);
-		cmd_l = cmd_l->next;
+		char **full_cmd = ft_split(argv[1], '|');
+		ft_create_list(&cmd_l, full_cmd);
+		cmd_num = ft_count_commands(&cmd_l);
+		while (cmd_l)
+		{
+			ft_execute(&cmd_l, cmd_num);
+			cmd_l = cmd_l->next;
+		}
 	}
 	return (0);
 }
+
+/* #include <unistd.h>
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    int pipefd[2];
+    char buffer[100];
+    char variable[100];
+    pipe(pipefd);
+    dup2(pipefd[1], 1);
+    write(pipefd[1], "input_string", sizeof("input_string"));
+    dup2(pipefd[0], 0);
+    read(pipefd[0], buffer, sizeof(buffer));
+    buffer[sizeof(buffer) - 1] = '\0';
+    strcpy(variable, buffer);
+    printf("The input is: %s\n", variable);
+    fflush(stdout);
+    close(pipefd[0]);
+    close(pipefd[1]);
+    return 0;
+} */
