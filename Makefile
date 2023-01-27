@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+         #
+#    By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 21:39:43 by dgioia            #+#    #+#              #
-#    Updated: 2023/01/24 14:23:54 by sgerace          ###   ########.fr        #
+#    Updated: 2023/01/27 14:52:35 by sgerace          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME	=	minishell
 
 LIBFT = libft/libft.a
 
-CC		=	gcc -g #-Wall -Wextra -Werror
+CC		=	gcc #-Wall -Wextra -Werror
 
 #LINUX
 READLINE_LINUX	=	-L/usr/local/lib -I/usr/local/include -lreadline
@@ -37,7 +37,7 @@ OBJ	=	$(SRC:.c=.o)
 
 $(NAME):	$(OBJ)
 			@make -C ./libft
-			$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(READLINE_MACOS)
+			$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(READLINE_LINUX)
 
 all:		$(NAME)
 

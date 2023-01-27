@@ -16,9 +16,6 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
-char	**ft_split(char const *s, char c);
-void	ft_lstadd_back(t_list **lst, t_list *new);
-
 int	ft_strlen(const char *s)
 {
 	int	i;
@@ -32,87 +29,136 @@ int	ft_strlen(const char *s)
 	return (i);
 }
 
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*stack;
+	size_t	i;
+
+	i = 0;
+	if (!s)
+		return (NULL);
+	if (ft_strlen(s) <= start)								//se si vuole iniziare a copiare la stringa da un indice che e' superiore alla lunghezza della stringa per evitare l overflow si mette l indice alla fine della stringa
+		start = ft_strlen(s);
+	if (ft_strlen(s) <= start + len)						//se si parte da un inizio valido ma si vogliono copiare troppi caratteri si finirebbe in buffer overflow, il massimo che si puo' fare e' copiare len caratteri (fai un test per capire meglio)
+		len = ft_strlen(s) - start;
+	stack = (char *) malloc (sizeof(char) * len + 1);
+	if (!stack)
+		return (NULL);
+	while (len--)
+		stack[i++] = s[start++];
+	stack[i] = '\0';
+	return (stack);
+}
+
+char	**fill_m(const char *s, char c, char	**matrix, int num_w)
+{
+	int	i;
+	int	j;
+	int	len;
+
+	i = 0;
+	j = 0;
+	len = 0;
+	while (j < num_w)									//il numero di volte che la stringa deve essere splittata
+	{
+		while (s[i] == c)								//l inizio della stringa potrebbe essere piena di caratteri che ti indicano che devi splittare...ma sei all'inizio della stringa, ignorali!
+				i++;
+		while (s[i + len] != c && s[i + len] != '\0')	//conta da quanti char e' composta la stringa da iniettare, info sul motivo di (i + len) in basso
+			len++;
+		if (len != 0)									//se hai 0 char che ti indicano il punto di troncamento vuol dire che non devi troncare mai la stringa, in caso contrario...
+		{
+			matrix[j] = ft_substr(s, i, len);			//...usa substring per iniettare la stringa dentro la riga j-esima della matrice
+			j++;
+		}
+		i += len;								//i + len e' il trick per evitare di ricominciare la ricerca ogni volta dall inizio della stringa anziche' ricominciare dal char dopo il troncamento
+		len = 0;
+	}
+	return (matrix);
+}
+
+int	count_w(char *str, char c)
+{
+	int	num;
+	int	toggle;
+
+	num = 0;
+	toggle = 0;
+	while (*str)
+	{
+		if (*str != c && toggle == 0 && *str != '\0')	//se siamo in una parola (*str != c), non l abbiamo ancora contata nel numero delle parole (toggle == 0) e la stringa non e' finita (*str != '\0')
+		{
+			toggle = 1;									//se incontri altri caratteri sappi che sei ancora nella stringa, non splittare
+			num++;
+		}
+		else if (*str == c)								//dopo che trovi la corrispondenza con il carattere esegui un troncamento (toggle == 0)
+			toggle = 0;
+		str++;
+	}
+	return (num);
+}
+
+char	**ft_split(char const *s, char c)
+{
+	int		num_w;
+	char	**matrix;
+
+	if (!s)
+		return (NULL);
+	num_w = count_w((char *)s, c);								//capisci in quanti "pezzi" verra' divisa la stringa originale
+	matrix = (char **) malloc(sizeof(char *) * (num_w + 1));	//occhio alle parentesi...
+	if (!matrix)
+		return (NULL);
+	matrix[num_w] = NULL;
+	matrix = fill_m(s, c, matrix, num_w);
+	return (matrix);
+}
+
+t_list	*ft_lstlast(t_list *lst)
+{
+	if (lst == NULL)
+		return (NULL);
+	while (lst->next != NULL)
+	{
+		lst = lst->next;
+	}
+	return (lst);
+}
+
+void	ft_lstadd_back(t_list **lst, t_list *new)
+{
+	t_list	*tmp;
+
+	if (*lst != NULL)
+	{
+		tmp = ft_lstlast(*lst);
+		tmp->next = new;
+	}
+	else
+		(*lst) = new;
+}
 
 
-// void	ft_check_redirection(char *cmd)
-// {
-// 	int		i;
-//     int     s_quote = 0;
-//     int     d_quote = 0;
-//     int     append_o = 0;
-//     int     red_o = 0;
-//     int     read_i = 0;
-//     int     read_i = 0;
+t_list	*ft_lstnew(char *str)
+{
+	t_list	*nodo;
 
-// 	i = 0;
-// 	while (cmd[i])
-// 	{
-// 		if (cmd[i] == '\'')
-// 			s_quote++;
-// 		if (cmd[i] == '"')
-// 			d_quote++;
-// 		if (cmd[i] == '>' && !(s_quote % 2) && !(d_quote % 2))
-// 		{
-// 			if (i + 2 < ft_strlen(cmd))
-// 			{
-// 				if (cmd[i + 1] == '>' && cmd[i + 2] == ' ')
-// 					append_o++;
-// 			}
-// 			else
-// 				red_o++;
-// 		}
-// 		else if (cmd[i] == '<' && !(s_quote % 2) && !(d_quote % 2))
-// 		{
-// 			if (i + 2 < ft_strlen(cmd))
-// 			{
-// 				if (cmd[i + 1] == '<' && cmd[i + 2] == ' ')
-// 					read_i++;
-// 			}
-// 			else
-// 				red_i++;
-// 		}
-// 		i++;
-// 	}
-//     if (red_o > 0)
-//         printf("Nodo %d redirect output %d times\n", i, red_o);
-//     if (red_i > 0)
-//         printf("Nodo %d redirect input %d times\n", i, red_i);
-//     if (append_o > 0)
-//         printf("Nodo %d append output %d times\n", i, append_o);
-//     if (read_o > 0)
-//         printf("Nodo %d read input %d times\n", i, read_i);
-// }
-
-// void ft_addback_node(t_list **cmd_list, char *cmd)
-// {
-// 	t_list *current;
-
-//     if (*cmd_list == NULL) 
-// 	{
-//         *cmd_list = new_node;
-//     } 
-// 	else
-// 	{
-// 		while ((*cmd_list) != NULL)
-// 		{
-// 			(*cmd_list) = (*cmd_list)->next;
-// 			//(*cmd_list)->next = NULL;
-// 		}
-// 		(*cmd_list) = new_node;
-//     }
-// }
+	nodo = (t_list *) malloc (sizeof(t_list));
+	if (nodo == NULL)
+		return (NULL);
+	nodo->cmd_m = ft_split(str, ' ');
+	nodo->next = NULL;
+	return (nodo);
+}
 
 void	ft_create_list(t_list **cmd_list, char	**full_cmd)
 {
-	int		i;
     t_list *new_node;
+	int		i;
 	
 	i = 0;
 	while (full_cmd[i])
 	{
-		new_node = (t_list *)malloc(sizeof(t_list));
-		new_node->cmd_m = ft_split(full_cmd[i], ' ');
-		new_node->next = NULL;
+		new_node = ft_lstnew(full_cmd[i]);
 		ft_lstadd_back(cmd_list, new_node);
 		i++;
 	}
@@ -185,20 +231,16 @@ int	ft_count_commands(t_list **cmd_list)
 	return (i);
 }
 
-
 int main(int argc, char **argv) 
 {
-    //char *str = "echo test | echo testone | echo testardo";
-	char **full_cmd = ft_split(argv[1], '|');
-	t_list *cmd_l;
+	t_list *cmd_l = NULL;
 	int	cmd_num;
+	char *str = "echo test";
+    char *str1 = "echo test | echo testone | echo testardo";
 
+	char **full_cmd = ft_split(str, '|');
 	ft_create_list(&cmd_l, full_cmd);
-	printf("NOW!\n");
-	// printf("%s\n", cmd_l->cmd_m[0]);
-	// printf("%s\n", cmd_l->cmd_m[1]);
 	cmd_num = ft_count_commands(&cmd_l);
-	printf("NOW\n");
 	while (cmd_l)
 	{
 		ft_execute(&cmd_l, cmd_num);
