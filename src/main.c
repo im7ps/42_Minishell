@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/01/20 17:05:39 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/01 22:57:22 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,27 @@
 // 		ft_perror(ERR_NCMD, mini->full_cmd[0]);
 // }
 
+void	ft_CTRL_C_handler(int signum)
+{
+	
+}
+
+void	ft_CTRL_D_handler(int signum)
+{
+	
+}
+
+void	ft_CTRL_S_handler(int signum)
+{
+	
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	mini;
+	signal(SIGINT, ft_CTRL_C_handler);
+	signal(SIGINT, ft_CTRL_D_handler);
+	signal(SIGINT, ft_CTRL_S_handler);
 
 	/*modificato condizione while da mini.exit_status == 0 a 1*/
 	while (1)
@@ -34,3 +52,4 @@ int	main(int argc, char **argv, char **envp)
 	}
 	return (0);
 }
+

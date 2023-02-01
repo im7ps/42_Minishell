@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/25 17:26:42 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/01 22:49:13 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <readline/history.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <signal.h>
+# include <string.h>
 
 # define ERR_NCMD 0
 # define ERR_QUOTE 1
