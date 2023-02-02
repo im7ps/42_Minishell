@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+         #
+#    By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 21:39:43 by dgioia            #+#    #+#              #
-#    Updated: 2023/01/27 14:52:35 by sgerace          ###   ########.fr        #
+#    Updated: 2023/02/02 19:48:40 by sgerace          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,8 @@ SRC	=	./src/main.c \
 		./src/builtin.c \
 		./src/error.c \
 		./src/execute.c \
+		./src/signals.c \
+		./src/utils.c \
 
 OBJ	=	$(SRC:.c=.o)
 
@@ -37,7 +39,7 @@ OBJ	=	$(SRC:.c=.o)
 
 $(NAME):	$(OBJ)
 			@make -C ./libft
-			$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(READLINE_LINUX)
+			$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT) $(READLINE_MACOS)
 
 all:		$(NAME)
 
