@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/03 16:52:15 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/03 18:20:44 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,8 @@
 
 typedef struct s_prompt
 {
-	const char *name;
-	int 	pid;
-	char 	**envp;
+	const char 	*name;
+	int 		pid;
 	t_list 	*cmds;
 }	t_prompt;
 
@@ -46,6 +45,7 @@ typedef struct s_minishell
 	int		exit_status; // serve a controllare se la shell deve essere ancora in esecuzione (vedi while nel main) [non funziona sto provando a fixare PD]
 	char	*input; // qui viene storato l'input originale dell'utente
 	char	**full_cmd; // qui l'input viene splittato in un array per essere gestito
+	t_list	*envp_list;
 	t_list	*cmd_list;
 }	t_minishell;
 

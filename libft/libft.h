@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 16:23:15 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/23 17:57:00 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/03 18:17:39 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ typedef struct s_list
 	int		append_o;
 	int		s_quote;
 	int		d_quote;
+	char	*key;
+	char	*value;
 	char	**cmd_m;
 	struct s_list	*next;
 }	t_list;

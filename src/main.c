@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/02/03 16:15:04 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/03 18:25:28 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_minishell *ft_mini_constructor(t_minishell **mini)
 	minip->input = "Miao\n";
 	minip->full_cmd = NULL;
 	minip->cmd_list = NULL;
+	minip->envp_list = NULL;
 	minip->exit_status = 0;
 
 	return (minip);
@@ -27,10 +28,10 @@ t_minishell *ft_mini_constructor(t_minishell **mini)
 
 void	ft_execute_mini(t_minishell **minip)
 {
-	if (signal(SIGINT, &ft_CTRL_C_handler) == SIG_ERR) {
-		printf("failed to register interrupts with kernel\n");
-	}
-	signal(SIGQUIT, &ft_CTRL_S_handler);
+	if (signal(SIGINT, &ft_CTRL_C_handler) == SIG_ERR)
+		printf("failed to register interrupt\n");
+	if (signal(SIGQUIT, &ft_CTRL_S_handler) == SIG_ERR)
+		printf("failed to register quit\n");
 	t_minishell *mini;
 	
 	mini = *minip;
@@ -49,17 +50,40 @@ void	ft_execute_mini(t_minishell **minip)
 	}
 }
 
+t_minishell *ft_load_envp(t_minishell **minip, char **envp)
+{
+	t_minishell *mini;
+	t_list 		*new_node;
+	char		**split_ret;
+	int			i;
+
+	mini = *minip;
+	i = 0;
+	while (envp[i])
+	{
+		new_node = ft_malloc_stuff(NODE_NUM);
+		split_ret = ft_split(envp[i], '=');
+		new_node->key = split_ret[0];
+		new_node->value = split_ret[1];
+		new_node->next = NULL;
+		ft_lstadd_back(&mini->envp_list, new_node);
+		i++;
+	}
+	return (mini);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	if (signal(SIGINT, &ft_CTRL_C_handler) == SIG_ERR) {
-		printf("failed to register interrupts with kernel\n");
-	}
-	signal(SIGQUIT, &ft_CTRL_S_handler);
+	if (signal(SIGINT, &ft_CTRL_C_handler) == SIG_ERR) 
+		printf("failed to register interrupt\n");
+	if (signal(SIGQUIT, &ft_CTRL_S_handler) == SIG_ERR)
+		printf("failed to register quit\n");
 	t_minishell *mini;
 
 	mini = (t_minishell *) malloc (sizeof(t_minishell));
 	mini = ft_mini_constructor(&mini);
 	mini = ft_get_mini(mini);
+	ft_load_envp(&mini, envp);
 	ft_execute_mini(&mini);
 	return (0);
 }
