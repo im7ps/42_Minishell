@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 18:25:32 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/02 21:29:24 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/03 16:44:48 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	ft_CTRL_C_handler(int signum)
 {
-	t_minishell	*mini;
-
-	mini = ft_get_mini(NULL);
-	ft_execute_mini(&mini);
+	write(1, "\n", 1);
+    rl_on_new_line(); // Regenerate the prompt on a newline
+    rl_replace_line("", 0); // Clear the previous text
+    rl_redisplay();
 }
 
 void	ft_CTRL_D_handler(int signum)

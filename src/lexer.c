@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:44:36 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/23 19:30:53 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/03 15:46:53 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int	ft_lexer(t_minishell *mini)
 	// 	j = 0;
 	// 	while ((mini->cmd_list)->cmd_m[j])
 	// 	{
-	// 		printf("%s\n", (mini->cmd_list)->cmd_m[j]);
+	// 		ft_printf("%s\n", (mini->cmd_list)->cmd_m[j]);
 	// 		j++;
 	// 	}
 	// 	(mini->cmd_list) = (mini->cmd_list)->next;
@@ -132,13 +132,13 @@ int	ft_lexer(t_minishell *mini)
 	// {
 	// 	i++;
 	// 	if (mini->cmd_list->red_o > 0)
-	// 		printf("Nodo %d redirect output at index: %d\n", i, mini->cmd_list->red_o);
+	// 		ft_printf("Nodo %d redirect output at index: %d\n", i, mini->cmd_list->red_o);
 	// 	if (mini->cmd_list->red_i > 0)
-	// 		printf("Nodo %d redirect input at index: %d\n", i, mini->cmd_list->red_i);
+	// 		ft_printf("Nodo %d redirect input at index: %d\n", i, mini->cmd_list->red_i);
 	// 	if (mini->cmd_list->append_o > 0)
-	// 		printf("Nodo %d append output at index: %d\n", i, mini->cmd_list->append_o);
+	// 		ft_printf("Nodo %d append output at index: %d\n", i, mini->cmd_list->append_o);
 	// 	if (mini->cmd_list->read_i > 0)
-	// 		printf("Nodo %d read input at index: %d\n", i, mini->cmd_list->read_i);
+	// 		ft_printf("Nodo %d read input at index: %d\n", i, mini->cmd_list->read_i);
 	// 	mini->cmd_list = mini->cmd_list->next;
 	// }
 	return (0);

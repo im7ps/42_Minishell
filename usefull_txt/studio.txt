@@ -84,3 +84,4 @@ gcc -g ./libft/ft_lstadd_back.c ./libft/ft_split.c ./libft/ft_lstlast.c ./libft/
 
 salvare lo STDOUT da qualche parte
 per debuggare meglio redirectare l output sullo STDOUT di processo in processo
+da implementare ft_ft_printf

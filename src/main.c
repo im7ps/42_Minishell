@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/02/02 21:28:50 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/03 16:15:04 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,14 @@ t_minishell *ft_mini_constructor(t_minishell **mini)
 
 void	ft_execute_mini(t_minishell **minip)
 {
-	signal(SIGINT, ft_CTRL_C_handler);
-	signal(SIGQUIT, ft_CTRL_S_handler);
+	if (signal(SIGINT, &ft_CTRL_C_handler) == SIG_ERR) {
+		printf("failed to register interrupts with kernel\n");
+	}
+	signal(SIGQUIT, &ft_CTRL_S_handler);
 	t_minishell *mini;
 	
 	mini = *minip;
+	write(1, "here", 4);
 	while (1)
 	{
 		mini->input = readline("minishell> ");
@@ -48,8 +51,10 @@ void	ft_execute_mini(t_minishell **minip)
 
 int	main(int argc, char **argv, char **envp)
 {
-	signal(SIGINT, ft_CTRL_C_handler);
-	signal(SIGQUIT, ft_CTRL_S_handler);
+	if (signal(SIGINT, &ft_CTRL_C_handler) == SIG_ERR) {
+		printf("failed to register interrupts with kernel\n");
+	}
+	signal(SIGQUIT, &ft_CTRL_S_handler);
 	t_minishell *mini;
 
 	mini = (t_minishell *) malloc (sizeof(t_minishell));

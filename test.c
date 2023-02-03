@@ -180,7 +180,7 @@ void	ft_exec_first(t_list **cmdl, int fd[2])
 	dup2(fd[0], STDIN_FILENO);
 	//legge "echo test e lo salva su fd[0]"
 	read(fd[0], &input, 10);
-	printf("NOW %s\n", input);
+	ft_printf("NOW %s\n", input);
 	close(fd[0]);
 	//calcolare l output modificato dal comando, metterlo in &input e scriverlo su fd[1]
 	//write(fd[1], &input, (sizeof(char) * ft_strlen(head->cmd_m[1])));
@@ -248,7 +248,7 @@ int main() {
     read(pipefd[0], buffer, sizeof(buffer));
     buffer[sizeof(buffer) - 1] = '\0';
     strcpy(variable, buffer);
-    printf("The input is: %s\n", variable);
+    ft_printf("The input is: %s\n", variable);
     fflush(stdout);
     close(pipefd[0]);
     close(pipefd[1]);

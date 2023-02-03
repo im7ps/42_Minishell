@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:45:51 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/23 12:05:18 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/03 15:46:53 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	ft_path_case(char *input)
 		}
 		path_num--;
 	}
-	printf("PATH non trovato o accesso negato!\n");	//se riusciamo ad arrivare fuori dal while vuol dire che in nessun percorso di PATH è stata trovata la corrispondenza PATH/input, quindi non è stato trovato l eseguibile
+	ft_printf("PATH non trovato o accesso negato!\n");	//se riusciamo ad arrivare fuori dal while vuol dire che in nessun percorso di PATH è stata trovata la corrispondenza PATH/input, quindi non è stato trovato l eseguibile
 	ft_perror(ACCESSERR);
 	return (0);
 }
@@ -107,7 +107,7 @@ int	ft_abs_rel_path_case(char *input)
     }
 	else 
 	{
-		printf("Path non trovato o accesso negato!\n");
+		ft_printf("Path non trovato o accesso negato!\n");
         ft_perror(ACCESSERR);
     }
 	return (0);
@@ -176,7 +176,7 @@ int	ft_echo_handler();
 // 	else if (!(ft_strncmp("exit", input, ft_strlen("echo"))))
 // 		ft_exit_handler();
 // 	else
-// 		printf("Command %s not found.\n", input);
+// 		ft_printf("Command %s not found.\n", input);
 // }
 
 // int	ft_check_input(char *input)
@@ -251,7 +251,7 @@ void	check_cmd(char *output)
 // 			break ;
 // 		}
 // 	}*/
-// 	//printf("Percorso: %s\n", getcwd(NULL, 0));
+// 	//ft_printf("Percorso: %s\n", getcwd(NULL, 0));
 // 	//ft_free_stuff(input, prompt.envp);
 // 	return (0);
 // }

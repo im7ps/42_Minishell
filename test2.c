@@ -49,7 +49,7 @@ int main(int argc, char **argv)
 		input = readline("minishell> ");
 		if (pipe(fd) == -1)
 		{
-			printf("Pipe error\n");
+			ft_printf("Pipe error\n");
 			return (1);
 		}
 		id = fork();
@@ -63,7 +63,7 @@ int main(int argc, char **argv)
 		{
 			close(fd[1]);
 			read(fd[0], wbuf, sizeof(wbuf));
-			printf("Got from child: %s\n", wbuf);
+			ft_printf("Got from child: %s\n", wbuf);
 			close(fd[0]);
 			wait(NULL);
 		}

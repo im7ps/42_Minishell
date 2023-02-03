@@ -45,13 +45,13 @@ void	ft_check_redirection(char *cmd)
 		i++;
 	}
     if (red_o > 0)
-        printf("Nodo %d redirect output %d times\n", i, red_o);
+        ft_printf("Nodo %d redirect output %d times\n", i, red_o);
     if (red_i > 0)
-        printf("Nodo %d redirect input %d times\n", i, red_i);
+        ft_printf("Nodo %d redirect input %d times\n", i, red_i);
     if (append_o > 0)
-        printf("Nodo %d append output %d times\n", i, append_o);
+        ft_printf("Nodo %d append output %d times\n", i, append_o);
     if (read_o > 0)
-        printf("Nodo %d read input %d times\n", i, read_i);
+        ft_printf("Nodo %d read input %d times\n", i, read_i);
 }
 
 void ft_addback_node(t_list **cmd_list, char *cmd)
