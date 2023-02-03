@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/03 16:44:55 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/03 16:52:15 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	ft_perror(int err, char *cmd);
 int	builtin(t_minishell *mini);
 
 //without the proto of this func readline does not work
-// void	rl_replace_line(const char *text, int clear_undo);
+void	rl_replace_line(const char *text, int clear_undo);
 
 //function to check and manipulate the input read from readline
 int		ft_lexer(t_minishell *mini);
