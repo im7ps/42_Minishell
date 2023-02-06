@@ -6,7 +6,7 @@
 #    By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 21:39:43 by dgioia            #+#    #+#              #
-#    Updated: 2023/02/03 18:35:05 by sgerace          ###   ########.fr        #
+#    Updated: 2023/02/06 18:29:49 by sgerace          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRC	=	./src/main.c \
 		./src/execute.c \
 		./src/signals.c \
 		./src/constructor.c \
+		./src/dollar_exp.c \
 		./src/utils.c \
 
 OBJ	=	$(SRC:.c=.o)

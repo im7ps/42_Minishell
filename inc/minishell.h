@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/03 18:44:32 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/06 20:57:15 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ int		ft_lexer(t_minishell *mini);
 int		ft_check_special_char(char	*input);
 int		ft_check_quotes(char	*input);
 void	ft_create_list(t_list **cmd_list, char **full_cmd);
-char	*ft_dollar_expander(t_minishell *mini);
 
 //malloc & free
 void    	*ft_malloc_stuff(int n);
@@ -88,5 +87,11 @@ void		ft_sig_handler(int signum, siginfo_t *info, void *ucontext);
 void		ft_execute_mini(t_minishell **mini);
 int			ft_strerr(char *str);
 int			ft_invalid_check(char *str);
+size_t 		ft_smaller_string(char *str1, char *str2);
+
+//dollar expander
+char	*ft_dollar_expander(t_minishell **mini);
+char    *ft_expander_helper(t_minishell **mini, char *input);
+char    *ft_expander_finder(char *str, t_minishell **minip);
 
 #endif

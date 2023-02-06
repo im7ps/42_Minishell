@@ -16,6 +16,23 @@ int	ft_strlen1(const char *s)
 	return (i);
 }
 
+size_t  ft_strlcpy1(char *dst, const char *src, size_t dstsize)
+{
+	size_t	i;
+
+	i = 0;
+	while (*src && i + 1 < dstsize)
+	{
+		*dst++ = *src++;
+		i++;
+	}
+	if (i < dstsize)
+		*dst = '\0';
+	while (*src++)
+		i++;
+	return (i);
+}
+
 char    *ft_expander_helper(char *input)
 {
     int     i;
@@ -26,8 +43,9 @@ char    *ft_expander_helper(char *input)
     {
         i++;
     }
-    // tmp = (char *) malloc (sizeof(char) * i + 1);
-    printf("%d\n", i);
+    tmp = (char *) malloc (sizeof(char) * i + 1);
+    ft_strlcpy1(tmp, input, i + 1);
+    ft_expander_replace(tmp);
     return (input);
 }
 
