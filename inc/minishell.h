@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/03 18:20:44 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/03 18:44:32 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,11 @@ typedef struct s_minishell
 	t_list	*cmd_list;
 }	t_minishell;
 
+//building functions
+t_minishell *ft_get_mini(t_minishell *mini);
+t_minishell *ft_load_envp(t_minishell **minip, char **envp);
+t_minishell *ft_mini_constructor(t_minishell **mini);
+
 //error
 int	ft_perror(int err, char *cmd);
 
@@ -63,6 +68,7 @@ int		ft_lexer(t_minishell *mini);
 int		ft_check_special_char(char	*input);
 int		ft_check_quotes(char	*input);
 void	ft_create_list(t_list **cmd_list, char **full_cmd);
+char	*ft_dollar_expander(t_minishell *mini);
 
 //malloc & free
 void    	*ft_malloc_stuff(int n);
@@ -79,7 +85,6 @@ void		ft_CTRL_S_handler(int signum);
 void		ft_sig_handler(int signum, siginfo_t *info, void *ucontext);
 
 //utils
-t_minishell *ft_get_mini(t_minishell *mini);
 void		ft_execute_mini(t_minishell **mini);
 int			ft_strerr(char *str);
 int			ft_invalid_check(char *str);

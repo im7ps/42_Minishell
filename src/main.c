@@ -6,25 +6,11 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/02/03 18:25:28 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/06 17:04:40 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-t_minishell *ft_mini_constructor(t_minishell **mini)
-{
-	t_minishell *minip;
-
-	minip = *mini;
-	minip->input = "Miao\n";
-	minip->full_cmd = NULL;
-	minip->cmd_list = NULL;
-	minip->envp_list = NULL;
-	minip->exit_status = 0;
-
-	return (minip);
-}
 
 void	ft_execute_mini(t_minishell **minip)
 {
@@ -42,34 +28,13 @@ void	ft_execute_mini(t_minishell **minip)
 		if (mini->input == NULL)
 			ft_CTRL_D_handler(3);
 		add_history(mini->input);
+		mini->input = ft_dollar_expander(mini->input);
 		// if (ft_invalid_check(mini->input))
 		// 	ft_strerr("Invalid char!\n");
 		// if (ft_lexer(&mini))
 		// 	return (1);
 		free(mini->input);
 	}
-}
-
-t_minishell *ft_load_envp(t_minishell **minip, char **envp)
-{
-	t_minishell *mini;
-	t_list 		*new_node;
-	char		**split_ret;
-	int			i;
-
-	mini = *minip;
-	i = 0;
-	while (envp[i])
-	{
-		new_node = ft_malloc_stuff(NODE_NUM);
-		split_ret = ft_split(envp[i], '=');
-		new_node->key = split_ret[0];
-		new_node->value = split_ret[1];
-		new_node->next = NULL;
-		ft_lstadd_back(&mini->envp_list, new_node);
-		i++;
-	}
-	return (mini);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -84,6 +49,12 @@ int	main(int argc, char **argv, char **envp)
 	mini = ft_mini_constructor(&mini);
 	mini = ft_get_mini(mini);
 	ft_load_envp(&mini, envp);
+	while (mini->envp_list)
+	{
+		printf(mini->envp_list->key);
+		printf("\n");
+		mini->envp_list = mini->envp_list->next;
+	}
 	ft_execute_mini(&mini);
 	return (0);
 }
