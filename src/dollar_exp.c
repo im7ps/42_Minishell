@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:51:10 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/06 20:57:18 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/06 21:05:24 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ size_t ft_smaller_string(char *str1, char *str2)
         return (ft_strlen(str1));
 }
 
-void    ft_expander_replace(char *str, t_minishell **minip)
+char    *ft_expander_finder(char *str, t_minishell **minip)
 {
     size_t      smaller;
     t_list      *mini;
@@ -33,11 +33,12 @@ void    ft_expander_replace(char *str, t_minishell **minip)
         {
             if (!(ft_strncmp(str, mini->key, smaller)))
             {
-                printf("Beccata!\n");
+                return (mini->value);
             }
         }
 		mini = mini->next;
 	}
+    return (NULL);
 }
 
 char    *ft_expander_helper(t_minishell **minip, char *input)
@@ -54,7 +55,8 @@ char    *ft_expander_helper(t_minishell **minip, char *input)
     }
     tmp = (char *) malloc (sizeof(char) * i + 1);
     ft_strlcpy(tmp, input, i + 1);
-    ft_expander_replace(tmp, &mini);
+    tmp = ft_expander_finder(tmp, &mini);
+    printf("EXPANDED: %s\n", tmp);
     return (input);
 }
 
