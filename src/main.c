@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/02/06 20:57:45 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/07 14:43:31 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,23 @@ void	ft_execute_mini(t_minishell **minip)
 		if (mini->input == NULL)
 			ft_CTRL_D_handler(3);
 		add_history(mini->input);
-		ft_dollar_expander(&mini);
-		// if (ft_invalid_check(mini->input))
-		// 	ft_strerr("Invalid char!\n");
-		// if (ft_lexer(&mini))
-		// 	return (1);
+		if (ft_invalid_check(mini->input))
+			ft_strerr("Invalid char!\n");
+		if (ft_lexer(&mini))
+			return ;
+		int	i;
+		mini = *minip;
+		while (mini->cmd_list)
+		{
+			i = 0;
+			while (mini->cmd_list->cmd_m[i])
+			{
+				printf("%s\n", mini->cmd_list->cmd_m[i]);
+				i++;
+			}
+			mini->cmd_list = mini->cmd_list->next;
+		}
+		//ft_dollar_expander(&mini);
 		//free(mini->input); //SE IMPLEMENTO IL DOLLAR EXPANDER FREEARE L INPUT COME FACCIO DI SOLITO MANDA IN CRASH IL PROGRAMMA
 	}
 }
@@ -48,12 +60,6 @@ int	main(int argc, char **argv, char **envp)
 	mini = ft_mini_constructor(&mini);
 	mini = ft_get_mini(mini);
 	ft_load_envp(&mini, envp);
-	// while (mini->envp_list)
-	// {
-	// 	printf("%s\n", mini->envp_list->key);
-	// 	printf("%s\n", mini->envp_list->value);
-	// 	mini->envp_list = mini->envp_list->next;
-	// }
 	ft_execute_mini(&mini);
 	return (0);
 }

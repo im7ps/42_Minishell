@@ -2,5 +2,6 @@
     "files.associations": {
         "stdlib.h": "c",
         "minishell.h": "c"
-    }
+    },
+    "editor.insertSpaces": false
 }

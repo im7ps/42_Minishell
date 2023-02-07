@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:44:36 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/03 18:17:39 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/07 13:56:47 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,40 +54,6 @@ int	ft_check_quotes(char	*input)
 	return (0);
 }
 
-// void	ft_check_redirection(t_list **cmd_node, char *cmd)
-// {
-// 	int		i;
-// 	t_list 	*node;
-
-// 	i = 0;
-// 	node = *cmd_node;
-// 	while (cmd[i])
-// 	{
-// 		if (cmd[i] == '\'')
-// 			node->s_quote++;
-// 		if (cmd[i] == '"')
-// 			node->d_quote++;
-// 		if (i + 2 < ft_strlen(cmd))
-// 		{
-// 			if (cmd[i] == '>' && !(node->s_quote % 2) && !(node->d_quote % 2))
-// 			{	
-// 				if (cmd[i + 1] == '>' && cmd[i + 2] == ' ')
-// 					node->append_o++;
-// 			}
-// 			else
-// 				node->red_o++;
-// 			else if (cmd[i] == '<' && !(node->s_quote % 2) && !(node->d_quote % 2))
-// 			{
-// 					if (cmd[i + 1] == '<' && cmd[i + 2] == ' ')
-// 						node->read_i++;
-// 			}
-// 				else
-// 					node->red_i++;
-// 		}
-// 		i++;
-// 	}
-// }
-
 void	ft_create_list(t_list **cmd_list, char	**full_cmd)
 {
 	int		i;
@@ -105,41 +71,20 @@ void	ft_create_list(t_list **cmd_list, char	**full_cmd)
 	return ;
 }
 
-int	ft_lexer(t_minishell *mini)
+int	ft_lexer(t_minishell **minip)
 {
-	int	cmd_num;
+	t_minishell *mini;
+	int			cmd_num;
+	int			i;
 
+	mini = *minip;
 	if (ft_check_special_char(mini->input))
 		return (ft_perror(ERR_INPUT, NULL));
 	if (ft_check_quotes(mini->input))
 		return (ft_perror(ERR_QUOTE, NULL));
 	mini->full_cmd = ft_split(mini->input, '|');
 	ft_create_list(&mini->cmd_list, mini->full_cmd);
-	ft_start_executing(&mini->cmd_list);
-	// int		j;
-	// while (mini->cmd_list)
-	// {
-	// 	j = 0;
-	// 	while ((mini->cmd_list)->cmd_m[j])
-	// 	{
-	// 		ft_printf("%s\n", (mini->cmd_list)->cmd_m[j]);
-	// 		j++;
-	// 	}
-	// 	(mini->cmd_list) = (mini->cmd_list)->next;
-	// }
-	// int i = 0;
-	// while (mini->cmd_list)
-	// {
-	// 	i++;
-	// 	if (mini->cmd_list->red_o > 0)
-	// 		ft_printf("Nodo %d redirect output at index: %d\n", i, mini->cmd_list->red_o);
-	// 	if (mini->cmd_list->red_i > 0)
-	// 		ft_printf("Nodo %d redirect input at index: %d\n", i, mini->cmd_list->red_i);
-	// 	if (mini->cmd_list->append_o > 0)
-	// 		ft_printf("Nodo %d append output at index: %d\n", i, mini->cmd_list->append_o);
-	// 	if (mini->cmd_list->read_i > 0)
-	// 		ft_printf("Nodo %d read input at index: %d\n", i, mini->cmd_list->read_i);
-	// 	mini->cmd_list = mini->cmd_list->next;
-	// }
+	ft_dollar_expander(&mini);
+	//ft_start_executing(&mini->cmd_list);
 	return (0);
 }

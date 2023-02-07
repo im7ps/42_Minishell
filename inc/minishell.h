@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/06 20:57:15 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/07 15:03:27 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	builtin(t_minishell *mini);
 void	rl_replace_line(const char *text, int clear_undo);
 
 //function to check and manipulate the input read from readline
-int		ft_lexer(t_minishell *mini);
+int		ft_lexer(t_minishell **mini);
 int		ft_check_special_char(char	*input);
 int		ft_check_quotes(char	*input);
 void	ft_create_list(t_list **cmd_list, char **full_cmd);
@@ -93,5 +93,6 @@ size_t 		ft_smaller_string(char *str1, char *str2);
 char	*ft_dollar_expander(t_minishell **mini);
 char    *ft_expander_helper(t_minishell **mini, char *input);
 char    *ft_expander_finder(char *str, t_minishell **minip);
+char	*ft_dollar_starter(t_minishell **minip, char  *str);
 
 #endif
