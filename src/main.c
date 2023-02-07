@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/02/07 14:43:31 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/07 17:13:53 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	ft_execute_mini(t_minishell **minip)
 			}
 			mini->cmd_list = mini->cmd_list->next;
 		}
-		//ft_dollar_expander(&mini);
 		//free(mini->input); //SE IMPLEMENTO IL DOLLAR EXPANDER FREEARE L INPUT COME FACCIO DI SOLITO MANDA IN CRASH IL PROGRAMMA
 	}
 }

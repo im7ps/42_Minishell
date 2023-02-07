@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:51:10 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/07 15:18:58 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/07 17:08:19 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ size_t ft_smaller_string(char *str1, char *str2)
 		return (ft_strlen(str1));
 }
 
+/*
+*	confronta str con la lista di variabili d'ambiente storata in minip.envp, se c'é
+*	corrispondenza allora ritorna la value della key trovata, in caso contrario ritorna NULL
+*/
 char    *ft_expander_finder(char *str, t_minishell **minip)
 {
 	size_t      smaller;
@@ -41,6 +45,11 @@ char    *ft_expander_finder(char *str, t_minishell **minip)
 	return (NULL);
 }
 
+/*
+*	ft_expander_helper:
+*	scorri la stringa trovata dopo il $, alloca una stringa temporanea e avvia ft_expander_helper
+*	se la stringa ritornata é diversa da NULL ritorna il valore aggiornato di tmp
+*/
 char    *ft_expander_helper(t_minishell **minip, char *input)
 {
 	t_minishell *mini;
@@ -62,6 +71,13 @@ char    *ft_expander_helper(t_minishell **minip, char *input)
 	return (tmp);
 }
 
+/*
+*	ft_dollar_starter:
+*	scansiona la stringa, quando trovi il dollaro assicurati che il carattere seguente
+*	sia in maiuscolo o sia un underscore, in caso affermativo avvia ft_expander_helper
+*	se il valore ritornato é non NULL aggiorna la stringa da ritornare, in caso
+*	contrario ritorna NULL
+*/
 char	*ft_dollar_starter(t_minishell **minip, char  *str)
 {
 	t_minishell *mini;
@@ -91,8 +107,9 @@ char	*ft_dollar_starter(t_minishell **minip, char  *str)
 
 /*  
 *   ft_dollar_expander: 
-*   se trovi il dollaro confronta con strncmp ogni key trovata nei nodi della lista envp, se trovi una corrispondenza prosegui
-*   e modifica il campo input togliendo la key e inserendo al suo posto il value
+*	scansiona ogni elemento della matrice di comandi, se in un elemento é presente il dollaro
+*	avvia dollar_starter, se la funziona ritorna un valore non NULL aggiorna il valore
+*	della stringa
 */
 char	*ft_dollar_expander(t_minishell **minip)
 {

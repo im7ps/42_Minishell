@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:44:36 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/07 13:56:47 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/07 17:11:45 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_check_special_char(char	*input)
 	{
 		if (!(input[i] == '"' || input[i] == '$' || input[i] == '\'' || input[i] == '|' || input[i] == '-' || \
 			input[i] == '>' || input[i] == '<' || input[i] == ' ' || (input[i] > 47 && input[i] < 58) || \
-			(input[i] > 64 && input[i] < 91) || (input[i] > 96 && input[i] < 123)))
+			input[i] == '_' || (input[i] > 64 && input[i] < 91) || (input[i] > 96 && input[i] < 123)))
 		{
 			return (1);
 		}
