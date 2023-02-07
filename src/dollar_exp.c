@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:51:10 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/07 15:13:35 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/07 15:18:58 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ char    *ft_expander_helper(t_minishell **minip, char *input)
 	tmp = (char *) malloc (sizeof(char) * i + 1);
 	ft_strlcpy(tmp, input, i + 1);
 	tmp = ft_expander_finder(tmp, &mini);
+	if (tmp == NULL)
+		return (NULL);
 	//printf("EXPANDED: %s\n", tmp);
 	return (tmp);
 }
@@ -79,6 +81,8 @@ char	*ft_dollar_starter(t_minishell **minip, char  *str)
 				if (!((str[i] > 64 && str[i] < 91) || str[i] == 95))
 					return (NULL);
 				str = ft_expander_helper(&mini, str + i);
+				if (str == NULL)
+					return (NULL);
 			}
 		}
 	}
@@ -96,6 +100,7 @@ char	*ft_dollar_expander(t_minishell **minip)
 	t_list 		*cmd_list;
 	int			i;
 	int			j;
+	char		*tmp;
 
 	cmd_list = (*minip)->cmd_list;
 	mini = *minip;
@@ -108,7 +113,9 @@ char	*ft_dollar_expander(t_minishell **minip)
 			while (cmd_list->cmd_m[i][j])
 			{
 				if (cmd_list->cmd_m[i][j] == '$')
-					cmd_list->cmd_m[i] = ft_dollar_starter(&mini, cmd_list->cmd_m[i]);
+					tmp = ft_dollar_starter(&mini, cmd_list->cmd_m[i]);
+					if (tmp != NULL)
+						cmd_list->cmd_m[i] = tmp;
 				j++;
 			}
 			i++;
