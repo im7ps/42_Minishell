@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 19:30:31 by sgerace           #+#    #+#             */
-/*   Updated: 2022/04/06 19:29:37 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/07 18:21:43 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // memchr searches for the first occurrence of the character c, analyzing n bytes
 // source: https://www.tutorialspoint.com/c_standard_library/c_function_memchr.htm
 
-#include "libft.h"
+#include "../inc/libft.h"
 
 void	*ft_memchr(const void *s, int c, size_t n)
 {

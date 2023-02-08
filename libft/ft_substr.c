@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 17:52:29 by sgerace           #+#    #+#             */
-/*   Updated: 2022/04/06 20:44:28 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/07 18:21:43 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 // il numero di char da copiare e' dato dall inizio (start) della stringa da cui partire
 // e dal numero di caratteri (len) da iniettarci, finendo con un '\0'
 
-#include "libft.h"
+#include "../inc/libft.h"
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {

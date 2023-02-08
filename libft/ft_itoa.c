@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 17:46:20 by sgerace           #+#    #+#             */
-/*   Updated: 2022/04/06 18:58:35 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/07 18:21:43 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //itoa () function in C language converts int data type to string data type. (da int numero a char *numero)
 //fonte: https://fresh2refresh.com/c-programming/c-type-casting/c-itoa-function/
 
-#include "libft.h"
+#include "../inc/libft.h"
 
 int	numlen(int n)
 {

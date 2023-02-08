@@ -6,15 +6,15 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/07 15:03:27 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/08 12:52:03 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../libft/libft.h"
-# include "../ft_printf/ft_printf.h"
+# include "../inc/libft.h"
+# include "../inc/ft_printf.h"
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -37,12 +37,12 @@ typedef struct s_prompt
 {
 	const char 	*name;
 	int 		pid;
-	t_list 	*cmds;
+	t_list 		*cmds;
 }	t_prompt;
 
 typedef struct s_minishell
 {
-	int		exit_status; // serve a controllare se la shell deve essere ancora in esecuzione (vedi while nel main) [non funziona sto provando a fixare PD]
+	int		exit_status; // serve a controllare se la shell deve essere ancora in esecuzione (vedi while nel main)
 	char	*input; // qui viene storato l'input originale dell'utente
 	char	**full_cmd; // qui l'input viene splittato in un array per essere gestito
 	t_list	*envp_list;

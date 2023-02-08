@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 19:44:49 by sgerace           #+#    #+#             */
-/*   Updated: 2022/04/06 19:36:23 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/07 18:21:43 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // I valori vengono interpretati come unsigned char
 // source: https://docs.microsoft.com/it-it/cpp/c-runtime-library/reference/memcmp-wmemcmp?view=msvc-170
 
-#include "libft.h"
+#include "../inc/libft.h"
 
 int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {

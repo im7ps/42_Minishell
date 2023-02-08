@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 14:31:31 by sgerace           #+#    #+#             */
-/*   Updated: 2022/04/06 20:39:06 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/07 18:21:43 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //strtrim removes a certain string (*set) from the beginning and the end of a string (*s1).
 //this script returns the string trimmed
 
-#include "libft.h"
+#include "../inc/libft.h"
 
 char	*ft_strtrim(char const *s1, char const *set)
 {

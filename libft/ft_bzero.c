@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 16:11:54 by sgerace           #+#    #+#             */
-/*   Updated: 2022/04/06 18:30:31 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/07 18:21:43 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../inc/libft.h"
 
 // A volte, la memoria dinamica dovrebbe essere sovrascritta con zeri per cancellarla dai valori di spazzatura
 // Richiede due argomenti, l’indirizzo iniziale della regione di memoria e il numero di byte che devono essere azzerati.

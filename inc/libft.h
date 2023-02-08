@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 16:23:15 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/03 18:17:39 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/07 18:22:37 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 # include <unistd.h>
 # include <stddef.h>
 
-/*nodo che conterra' un solo comando, viene salvato il nome del comando, le sue eventuali flag, i suoi 
-eventuali argomenti, viene notata la presenza di pipes e dei vari tipi di redirection*/
 typedef struct s_list
 {
 	int		pipe;

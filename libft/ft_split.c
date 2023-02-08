@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 16:34:30 by sgerace           #+#    #+#             */
-/*   Updated: 2023/01/13 16:53:41 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/07 18:21:43 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //questa funzione e' complicata da immaginare per capirne il ragionamento, usa un debugger e fai test!
 
-#include "libft.h"
+#include "../inc/libft.h"
 
 char	**fill_m(const char *s, char c, char	**matrix, int num_w)
 {

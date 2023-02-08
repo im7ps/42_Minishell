@@ -6,19 +6,11 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:51:10 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/07 17:08:19 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/08 12:57:45 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-size_t ft_smaller_string(char *str1, char *str2)
-{
-	if (ft_strlen(str1) > ft_strlen(str2))
-		return (ft_strlen(str2));
-	else
-		return (ft_strlen(str1));
-}
 
 /*
 *	confronta str con la lista di variabili d'ambiente storata in minip.envp, se c'é
@@ -94,11 +86,17 @@ char	*ft_dollar_starter(t_minishell **minip, char  *str)
 			if (i + 1 < len)
 			{
 				i++;
-				if (!((str[i] > 64 && str[i] < 91) || str[i] == 95))
+				if ((str[i] > 64 && str[i] < 91) || str[i] == 95)
+				{
+					str = ft_expander_helper(&mini, str + i);
+					if (str == NULL)
+						return (NULL);	
+				}
+				else if (str[i] == '?')
+				{
+					//$? va espanso con l exit status dell ultimo processo eseguito (l exit status sará la variabile globale da aggiornare sempre)
 					return (NULL);
-				str = ft_expander_helper(&mini, str + i);
-				if (str == NULL)
-					return (NULL);
+				}
 			}
 		}
 	}
@@ -130,9 +128,11 @@ char	*ft_dollar_expander(t_minishell **minip)
 			while (cmd_list->cmd_m[i][j])
 			{
 				if (cmd_list->cmd_m[i][j] == '$')
+				{
 					tmp = ft_dollar_starter(&mini, cmd_list->cmd_m[i]);
 					if (tmp != NULL)
 						cmd_list->cmd_m[i] = tmp;
+				}
 				j++;
 			}
 			i++;

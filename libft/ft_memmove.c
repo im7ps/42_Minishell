@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 16:26:56 by sgerace           #+#    #+#             */
-/*   Updated: 2022/04/06 19:49:10 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/07 18:21:43 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //non consiglio di usare questo script, va facilmente in segmentation fault
 
-#include "libft.h"
+#include "../inc/libft.h"
 
 void	*ft_memmove(void *dst, const void *src, size_t len)
 {
