@@ -6,22 +6,35 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 18:33:46 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/08 12:52:27 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/08 16:06:51 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-t_minishell *ft_mini_constructor(t_minishell **mini)
+t_minishell *ft_mini_constructor(t_minishell **mini, t_miniflags **miniflags, char **envp)
 {
 	t_minishell *minip;
-
+	t_miniflags *minif;
+	
+	minif = *miniflags;
 	minip = *mini;
+
 	minip->input = "Miao\n";
 	minip->full_cmd = NULL;
 	minip->cmd_list = NULL;
 	minip->envp_list = NULL;
 	minip->exit_status = 0;
+	minip = ft_get_mini(minip);
+	ft_load_envp(&minip, envp);
+
+	minif->d_quote = false;
+	minif->s_quote = false;
+	minif->pipe = false;
+	minif->red_i = false;
+	minif->red_o = false;
+	minif->read_i = false;
+	minif->append_o = false;
 
 	return (minip);
 }

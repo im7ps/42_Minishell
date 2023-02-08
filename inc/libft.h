@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 16:23:15 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/07 18:22:37 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/08 15:02:13 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,28 +19,24 @@
 
 typedef struct s_list
 {
-	int		pipe;
-	int		red_i;
-	int		red_o;
-	int		read_i;
-	int		append_o;
-	int		s_quote;
-	int		d_quote;
-	char	*key;
-	char	*value;
-	char	**cmd_m;
+	char	**cmd_m;			//node variables
+	char	*cmd;				//node variables
+	char	**flags;			//node variables
+	char	*args;				//node variables
+	char	*key;				//env variables
+	char	*value;				//env variables
 	struct s_list	*next;
 }	t_list;
 
 void	ft_bzero(void *s, size_t n);
+void	*ft_memcpy(void *dst, const void *src, size_t n);
+void	*ft_memset(void *str, int c, size_t len);
+void	*ft_memmove(void *dst, const void *src, size_t len);
 int		ft_isalnum(int c);
 int		ft_isalpha(int c);
 int		ft_isascii(int c);
 int		ft_isprint(int c);
 int		ft_isdigit(int c);
-void	*ft_memcpy(void *dst, const void *src, size_t n);
-void	*ft_memset(void *str, int c, size_t len);
-void	*ft_memmove(void *dst, const void *src, size_t len);
 char	*ft_strchr(const char *s, int c);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);

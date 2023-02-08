@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/08 12:52:03 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/08 17:14:05 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <unistd.h>
 # include <signal.h>
 # include <string.h>
+# include <stdbool.h>
 
 # define ERR_NCMD 0
 # define ERR_QUOTE 1
@@ -33,12 +34,16 @@
 # define ERR_INPUT 7
 # define NODE_NUM 90
 
-typedef struct s_prompt
+typedef struct s_miniflags
 {
-	const char 	*name;
-	int 		pid;
-	t_list 		*cmds;
-}	t_prompt;
+	bool	pipe;
+	bool	red_i;
+	bool	red_o;
+	bool	read_i;
+	bool	append_o;
+	bool	s_quote;
+	bool	d_quote;
+}	t_miniflags;
 
 typedef struct s_minishell
 {
@@ -52,7 +57,7 @@ typedef struct s_minishell
 //building functions
 t_minishell *ft_get_mini(t_minishell *mini);
 t_minishell *ft_load_envp(t_minishell **minip, char **envp);
-t_minishell *ft_mini_constructor(t_minishell **mini);
+t_minishell *ft_mini_constructor(t_minishell **mini, t_miniflags **miniflags, char **envp);
 
 //error
 int	ft_perror(int err, char *cmd);
@@ -64,35 +69,39 @@ int	builtin(t_minishell *mini);
 void	rl_replace_line(const char *text, int clear_undo);
 
 //function to check and manipulate the input read from readline
-int		ft_lexer(t_minishell **mini);
+int		ft_lexer(t_minishell **minip, t_miniflags **minif);
 int		ft_check_special_char(char	*input);
 int		ft_check_quotes(char	*input);
 void	ft_create_list(t_list **cmd_list, char **full_cmd);
 
 //malloc & free
-void    	*ft_malloc_stuff(int n);
-void		ft_free_stuff(t_minishell *mini, char *str);
+void    *ft_malloc_stuff(int n);
+void	ft_free_stuff(t_minishell *mini, char *str);
 
 //executing commands
 int		ft_start_executing(t_list	**cmd_list);
 int		ft_exec_cmd(t_list	*head, int cmd_num);
 
 //signals
-void		ft_CTRL_C_handler(int signum);
-void		ft_CTRL_D_handler(int signum);
-void		ft_CTRL_S_handler(int signum);
-void		ft_sig_handler(int signum, siginfo_t *info, void *ucontext);
+void	ft_CTRL_C_handler(int signum);
+void	ft_CTRL_D_handler(int signum);
+void	ft_CTRL_S_handler(int signum);
+void	ft_sig_handler(int signum, siginfo_t *info, void *ucontext);
 
-//utils
-void		ft_execute_mini(t_minishell **mini);
-int			ft_strerr(char *str);
-int			ft_invalid_check(char *str);
-size_t 		ft_smaller_string(char *str1, char *str2);
 
 //dollar expander
 char	*ft_dollar_expander(t_minishell **mini);
 char    *ft_expander_helper(t_minishell **mini, char *input);
 char    *ft_expander_finder(char *str, t_minishell **minip);
 char	*ft_dollar_starter(t_minishell **minip, char  *str);
+
+//utils
+void		ft_execute_mini(t_minishell **mini, t_miniflags **minif);
+int			ft_strerr(char *str);
+size_t 		ft_smaller_string(char *str1, char *str2);
+
+//attributes management
+void		ft_attributes_management(t_minishell **minip, t_miniflags **minif);
+void		ft_quotes_management(char	c, t_miniflags **minif);
 
 #endif
