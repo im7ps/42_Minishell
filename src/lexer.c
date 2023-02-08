@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:44:36 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/08 17:17:52 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/08 17:41:29 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	ft_quotes_management(char	c, t_miniflags **minif)
 
 // void	ft_attributes_router()
 // {
-	
+
 // }
 
 /*
