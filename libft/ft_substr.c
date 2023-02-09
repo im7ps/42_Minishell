@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 17:52:29 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/07 18:21:43 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/09 19:15:12 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,15 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	i = 0;
 	if (!s)
 		return (NULL);
-	if (ft_strlen(s) <= start)								//se si vuole iniziare a copiare la stringa da un indice che e' superiore alla lunghezza della stringa per evitare l overflow si mette l indice alla fine della stringa
+	if (ft_strlen(s) <= start)
 		start = ft_strlen(s);
-	if (ft_strlen(s) <= start + len)						//se si parte da un inizio valido ma si vogliono copiare troppi caratteri si finirebbe in buffer overflow, il massimo che si puo' fare e' copiare len caratteri (fai un test per capire meglio)
+	if (ft_strlen(s) <= start + len)
 		len = ft_strlen(s) - start;
-	stack = (char *) malloc (sizeof(char) * len + 1);
+	stack = (char *) malloc (sizeof(char) * len + 2);		//MINISHELL: +2 per contenere EOF e char reindirizzamento (| < > << >>)
 	if (!stack)
 		return (NULL);
 	while (len--)
 		stack[i++] = s[start++];
-	stack[i] = '\0';
+	stack[i + 1] = '\0';									//MINISHELL: stack[i] = '\0'; era l originale, cambiato per mettere in pos stack[i] il reindirizzamento
 	return (stack);
 }
