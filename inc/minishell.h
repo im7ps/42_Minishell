@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/08 17:14:05 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/09 17:40:59 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ char	*ft_dollar_starter(t_minishell **minip, char  *str);
 void		ft_execute_mini(t_minishell **mini, t_miniflags **minif);
 int			ft_strerr(char *str);
 size_t 		ft_smaller_string(char *str1, char *str2);
+char		**ft_split_variant(char *s);
 
 //attributes management
 void		ft_attributes_management(t_minishell **minip, t_miniflags **minif);

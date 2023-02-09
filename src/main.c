@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/02/08 14:56:24 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/09 15:08:19 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,14 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 {
 	t_minishell *mini;
 	t_miniflags *flags;
+
+	mini = *minip;
+	flags = *minif;
 	if (signal(SIGINT, &ft_CTRL_C_handler) == SIG_ERR)
 		printf("failed to register interrupt\n");
 	if (signal(SIGQUIT, &ft_CTRL_S_handler) == SIG_ERR)
 		printf("failed to register quit\n");
 	
-	mini = *minip;
-	flags = *minif;
 	while (1)
 	{
 		mini->input = readline("minishell> ");
@@ -31,23 +32,7 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 		add_history(mini->input);
 		if (ft_lexer(&mini, &flags))
 			return ;
-		
-		
-		// int	i;
-		// mini = *minip;
-		// while (mini->cmd_list)
-		// {
-		// 	i = 0;
-		// 	while (mini->cmd_list->cmd_m[i])
-		// 	{
-		// 		printf("%s\n", mini->cmd_list->cmd_m[i]);
-		// 		i++;
-		// 	}
-		// 	mini->cmd_list = mini->cmd_list->next;
-		// }
-
-		
-		//free(mini->input); //SE IMPLEMENTO IL DOLLAR EXPANDER FREEARE L INPUT COME FACCIO DI SOLITO MANDA IN CRASH IL PROGRAMMA
+		//free(mini->input);
 	}
 }
 

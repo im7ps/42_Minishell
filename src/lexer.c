@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:44:36 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/08 17:41:29 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/09 17:41:02 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,9 +162,17 @@ int	ft_lexer(t_minishell **minip, t_miniflags **minif)
 	flags = *minif;
 	if (ft_check_special_char(mini->input))
 		return (ft_perror(ERR_INPUT, NULL));
-	mini->full_cmd = ft_split(mini->input, '|');
-	ft_create_list(&mini->cmd_list, mini->full_cmd);
-	ft_attributes_management(&mini, &flags);
+	mini->full_cmd = ft_split_variant(mini->input);
+
+
+	i = 0;
+	while (mini->full_cmd[i])
+	{
+		ft_printf("%s\n", mini->full_cmd[i]);
+		i++;
+	}
+	//ft_create_list(&mini->cmd_list, mini->full_cmd);
+	//ft_attributes_management(&mini, &flags);
 	//ft_dollar_expander(&mini);
 	//ft_start_executing(&mini->cmd_list);
 	return (0);
