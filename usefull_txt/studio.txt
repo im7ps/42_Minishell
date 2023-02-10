@@ -1,65 +1,3 @@
-INVALID_CHAR_CHECKER
-
-FREE_STUFF
-
-CTRL_SIGNALS
-    CTRL_C print a new prompt on a newline
-        come faccio a uccidere il vecchio prompt se ci sono processi in corso ed eseguire un eventuale comando su quello nuovo?
-    CTRL_D exit the shell
-    CTRL_\ do nothing
-
-DOLLAR_EXPANDER
-
-PARSER che crea una COMMAND_LIST in cui ogni nodo é un comando inserito dall utente, suddivisi per pipe "|"
-    attributi struct NODO:
-     command_name char*
-     flag char**
-     arguments char**
-        double quote bool
-        single quote bool
-        dollar bool
-        redirect_output bool >
-        redirect_input from a file bool <
-        append_output bool >>
-        redirect input INTO A COMMAND to an here document <<
-            ex: sort > file.txt << s will create a file.txt in which the sort FUNC_OUTPUT will be written,
-                the FUNC_IN will be anything the user will write into the terminal until the char s will be sent as USER_INPUT
-				CTRL-D read from input cause the process to terminate if there is no more input
-                minishell> sort > file.txt << s
-                >ccc
-                >a
-                >b
-                >ss
-                >s
-                cat file.txt
-                a
-                b
-                ccc
-                ss
-
-     ENVIROMENT (con path sempre aggiornato) char**
-     next list pointer
-
-PIPES_MANAGEMENT
-    READ_FROM_STDIN
-    WRITE_TO_STDOUT
-    WRITE_TO_P
-    READ_FROM_P
-
-DOLLAR_MANAGEMENT_QM
-
-EXEC_COMMAND é una funzione che capisce che comando deve eseguire, se il comando é BUILT_IN o NOT_BUILT_IN, 
-se ne ha che flag ha, se lo ha salva l argomento (informazioni fornite dal PARSER) 
-primo caso viene chiamata una funzione specifica per ogni comando,
-secondo caso viene chiamato l execve direttamente con tutto dentro
-
-EXEC_COMMAND viene avviata tramite creazione di processi figli (FORK) con figli_num = comandi_num,
-i figli comunicano con il padre, con lo STDIN e con lo STDOUT tramite PIPES
-il padre é il processo a cui i figli reindirizzano il loro eventuale output, 
-il padre é creato anche per impedire che la shell vada in crash
-la GLOBAL_VAR potrebbe essere il pid del padre(?)
-
-
 usefull_notes:
 nell inclusione delle librerie nel file .h
 	"Since some of the definitions in readline.h use the stdio library, 
@@ -85,3 +23,31 @@ gcc -g ./libft/ft_lstadd_back.c ./libft/ft_split.c ./libft/ft_lstlast.c ./libft/
 salvare lo STDOUT da qualche parte
 per debuggare meglio redirectare l output sullo STDOUT di processo in processo
 implementare funzione che rimuove lo spazio se é il primo carattere di una stringa
+
+attributi struct NODO:
+     command_name char*
+     flag char**
+	 enviroment (con path sempre aggiornato) char**
+     arguments char**
+        double quote bool
+        single quote bool
+        dollar bool
+        redirect_output bool >
+        redirect_input from a file bool <
+        append_output bool >>
+        redirect input INTO A COMMAND to an here document <<
+            ex: sort > file.txt << s will create a file.txt in which the sort FUNC_OUTPUT will be written,
+                the FUNC_IN will be anything the user will write into the terminal until the char s will be sent as USER_INPUT
+				CTRL-D read from input cause the process to terminate if there is no more input
+                minishell> sort > file.txt << s
+                >ccc
+                >a
+                >b
+                >ss
+                >s
+                cat file.txt
+                a
+                b
+                ccc
+                ss
+     next list pointer

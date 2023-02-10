@@ -1,16 +1,36 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   split_variant.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/09 17:01:20 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/10 20:56:59 by sgerace          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "./inc/minishell.h"
 
-#include "../inc/minishell.h"
+int	ft_is_escaped(char	c)
+{
+	static	bool	d_quote;
+	static	bool	s_quote;
+
+	if (c == 34 && !(d_quote || s_quote))
+	{
+		d_quote = true;
+		// ft_printf("dquotes activated\n");
+		return (1);
+	}
+	else if (c == 39 && !(d_quote || s_quote))
+	{
+		s_quote = true;
+		// ft_printf("squotes activated\n");
+		return (2);
+	}
+	else if (c == 34 && d_quote)
+	{
+		d_quote = false;
+		// ft_printf("dquotes disabled\n");
+		return (-1);
+	}
+	else if (c == 39 && s_quote)
+	{
+		s_quote = false;
+		// ft_printf("squotes disabled\n");
+		return (-2);
+	}
+	return (0);
+}
 
 char	**fill_mv(const char *s, char *c, char	**matrix, int num_w)
 {
@@ -18,6 +38,7 @@ char	**fill_mv(const char *s, char *c, char	**matrix, int num_w)
 	int	j;
 	int	len;
 	int	quotes;
+	int	d;
 
 	i = 0;
 	j = 0;
@@ -25,6 +46,7 @@ char	**fill_mv(const char *s, char *c, char	**matrix, int num_w)
 	quotes = 0;
 	while (j < num_w)									//il numero di volte che la stringa deve essere splittata
 	{
+		d = 0;
 		while ((s[i] == c[0] || s[i] == c[1] || s[i] == c[2]))		//l inizio della stringa potrebbe essere piena di caratteri che ti indicano che devi splittare...ma sei all'inizio della stringa, ignorali!
 				i++;
 		while (s[i + len] != '\0')	//conta da quanti char e' composta la stringa da iniettare, info sul motivo di (i + len) in basso
@@ -46,7 +68,11 @@ char	**fill_mv(const char *s, char *c, char	**matrix, int num_w)
 			}
 			else
 			{
-				matrix[j] = ft_substr(s, i + 1, len);			//...usa substring per iniettare la stringa dentro la riga j-esima della matrice
+				while(s[i + d] == ' ')
+				{
+					d++;
+				}
+				matrix[j] = ft_substr(s, i + d, len);			//...usa substring per iniettare la stringa dentro la riga j-esima della matrice
 				matrix[j][i + len] = s[i + len];
 			}
 			j++;
@@ -103,4 +129,22 @@ char	**ft_split_variant(char *s)
 	matrix[num_w] = NULL;
 	matrix = fill_mv(s, c, matrix, num_w);
 	return (matrix);
+}
+int main()
+{
+	int			i;
+	char	**full_cmd;
+	char	*input;
+
+	input = (char *) malloc (sizeof(char) * 8);
+	input = "ec< ho | b      >   ca|t";
+	
+	full_cmd = ft_split_variant(input);
+	i = 0;
+	while (full_cmd[i])
+	{
+		printf("%s\n", full_cmd[i]);
+		i++;
+	}
+	return (0);
 }

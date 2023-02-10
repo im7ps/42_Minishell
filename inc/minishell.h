@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/09 17:40:59 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/10 22:05:39 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,12 @@ typedef struct s_minishell
 	t_list	*cmd_list;
 }	t_minishell;
 
+//function to check and manipulate the input read from readline
+int		ft_lexer(t_minishell **minip, t_miniflags **minif);
+int		ft_input_checker(char	*input);
+int		ft_is_escaped(char	c);
+void	ft_create_list(t_list **cmd_list, char **full_cmd);
+
 //building functions
 t_minishell *ft_get_mini(t_minishell *mini);
 t_minishell *ft_load_envp(t_minishell **minip, char **envp);
@@ -68,11 +74,6 @@ int	builtin(t_minishell *mini);
 //without the proto of this func readline does not work
 void	rl_replace_line(const char *text, int clear_undo);
 
-//function to check and manipulate the input read from readline
-int		ft_lexer(t_minishell **minip, t_miniflags **minif);
-int		ft_check_special_char(char	*input);
-int		ft_check_quotes(char	*input);
-void	ft_create_list(t_list **cmd_list, char **full_cmd);
 
 //malloc & free
 void    *ft_malloc_stuff(int n);

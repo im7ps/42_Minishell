@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+         #
+#    By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 21:39:43 by dgioia            #+#    #+#              #
-#    Updated: 2023/02/09 17:28:55 by sgerace          ###   ########.fr        #
+#    Updated: 2023/02/10 20:57:32 by sgerace          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,8 @@ READLINE_MACOS = -lreadline -L /Users/$(USER)/.brew/opt/readline/lib -I /Users/$
 RM		=	rm -rf
 
 SRC	=	./src/main.c \
+		./src/input_checker.c \
+		./src/split_variant.c \
 		./src/malloc_stuff.c \
 		./src/lexer.c \
 		./src/builtin.c \
@@ -33,7 +35,6 @@ SRC	=	./src/main.c \
 		./src/signals.c \
 		./src/constructor.c \
 		./src/dollar_exp.c \
-		./src/split_variant.c \
 		./src/utils.c \
 
 OBJ	=	$(SRC:.c=.o)
