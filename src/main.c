@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/02/15 14:38:13 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/15 17:23:51 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,21 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 			return ;
 		}
 		add_history(mini->input);
-		if (ft_lexer(&mini, &flags))
+		if (ft_parser(&mini, &flags))
 			return ;
+
+		int i;
+		while (mini->cmd_list)
+		{
+			i = 0;
+			while (mini->cmd_list->cmd_m[i])
+			{
+				ft_printf("%s\n", mini->cmd_list->cmd_m[i]);
+				i++;
+			}
+			mini->cmd_list = mini->cmd_list->next;
+		}
+
 		//free(mini->input);
 	}
 }

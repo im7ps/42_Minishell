@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/15 14:48:50 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/15 17:04:14 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef struct s_minishell
 }	t_minishell;
 
 //function to check and manipulate the input read from readline
-int		ft_lexer(t_minishell **minip, t_miniflags **minif);
+int		ft_parser(t_minishell **minip, t_miniflags **minif);
 int		ft_input_checker(char	*input);
 int		ft_is_escaped(char	c);
 void	ft_create_list(t_list **cmd_list, char **full_cmd);
@@ -103,7 +103,7 @@ size_t 		ft_smaller_string(char *str1, char *str2);
 char		**ft_split_variant(char *s);
 
 //attributes management
-void		ft_attributes_management(t_minishell **minip, t_miniflags **minif);
+void		ft_set_attributes(t_minishell **minip, t_miniflags **minif);
 void		ft_quotes_management(char	c, t_miniflags **minif);
 
 #endif

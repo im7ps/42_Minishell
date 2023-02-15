@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:45:51 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/03 15:46:53 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/15 16:39:37 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ int	ft_echo_handler();
 // 	return (0);
 // }
 
-// int	ft_lexer(t_prompt *prompt)
+// int	ft_parser(t_prompt *prompt)
 // {
 // 	char	*input;
 // 	int		i;
@@ -241,7 +241,7 @@ void	check_cmd(char *output)
 
 // 	ft_setprompt(&prompt, envp);	//copies the envp content into prompt.envp
 // 	//ft_manage_executable();
-// 	ft_lexer(&prompt); //legge l input lo suddivide in comando - opzione - argomento
+// 	ft_parser(&prompt); //legge l input lo suddivide in comando - opzione - argomento
 // 	/*while (argc && argv)
 // 	{
 // 		input = readline(prompt.name);	//legge l input dell utente e salva la stringa

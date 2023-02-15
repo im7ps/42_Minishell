@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 20:47:30 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/15 16:24:44 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/15 17:01:17 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,16 +74,24 @@ int	ft_double_red_checker(char	*input)
 				{
 					if (input[i + 1] == '<')
 						i++;
-					redcount = -1;
+					redcount = -2;
 				}
 				else if (input[i] == '>')
 				{
 					if (input[i + 1] == '>')
 						i++;
-					redcount = -1;
+					redcount = -2;
 				}
 			}
 			else if (redcount == -1)
+			{
+				if (input[i] == '|')
+				{
+					ft_printf("Doppia pipe!\n");
+					return (-1);
+				}
+			}
+			else if (redcount == -2)
 			{
 				if (input[i] == '|' || input[i] == '>' || input[i] == '<')
 				{

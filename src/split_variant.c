@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:01:20 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/15 16:15:36 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/15 20:01:44 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,25 @@ char	**fill_mv(const char *s, char *c, char	**matrix, int num_w)
 	len = 0;
 	quotes = 0;
 	qcount = 0;
+	// me lo manda in segfault, devo gestire l operatore come primo argomento del comando
+	if (s[0] == '>')
+	{
+		if (s[1] == '>')
+			matrix[0] = ft_strjoin(matrix[0], ">>");
+		else if (s[1] == ' ')
+			matrix[0] = ft_strjoin(matrix[0], ">");
+		j++;
+	}
+	else if (s[0] == '<')
+	{
+		if (s[1] == '<')
+			return (NULL);
+		else if (s[1] == ' ')
+			matrix[0] = ft_strjoin(matrix[0], "<");
+		j++;
+	}
+	///////////////////////////////////////////////
+
 	while (j < num_w)									//il numero di volte che la stringa deve essere splittata
 	{
 		while ((s[i] == c[0] || s[i] == c[1] || s[i] == c[2]))		//l inizio della stringa potrebbe essere piena di caratteri che ti indicano che devi splittare...ma sei all'inizio della stringa, ignorali!

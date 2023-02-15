@@ -1,10 +1,12 @@
-echo >mia"|||"o << etc"<" << grep "'>|<'" "'" > pesca
+echo >mia"|||"o << etc"<" << grep "'>|<'" "'" > pesca V
+echo -n test | grep -e ch | cat -e (doppia pipe?)
+echo -fasd flag (considera -fasd come una flag)
 
 subito dopo l'input dell utente:
 -controllare che non siano presenti caratteri non ammessi V
 -controllare che le quote siano state inserite in modo corretto V
 -controllare che non finisca con una redirection (va gestito l inizio di ogni redirection) V
--controllare che non ci siano due redirection di fila
+-controllare che non ci siano due redirection di fila V
 -REDIRECTION:
 -dopo una redirection ci deve essere qualcosa altrimenti DIALOG_ERR, vale per tutti i comandi
 

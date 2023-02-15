@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+         #
+#    By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 21:39:43 by dgioia            #+#    #+#              #
-#    Updated: 2023/02/10 20:57:32 by sgerace          ###   ########.fr        #
+#    Updated: 2023/02/15 17:02:05 by sgerace          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ SRC	=	./src/main.c \
 		./src/input_checker.c \
 		./src/split_variant.c \
 		./src/malloc_stuff.c \
-		./src/lexer.c \
+		./src/parser.c \
 		./src/builtin.c \
 		./src/error.c \
 		./src/execute.c \
