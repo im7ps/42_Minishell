@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/02/10 21:17:38 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/15 14:38:13 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 		mini->input = readline("minishell> ");
 		if (mini->input == NULL)
 			ft_CTRL_D_handler(3);
-		/*if (ft_input_checker(mini->input) != 0)
+		if (ft_input_checker(mini->input) != 0)
 		{
 			ft_perror(ERR_INPUT, NULL);
 			return ;
-		}*/
+		}
 		add_history(mini->input);
 		if (ft_lexer(&mini, &flags))
 			return ;

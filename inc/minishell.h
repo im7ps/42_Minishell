@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/10 22:05:39 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/15 14:48:50 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 # include "../inc/libft.h"
 # include "../inc/ft_printf.h"
 # include <stdio.h>
+# include <stdbool.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <signal.h>
 # include <string.h>
-# include <stdbool.h>
 
 # define ERR_NCMD 0
 # define ERR_QUOTE 1

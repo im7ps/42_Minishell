@@ -1,5 +1,28 @@
 #include "./inc/minishell.h"
 
+size_t  ft_strlen(const char *s);
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*stack;
+	size_t	i;
+
+	i = 0;
+	if (!s)
+		return (NULL);
+	if (ft_strlen(s) <= start)
+		start = ft_strlen(s);
+	if (ft_strlen(s) <= start + len)
+		len = ft_strlen(s) - start;
+	stack = (char *) malloc (sizeof(char) * len + 2);		//MINISHELL: +2 per contenere EOF e char reindirizzamento (| < > << >>)
+	if (!stack)
+		return (NULL);
+	while (1 + len--)										//MINISHELL: 1 + len-- (it was len--) per fargli includere la redirection nella stringa, che altrimenti verrebbe ignorata essendo il char separatore
+		stack[i++] = s[start++];
+	stack[i + 1] = '\0';									//MINISHELL: stack[i] = '\0'; era l originale, cambiato per mettere in pos stack[i] il reindirizzamento
+	return (stack);
+}
+
 int	ft_is_escaped(char	c)
 {
 	static	bool	d_quote;
@@ -130,6 +153,58 @@ char	**ft_split_variant(char *s)
 	matrix = fill_mv(s, c, matrix, num_w);
 	return (matrix);
 }
+
+int	ft_double_red_checker(char	*input)
+{
+	int	redcount;
+	int	quotescount;
+	int	i;
+	
+	i = 0;
+	redcount = 0;
+	quotescount = 0;
+	while (input[i])
+	{
+		quotescount = ft_is_escaped(input[i]);
+		if (quotescount == 0)
+		{
+			if (redcount == 0)
+			{
+				if (input[i] == '|')
+				{
+					redcount = -1;
+				}
+				else if (input[i] == '<')
+				{
+					if (input[i] == '<')
+						i++;
+					redcount = -1;
+				}
+				else if (input[i] == '>')
+				{
+					if (input[i] == '>')
+						i++;
+					redcount = -1;
+				}
+			}
+			else if (redcount == -1)
+			{
+				if (input[i] == '|' || input[i] == '>' || input[i] == '<')
+				{
+					printf("Doppia pipe\n");
+					return (-1);
+				}
+				else if (input[i] != '|' && input[i] != '>' && input[i] != '<')
+				{
+					redcount = 0;
+				}
+			}
+		}
+		i++;
+	}
+	return (0);
+}
+
 int main()
 {
 	int			i;
@@ -137,14 +212,8 @@ int main()
 	char	*input;
 
 	input = (char *) malloc (sizeof(char) * 8);
-	input = "ec< ho | b      >   ca|t";
+	input = "echo \"'miao'";
 	
-	full_cmd = ft_split_variant(input);
-	i = 0;
-	while (full_cmd[i])
-	{
-		printf("%s\n", full_cmd[i]);
-		i++;
-	}
+	i = ft_double_red_checker(input);
 	return (0);
 }

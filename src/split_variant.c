@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_variant.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:01:20 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/10 20:56:59 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/15 16:15:36 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,13 @@ char	**fill_mv(const char *s, char *c, char	**matrix, int num_w)
 	int	j;
 	int	len;
 	int	quotes;
+	int	qcount;
 
 	i = 0;
 	j = 0;
 	len = 0;
 	quotes = 0;
+	qcount = 0;
 	while (j < num_w)									//il numero di volte che la stringa deve essere splittata
 	{
 		while ((s[i] == c[0] || s[i] == c[1] || s[i] == c[2]))		//l inizio della stringa potrebbe essere piena di caratteri che ti indicano che devi splittare...ma sei all'inizio della stringa, ignorali!
@@ -32,23 +34,30 @@ char	**fill_mv(const char *s, char *c, char	**matrix, int num_w)
 			if (s[i + len] == 34 || s[i + len] == 39)
 			{
 				quotes = ft_is_escaped(s[i + len]);
+				if (quotes > 0)
+					qcount++;
+				else if (quotes < 0)
+					qcount--;
 			}
-			if ((s[i + len] == c[0] || s[i + len] == c[1] || s[i + len] == c[2]) && quotes <= 0)
+			if ((s[i + len] == c[0] || s[i + len] == c[1] || s[i + len] == c[2]) && qcount == 0)
+			{
+				if (s[i + len + 1] == c[0] || s[i + len + 1] == c[1] || s[i + len + 1] == c[2])
+				{
+					len++;
+				}
 				break ;
+			}
 			len++;
 		}
 		if (len != 0)									//se hai 0 char che ti indicano il punto di troncamento vuol dire che non devi troncare mai la stringa, in caso contrario...
 		{
-			if (j == 0)
+			while (s[i] == ' ')
 			{
-				matrix[j] = ft_substr(s, i, len);			//...usa substring per iniettare la stringa dentro la riga j-esima della matrice
-				matrix[j][i + len] = s[i + len];
+				s++;
+				len--;
 			}
-			else
-			{
-				matrix[j] = ft_substr(s, i + 1, len);			//...usa substring per iniettare la stringa dentro la riga j-esima della matrice
-				matrix[j][i + len] = s[i + len];
-			}
+			matrix[j] = ft_substr(s, i, len);			//...usa substring per iniettare la stringa dentro la riga j-esima della matrice
+			matrix[j][i + len] = s[i + len];
 			j++;
 		}
 		i += len;								//i + len e' il trick per evitare di ricominciare la ricerca ogni volta dall inizio della stringa anziche' ricominciare dal char dopo il troncamento
@@ -62,15 +71,21 @@ int	count_wv(char *str, char *c)
 	int	num;
 	int	toggle;
 	int	quotes;
+	int	qcount;
 
 	num = 0;
 	toggle = 0;
 	quotes = 0;
+	qcount = 0;
 	while (*str)
 	{
 		if (*str == 34 || *str == 39)
 		{
 			quotes = ft_is_escaped(*str);
+			if (quotes > 0)
+				qcount++;
+			else if (quotes < 0)
+				qcount--;
 		}
 		if ((*str != c[0] || *str != c[1] || *str != c[2]) \
 			&& toggle == 0 && *str != '\0')								//se siamo in una parola (*str != c), non l abbiamo ancora contata nel numero delle parole (toggle == 0) e la stringa non e' finita (*str != '\0')
@@ -78,7 +93,7 @@ int	count_wv(char *str, char *c)
 			toggle = 1;													//se incontri altri caratteri sappi che sei ancora nella stringa, non splittare
 			num++;
 		}
-		else if ((*str == c[0] || *str == c[1] || *str == c[2]) && quotes <= 0)			//dopo che trovi la corrispondenza con il carattere esegui un troncamento (toggle == 0)
+		else if ((*str == c[0] || *str == c[1] || *str == c[2]) && qcount == 0)			//dopo che trovi la corrispondenza con il carattere esegui un troncamento (toggle == 0)
 			toggle = 0;
 		str++;
 	}

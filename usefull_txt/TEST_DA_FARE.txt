@@ -1,3 +1,5 @@
+echo >mia"|||"o << etc"<" << grep "'>|<'" "'" > pesca
+
 subito dopo l'input dell utente:
 -controllare che non siano presenti caratteri non ammessi V
 -controllare che le quote siano state inserite in modo corretto V

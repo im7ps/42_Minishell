@@ -8,24 +8,24 @@
             "name": "(lldb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/home/step/C/minishell/a.out",
+            "program": "/Users/sgerace/Desktop/minishell/minishell",
             "args": [],
-            "stopAtEntry": true,
-            "cwd": "/home/step/C/minishell",
+            "stopAtEntry": false,
+            "cwd": "/Users/sgerace/Desktop/minishell",
             "environment": [],
-            "externalConsole": false,
-            "miDebuggerPath": "/usr/bin/lldb"
+            "externalConsole": true,
+            "MIMode": "lldb"
         },
         {
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/home/step/C/minishell/a.out",
+            "program": "/Users/sgerace/Desktop/minishell/minishell",
             "args": [],
             "stopAtEntry": true,
-            "cwd": "/home/step/C/minishell",
+            "cwd": "/Users/sgerace/Desktop/minishell",
             "environment": [],
-            "externalConsole": false,
+            "externalConsole": true,
             "miDebuggerPath": "gdb",
             "setupCommands": [
                 {

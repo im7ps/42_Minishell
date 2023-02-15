@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_checker.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 20:47:30 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/10 21:13:21 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/15 16:24:44 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,32 +44,56 @@ int	ft_is_escaped(char	c)
 	return (0);
 }
 
-/*l input passato non può finire per redirection*/
 int	ft_double_red_checker(char	*input)
 {
 	int	redcount;
 	int	quotescount;
+	int	quotestoggle;
 	int	i;
 	
 	i = 0;
 	redcount = 0;
 	quotescount = 0;
+	quotestoggle = 0;
 	while (input[i])
 	{
 		quotescount = ft_is_escaped(input[i]);
-		if (quotescount == 0)
+		if (quotescount > 0)
+			quotestoggle++;
+		else if (quotescount < 0)
+			quotestoggle--;
+		if (quotestoggle == 0)
 		{
-			if (input[i] == '|' && redcount == 0)
+			if (redcount == 0)
 			{
-				redcount = -1;
+				if (input[i] == '|')
+				{
+					redcount = -1;
+				}
+				else if (input[i] == '<')
+				{
+					if (input[i + 1] == '<')
+						i++;
+					redcount = -1;
+				}
+				else if (input[i] == '>')
+				{
+					if (input[i + 1] == '>')
+						i++;
+					redcount = -1;
+				}
 			}
-			else if (input[i] == '|' && redcount == -1)
+			else if (redcount == -1)
 			{
-				return (-1);
-			}
-			else if (input[i] != '|')
-			{
-				redcount = 0;
+				if (input[i] == '|' || input[i] == '>' || input[i] == '<')
+				{
+					ft_printf("Doppia pipe\n");
+					return (-1);
+				}
+				else if ((input[i] != '|' && input[i] != '>' && input[i] != '<') && input[i] != ' ')
+				{
+					redcount = 0;
+				}
 			}
 		}
 		i++;
