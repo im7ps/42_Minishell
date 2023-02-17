@@ -1,3 +1,30 @@
+// void	ft_quotes_management(char	c, t_miniflags **minif)
+// {
+// 	t_miniflags *flags;
+
+// 	flags = *minif;
+// 	if (c == 34 && !(flags->d_quote || flags->s_quote))
+// 	{
+// 		flags->d_quote = true;
+// 		//ft_printf("dquotes activated\n");
+// 	}
+// 	else if (c == 39 && !(flags->d_quote || flags->s_quote))
+// 	{
+// 		flags->s_quote = true;
+// 		//ft_printf("squotes activated\n");
+// 	}
+// 	else if (c == 34 && flags->d_quote)
+// 	{
+// 		flags->d_quote = false;
+// 		//ft_printf("dquotes disabled\n");
+// 	}
+// 	else if (c == 39 && flags->s_quote)
+// 	{
+// 		flags->s_quote = false;
+// 		//ft_printf("squotes disabled\n");
+// 	}
+// }
+
 void	check_cmd(t_minishell *mini)
 {
 	mini->full_cmd = ft_split(mini->input, ' ');

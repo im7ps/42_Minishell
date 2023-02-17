@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:44:36 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/17 15:00:28 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/17 20:35:42 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,21 @@
 void	ft_create_list(t_list **cmd_list, char	**full_cmd)
 {
 	int		i;
+	int		j;
     t_list *new_node;
 	
 	i = 0;
 	while (full_cmd[i])
 	{
+		j = 0;	
 		new_node = ft_malloc_stuff(NODE_NUM);
 		new_node->cmd_m = ft_split(full_cmd[i], ' ');
+		while (new_node->cmd_m[j])
+		{
+			if (new_node->cmd_m[j][ft_strlen(new_node->cmd_m[j]) - 1] == ' ')
+				new_node->cmd_m[j][ft_strlen(new_node->cmd_m[j]) - 1] = '\0';	//l ultimo char é uno spazio, sicuramente dovuto allo split
+			j++;
+		}
 		new_node->name = NULL;
 		new_node->args = NULL;
 		new_node->flags = NULL;
@@ -32,33 +40,6 @@ void	ft_create_list(t_list **cmd_list, char	**full_cmd)
 		i++;
 	}
 	return ;
-}
-
-void	ft_quotes_management(char	c, t_miniflags **minif)
-{
-	t_miniflags *flags;
-
-	flags = *minif;
-	if (c == 34 && !(flags->d_quote || flags->s_quote))
-	{
-		flags->d_quote = true;
-		//ft_printf("dquotes activated\n");
-	}
-	else if (c == 39 && !(flags->d_quote || flags->s_quote))
-	{
-		flags->s_quote = true;
-		//ft_printf("squotes activated\n");
-	}
-	else if (c == 34 && flags->d_quote)
-	{
-		flags->d_quote = false;
-		//ft_printf("dquotes disabled\n");
-	}
-	else if (c == 39 && flags->s_quote)
-	{
-		flags->s_quote = false;
-		//ft_printf("squotes disabled\n");
-	}
 }
 
 char	ft_choose_att(char	*str)
@@ -123,7 +104,7 @@ char	ft_choose_att(char	*str)
 		}
 		else
 		{
-			ft_printf("last char is -\n");
+			//ft_printf("last char is -\n");
 			type = 'a';
 			return (type);
 		}
@@ -158,29 +139,29 @@ void	ft_set_attributes(t_minishell **minip, t_miniflags **minif)
 	i = 0;
 	len = ft_count_rows(minip);
 	//mini->cmd_list->flags = (char **) malloc (sizeof(char *) * len);
-	mini = *minip;
-	while (mini->cmd_list)
-	{
-		mini->cmd_list->name = mini->cmd_list->cmd_m[0];
-		ft_printf("NAME %s\n", mini->cmd_list->name);
-		i = 1;
-		// j = 0;
-		while (mini->cmd_list->cmd_m[i])
-		{
-			//differenziare se flag o argomento con una flag
-			// type = ft_choose_att(mini->cmd_list->cmd_m[i]);
-			// if (type == 'f' && i < len - 1)
-			// {
-			// 	mini->cmd_list->flags = mini->cmd_list->cmd_m[i];
-			// 	j++;
-			// }
-			// else if (type == 'a' && i < len - 1)
-			ft_printf("ATTR %s\n", mini->cmd_list->cmd_m[i]);
-			i++;
-		}
-		ft_printf("ENDER %s\n", mini->cmd_list->cmd_m[i - 1]);
-		mini->cmd_list = mini->cmd_list->next;
-	}
+	// mini = *minip;
+	// while (mini->cmd_list)
+	// {
+	// 	mini->cmd_list->name = mini->cmd_list->cmd_m[0];
+	// 	ft_printf("NAME %s\n", mini->cmd_list->name);
+	// 	i = 1;
+	// 	// j = 0;
+	// 	while (mini->cmd_list->cmd_m[i])
+	// 	{
+	// 		//differenziare se flag o argomento con una flag
+	// 		// type = ft_choose_att(mini->cmd_list->cmd_m[i]);
+	// 		// if (type == 'f' && i < len - 1)
+	// 		// {
+	// 		// 	mini->cmd_list->flags = mini->cmd_list->cmd_m[i];
+	// 		// 	j++;
+	// 		// }
+	// 		// else if (type == 'a' && i < len - 1)
+	// 		ft_printf("ATTR %s\n", mini->cmd_list->cmd_m[i]);
+	// 		i++;
+	// 	}
+	// 	ft_printf("ENDER %s\n", mini->cmd_list->cmd_m[i - 1]);
+	// 	mini->cmd_list = mini->cmd_list->next;
+	// }
 }
 
 int	ft_parser(t_minishell **minip, t_miniflags **minif)
@@ -196,7 +177,6 @@ int	ft_parser(t_minishell **minip, t_miniflags **minif)
 	ft_create_list(&mini->cmd_list, mini->full_cmd);
 	ft_dollar_expander(&mini);
 	ft_set_attributes(&mini, &flags);
-	//ft_printf("%s\n", mini->cmd_list->flags[1]);
-	//ft_start_executing(&mini->cmd_list);
+	free_stuff(NULL, mini->full_cmd, NULL, NULL);
 	return (0);
 }

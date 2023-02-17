@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 18:33:46 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/17 15:13:30 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/17 20:27:11 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,12 @@ t_minishell *ft_mini_constructor(t_minishell **mini, t_miniflags **miniflags, ch
 	minif = *miniflags;
 	minip = *mini;
 
+	exit_status = 0;
+
 	minip->input = "Miao\n";
 	minip->full_cmd = NULL;
 	minip->cmd_list = NULL;
 	minip->envp_list = NULL;
-	minip->exit_status = 0;
 	minip = ft_get_mini(minip);
 	ft_load_envp(&minip, envp);
 
@@ -60,6 +61,7 @@ t_minishell *ft_load_envp(t_minishell **minip, char **envp)
 		new_node->value = split_ret[1];
 		new_node->next = NULL;
 		ft_lstadd_back(&mini->envp_list, new_node);
+		free_stuff(NULL, split_ret, NULL, NULL);
 		i++;
 	}
 	return (mini);

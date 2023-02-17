@@ -6,11 +6,57 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 18:29:08 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/08 14:45:05 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/17 20:25:43 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+int	free_stuff(t_list *node, char **matrix, t_list **stack, t_miniflags *flags)
+{
+	int	i;
+
+	i = 0;
+	if (node != NULL)
+	{
+		free(node);
+		node = NULL;
+	}
+	if (matrix != NULL)
+	{
+		while (matrix[i])
+		{
+			free(matrix[i++]);
+		}
+		free(matrix);
+		matrix = NULL;
+	}
+	if (stack != NULL)
+	{
+		ft_lst_delete(stack);
+	}
+	if (flags != NULL)
+	{
+		free(flags);
+		flags = NULL;
+	}
+	return (0);
+}
+
+void	ft_lst_delete(t_list **stack)
+{
+	t_list	*tmp;
+
+	if (*stack == NULL)
+		return ;
+	tmp = *stack;
+	while (*stack != NULL)
+	{
+		tmp = (*stack)->next;
+		free (*stack);
+		*stack = tmp;
+	}
+}
 
 size_t ft_smaller_string(char *str1, char *str2)
 {

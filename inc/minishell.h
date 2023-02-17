@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/17 15:12:55 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/17 20:26:55 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 # define READLINEERR 6
 # define ERR_INPUT 7
 # define NODE_NUM 90
+
+int	exit_status;
 
 typedef struct s_miniflags
 {
@@ -105,8 +107,11 @@ char		**ft_old_split(char const *s, char c);
 int			old_count_w(char *str, char c);
 char		**old_fill_m(const char *s, char c, char	**matrix, int num_w);
 
+//free
+void		ft_lst_delete(t_list **stack);
+int			free_stuff(t_list *node, char **matrix, t_list **stack, t_miniflags *flags);
+
 //attributes management
 void		ft_set_attributes(t_minishell **minip, t_miniflags **minif);
-void		ft_quotes_management(char	c, t_miniflags **minif);
 
 #endif
