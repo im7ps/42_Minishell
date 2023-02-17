@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/15 17:04:14 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/17 15:12:55 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,9 @@ void		ft_execute_mini(t_minishell **mini, t_miniflags **minif);
 int			ft_strerr(char *str);
 size_t 		ft_smaller_string(char *str1, char *str2);
 char		**ft_split_variant(char *s);
+char		**ft_old_split(char const *s, char c);
+int			old_count_w(char *str, char c);
+char		**old_fill_m(const char *s, char c, char	**matrix, int num_w);
 
 //attributes management
 void		ft_set_attributes(t_minishell **minip, t_miniflags **minif);

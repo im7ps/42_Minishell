@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:51:10 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/08 12:57:45 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/17 15:30:21 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,10 @@ char	*ft_dollar_expander(t_minishell **minip)
 	int			i;
 	int			j;
 	char		*tmp;
+	int			quotes;
+	int			toggle;
 
+	toggle = 1;
 	cmd_list = (*minip)->cmd_list;
 	mini = *minip;
 	while (cmd_list)
@@ -127,7 +130,12 @@ char	*ft_dollar_expander(t_minishell **minip)
 			j = 0;
 			while (cmd_list->cmd_m[i][j])
 			{
-				if (cmd_list->cmd_m[i][j] == '$')
+				quotes = ft_is_escaped(cmd_list->cmd_m[i][j]);
+				if (quotes == 2 || quotes == -2)
+				{
+					toggle = toggle * -1;
+				}
+				if (cmd_list->cmd_m[i][j] == '$' && toggle != -1)
 				{
 					tmp = ft_dollar_starter(&mini, cmd_list->cmd_m[i]);
 					if (tmp != NULL)

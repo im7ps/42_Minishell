@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 18:33:46 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/08 16:06:51 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/17 15:13:30 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,11 @@ t_minishell *ft_load_envp(t_minishell **minip, char **envp)
 	while (envp[i])
 	{
 		new_node = ft_malloc_stuff(NODE_NUM);
-		split_ret = ft_split(envp[i], '=');
+		split_ret = ft_old_split(envp[i], '=');
+		new_node->name = NULL;
+		new_node->args = NULL;
+		new_node->flags = NULL;
+		new_node->end = NULL;
 		new_node->key = split_ret[0];
 		new_node->value = split_ret[1];
 		new_node->next = NULL;

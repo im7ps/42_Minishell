@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:44:36 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/15 21:37:03 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/17 15:00:28 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,26 +151,31 @@ void	ft_set_attributes(t_minishell **minip, t_miniflags **minif)
 {
 	t_minishell *mini;
 	int			i;
+	int			j;
 	int			len;
 	char		type;
 	
 	i = 0;
 	len = ft_count_rows(minip);
-	ft_printf("%d\n", len);
+	//mini->cmd_list->flags = (char **) malloc (sizeof(char *) * len);
 	mini = *minip;
 	while (mini->cmd_list)
 	{
-		
-		ft_printf("NAME %s\n", mini->cmd_list->cmd_m[0]);
+		mini->cmd_list->name = mini->cmd_list->cmd_m[0];
+		ft_printf("NAME %s\n", mini->cmd_list->name);
 		i = 1;
+		// j = 0;
 		while (mini->cmd_list->cmd_m[i])
 		{
 			//differenziare se flag o argomento con una flag
-			type = ft_choose_att(mini->cmd_list->cmd_m[i]);
-			if (type == 'f' && i < len - 1)
-				ft_printf("FLAGS: %s\n", mini->cmd_list->cmd_m[i]);
-			else if (type == 'a' && i < len - 1)
-				ft_printf("ARG: %s\n", mini->cmd_list->cmd_m[i]);
+			// type = ft_choose_att(mini->cmd_list->cmd_m[i]);
+			// if (type == 'f' && i < len - 1)
+			// {
+			// 	mini->cmd_list->flags = mini->cmd_list->cmd_m[i];
+			// 	j++;
+			// }
+			// else if (type == 'a' && i < len - 1)
+			ft_printf("ATTR %s\n", mini->cmd_list->cmd_m[i]);
 			i++;
 		}
 		ft_printf("ENDER %s\n", mini->cmd_list->cmd_m[i - 1]);
@@ -189,8 +194,9 @@ int	ft_parser(t_minishell **minip, t_miniflags **minif)
 	flags = *minif;
 	mini->full_cmd = ft_split_variant(mini->input);
 	ft_create_list(&mini->cmd_list, mini->full_cmd);
+	ft_dollar_expander(&mini);
 	ft_set_attributes(&mini, &flags);
-	//ft_dollar_expander(&mini);
+	//ft_printf("%s\n", mini->cmd_list->flags[1]);
 	//ft_start_executing(&mini->cmd_list);
 	return (0);
 }

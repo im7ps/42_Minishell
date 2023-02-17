@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 16:23:15 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/15 16:40:32 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/16 19:13:00 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct s_list
 	char	*name;				//node variables
 	char	**flags;			//node variables
 	char	*args;				//node variables
+	char	*end;
 	char	*key;				//env variables
 	char	*value;				//env variables
 	struct s_list	*next;
