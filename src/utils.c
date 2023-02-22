@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 18:29:08 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/17 20:25:43 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/22 18:42:57 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,19 @@ t_minishell *ft_get_mini(t_minishell *mini)
 		mini_s = mini;
 	}
 	return (mini_s);
+}
+
+int	ft_count_commands(t_list **cmd_list)
+{
+	t_list	*head;
+	int		i;
+
+	i = 0;
+	head = *cmd_list;
+	while(head)
+	{
+		i++;
+		head = head->next;
+	}
+	return (i);
 }

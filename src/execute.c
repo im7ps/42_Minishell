@@ -6,26 +6,11 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 19:31:05 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/22 17:32:22 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/22 18:42:52 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-int	ft_count_commands(t_list **cmd_list)
-{
-	t_list	*head;
-	int		i;
-
-	i = 0;
-	head = *cmd_list;
-	while(head)
-	{
-		i++;
-		head = head->next;
-	}
-	return (i);
-}
 
 int	ft_execute_single(int *fd, char **args, t_list *head)
 {

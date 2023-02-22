@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/20 19:58:24 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/22 18:43:21 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ char		**ft_split_variant(char *s);
 char		**ft_old_split(char const *s, char c);
 int			old_count_w(char *str, char c);
 char		**old_fill_m(const char *s, char c, char	**matrix, int num_w);
+int			ft_count_commands(t_list **cmd_list);
 
 //free
 void		ft_lst_delete(t_list **stack);

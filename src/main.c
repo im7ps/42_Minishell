@@ -6,11 +6,24 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/02/22 17:08:06 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/22 19:23:24 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+void	ft_clean_all(t_minishell **minip, t_miniflags **minif)
+{
+	t_minishell *mini;
+	//t_miniflags *flags;
+
+	mini = *minip;
+	//flags = *minif;
+	free(mini->input);
+	//free_stuff(NULL, NULL, &mini->envp_list, flags);
+	free_stuff(NULL, NULL, &mini->cmd_list, NULL);
+	free_stuff(NULL, NULL, &mini->envp_list, NULL);
+}
 
 void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 {
@@ -44,7 +57,7 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 			exit(0);
 		}
 		ft_start_executing(&mini->cmd_list);
-
+		ft_clean_all(&mini, &flags);
 		// ft_clean_after_pipeline();
 		
 		// int i;
@@ -58,8 +71,6 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 		// 	}
 		// 	mini->cmd_list = mini->cmd_list->next;
 		// }
-
-		free(mini->input);
 	}
 	return ;
 }
