@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/02/17 20:54:25 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/22 17:08:06 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 		}
 		ft_start_executing(&mini->cmd_list);
 
+		// ft_clean_after_pipeline();
+		
 		// int i;
 		// while (mini->cmd_list)
 		// {

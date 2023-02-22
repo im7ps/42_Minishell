@@ -351,5 +351,5 @@ int start(int cmd_num)
 //STDIN-> main -> +5 | +5 | +5 -> STDOUT
 int main(int argc, char **argv)
 {
-	start(3);
+	start(5);
 }
