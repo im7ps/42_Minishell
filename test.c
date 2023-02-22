@@ -1,4 +1,10 @@
 #include "./inc/minishell.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 size_t  ft_strlen(const char *s);
 
@@ -205,15 +211,145 @@ int	ft_double_red_checker(char	*input)
 	return (0);
 }
 
-int main()
+size_t	ft_strlen(const char *s)
 {
-	int			i;
-	char	**full_cmd;
-	char	*input;
+	int	i;
 
-	input = (char *) malloc (sizeof(char) * 8);
-	input = "echo \"'miao'";
-	
-	i = ft_double_red_checker(input);
+	i = 0;
+	while (*s != '\0')
+	{
+		s++;
+		i++;
+	}
+	return (i);
+}
+
+int	ft_atoi(const char *str)
+{
+	int		result;
+	int		sign;
+	int		i;
+
+	result = 0;
+	sign = 1;
+	i = 0;
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n' 	//salta qualsiasi spazio iniziale
+		|| str[i] == '\v' || str[i] == '\f' || str[i] == '\r')
+		i++;
+	if (str[i] == '-' || str[i] == '+')							//controlla se c-e' un segno SUBITO DOPO gli spazi
+ 	{
+		if (str[i++] == '-')
+			sign *= -1;
+	}
+	while (str[i] >= '0' && str[i] <= '9')						//es str = "125" passo1: -> res = (0 * 10) + (1) = 1
+		result = (result * 10) + (str[i++] - '0');				//es passo2: -> res = (1 * 10) + (2) = 12
+	return (result * sign);										//es passo3: -> res = (12 * 10) + (5) = 125
+}
+
+void	close_fd(int k, int n, int (*fd)[2])
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < n)
+	{
+		j = 0;
+		while (j < 2)
+		{
+			if (j == 1)
+			{
+				if (!(i == k))
+				{
+					close(fd[i][j]);
+				}
+			}
+			else if (j == 0)
+			{
+				if (!(i == k - 1))
+				{
+					close(fd[i][j]);
+				}
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+int start(int cmd_num)
+{
+	int	i;
+	int *pid;
+    int fd[2];
+
+	i = 0;
+	pid = (int*) malloc (sizeof(int) * cmd_num);	//numero di comandi = numero di fork necessari = numero di pid necessari
+    if (pipe(fd) == -1) 
+	{
+        return (1);
+    }
+	while (i < cmd_num)
+	{
+		pid[i] = fork();
+		if (pid[i] < 0)
+			return (2);
+		if (pid[i] == 0)
+		{
+			if (i == 0 && cmd_num == 1)
+			{
+				close(fd[0]);
+				close(fd[1]);
+				char *args[] = {"echo", "SINGLE", NULL};
+				execve("/bin/echo", args, NULL);
+				return 0;
+			}
+			else if (i == 0)
+			{
+				char *args0[] = {"echo", "FIRST", NULL};
+				close(fd[0]);
+				dup2(fd[1], STDOUT_FILENO);
+        		close(fd[1]);
+				execve("/bin/echo", args0, NULL);
+				return (0);
+			}
+			else if (i != 0 && i != cmd_num - 1)
+			{
+				dup2(fd[1], STDOUT_FILENO);
+				close(fd[1]);
+				dup2(fd[0], STDIN_FILENO);
+				close(fd[0]);
+				char *args1[] = {"echo", "MIDDLE", NULL};
+				execve("/bin/echo", args1, NULL);
+				return (0);
+			}
+			else if (i == cmd_num - 1)
+			{
+				close(fd[1]);
+				dup2(fd[0], STDIN_FILENO);
+				close(fd[0]);
+				char *args2[] = {"echo", "LAST", NULL};
+				execve("/bin/echo", args2, NULL);
+				return 0;
+			}
+		}
+		i++;
+	}
+	i = 0;
+	while (i < 3)
+	{
+		waitpid(pid[i], NULL, 0);
+		i++;
+	}
+	close(fd[0]);
+	close(fd[1]);
 	return (0);
+}
+
+//provo a generare un programma che tramite 2 pipes aumenti il valore di un int 3 volte
+//il programma dichiara l int nel main ma stampa sullo STDOUT dall ultimo child
+//STDIN-> main -> +5 | +5 | +5 -> STDOUT
+int main(int argc, char **argv)
+{
+	start(3);
 }

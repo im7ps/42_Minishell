@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/17 20:26:55 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/20 19:58:24 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <unistd.h>
 # include <signal.h>
 # include <string.h>
+# include <sys/wait.h>
 
 # define ERR_NCMD 0
 # define ERR_QUOTE 1
