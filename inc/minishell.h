@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/22 18:43:21 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/23 16:47:57 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,9 @@ void	rl_replace_line(const char *text, int clear_undo);
 
 //malloc & free
 void    *ft_malloc_stuff(int n);
-void	ft_free_stuff(t_minishell *mini, char *str);
 
 //executing commands
-int		ft_start_executing(t_list	**cmd_list);
+int		ft_start_executing(t_list	**cmd_list, int cmd_num);
 int		ft_exec_cmd(t_list	*head, int cmd_num);
 
 //signals

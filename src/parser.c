@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:44:36 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/17 20:35:42 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/23 20:30:38 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,6 @@ int	ft_parser(t_minishell **minip, t_miniflags **minif)
 	ft_create_list(&mini->cmd_list, mini->full_cmd);
 	ft_dollar_expander(&mini);
 	ft_set_attributes(&mini, &flags);
-	free_stuff(NULL, mini->full_cmd, NULL, NULL);
+	//free_stuff(NULL, mini->full_cmd, NULL, NULL);
 	return (0);
 }
