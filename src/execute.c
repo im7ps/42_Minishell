@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 19:31:05 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/24 14:15:51 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/24 18:34:54 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,28 +24,11 @@ int	ft_execute_single(int **pipes, char **args, t_list *head, int cmd_num)
 	return 0;
 }
 
-
-int ft_execute_first(int **pipes, char **args, t_list *head, int cmd_num)
+int ft_execute_first(int **pipes, char **args, t_list *head, int cmd_num, int index)
 {
-	int i;
-	
-	i = 0;
-	// ft_printf("FIRST\n");
-    while (i < cmd_num + 1)
-	{
-		if (i != cmd_num)
-		{
-        	close(pipes[i][0]);
-		}
-        if (i != 0) 
-		{
-            close(pipes[i][1]);
-        }
-		i++;
-    }
-	close(pipes[cmd_num][0]);
-	dup2(pipes[0][1], STDOUT_FILENO);
-	close(pipes[0][1]);
+	close(pipes[index][0]);
+	dup2(pipes[index + 1][1], STDOUT_FILENO);
+	close(pipes[index + 1][1]);
 	// ft_printf("F%sF\n", head->cmd_m[0]);
 	execve(head->cmd_m[0], args, NULL);
 	ft_printf("Problems with execveF\n");
@@ -53,6 +36,30 @@ int ft_execute_first(int **pipes, char **args, t_list *head, int cmd_num)
 }
 
 int	ft_execute_middle(int **pipes, char **args, t_list *head, int cmd_num, int index)
+{
+	dup2(pipes[index + 1][1], STDOUT_FILENO);
+	close(pipes[index + 1][1]);
+	dup2(pipes[index][0], STDIN_FILENO);
+	close(pipes[index][0]);
+	// ft_printf("M%sM\n", head->cmd_m[0]);
+	execve(head->cmd_m[0], args, NULL);
+	ft_printf("Problems with execveM\n");
+	return (1);
+}
+
+
+int	ft_execute_last(int **pipes, char **args, t_list *head, int cmd_num, int index)
+{
+	close(pipes[0][1]);
+	dup2(pipes[cmd_num][0], STDIN_FILENO);
+	close(pipes[cmd_num][0]);
+	// ft_printf("L%sL\n", head->cmd_m[0]);
+	execve(head->cmd_m[0], args, NULL);
+	ft_printf("Problems with execveL\n");
+	return (1);
+}
+
+int	ft_execute_command(int **pipes, char **args, t_list *head, int cmd_num, int index)
 {
 	int i;
 	
@@ -70,40 +77,18 @@ int	ft_execute_middle(int **pipes, char **args, t_list *head, int cmd_num, int i
         }
 		i++;
     }
-	dup2(pipes[index + 1][1], STDOUT_FILENO);
-	close(pipes[index + 1][1]);
-	dup2(pipes[index][0], STDIN_FILENO);
-	close(pipes[index][0]);
-	// ft_printf("M%sM\n", head->cmd_m[0]);
-	execve(head->cmd_m[0], args, NULL);
-	ft_printf("Problems with execveM\n");
-	return (1);
-}
-
-int	ft_execute_last(int **pipes, char **args, t_list *head, int cmd_num)
-{
-	int i;
-	
-	i = 0;
-	// ft_printf("LAST\n");
-    while (i < cmd_num + 1)
+	if (index == 0)
 	{
-		if (i != cmd_num)
-		{
-        	close(pipes[i][0]);
-		}
-        if (i != 0) 
-		{
-            close(pipes[i][1]);
-        }
-		i++;
-    }
-	close(pipes[0][1]);
-	dup2(pipes[0][1], STDIN_FILENO);
-	close(pipes[cmd_num][0]);
-	// ft_printf("L%sL\n", head->cmd_m[0]);
-	execve(head->cmd_m[0], args, NULL);
-	ft_printf("Problems with execveL\n");
+		ft_execute_first(pipes, args, head, cmd_num, i);
+	}
+	else if (index != cmd_num - 1 && index != 0)
+	{
+		ft_execute_middle(pipes, args, head, cmd_num, i);
+	}
+	else if (index == cmd_num - 1)
+	{
+		ft_execute_last(pipes, args, head, cmd_num, i);
+	}
 	return (1);
 }
 
@@ -158,25 +143,8 @@ int ft_start_executing(t_list	**cmd_list, int cmd_num)
 
 		if (pid[i] == 0)
 		{
-			if (i == 0 && cmd_num == 1)
-			{
-				ft_execute_single(pipes, args, head, cmd_num);
-			}
-			else if (i == 0 && cmd_num != 1)
-			{
-				if (ft_execute_first(pipes, args, head, cmd_num) == 1)
-					return (1);
-			}
-			else if (i != 0 && i != cmd_num - 1)
-			{
-				if (ft_execute_middle(pipes, args, head, cmd_num, i) == 1)
-					return (1);
-			}
-			else if (i == cmd_num - 1 && i != 0)
-			{
-				if (ft_execute_last(pipes, args, head, cmd_num) == 1)
-					return (1);
-			}
+			if (ft_execute_command(pipes, args, head, cmd_num, i) == 1)
+				return (1);
 			return (0);
 		}
 		i++;
