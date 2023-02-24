@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/02/23 23:49:16 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/24 14:04:10 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 		mini->input = readline("minishell> ");
 		if (mini->input == NULL)
 		{
-			ft_printf("\nError: l'input non può essere nullo\n");
+			ft_printf("Error: l'input non può essere nullo\n");
 			free_stuff(NULL, NULL, &mini->envp_list, flags);
 			ft_CTRL_D_handler(0);
 		}

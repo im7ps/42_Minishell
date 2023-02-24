@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 19:31:05 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/23 23:49:07 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/24 14:15:51 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 int	ft_execute_single(int **pipes, char **args, t_list *head, int cmd_num)
 {
-	char *arg1s[] = {"/usr/bin/echo", "SINGLE", "SIUUM", NULL};
+	char *arg1s[] = {"/bin/echo", "SINGLE", "SIUUM", NULL};
 	close(pipes[0][0]);
 	close(pipes[0][1]);
 	close(pipes[1][0]);
 	close(pipes[1][1]);
-	execve("/usr/bin/echo", arg1s, NULL);
+	execve(arg1s[0], arg1s, NULL);
 	ft_printf("Problems with execveS\n");
 	return 0;
 }
@@ -30,7 +30,7 @@ int ft_execute_first(int **pipes, char **args, t_list *head, int cmd_num)
 	int i;
 	
 	i = 0;
-	ft_printf("FIRST\n");
+	// ft_printf("FIRST\n");
     while (i < cmd_num + 1)
 	{
 		if (i != cmd_num)
@@ -46,7 +46,7 @@ int ft_execute_first(int **pipes, char **args, t_list *head, int cmd_num)
 	close(pipes[cmd_num][0]);
 	dup2(pipes[0][1], STDOUT_FILENO);
 	close(pipes[0][1]);
-	ft_printf("F%sF\n", head->cmd_m[0]);
+	// ft_printf("F%sF\n", head->cmd_m[0]);
 	execve(head->cmd_m[0], args, NULL);
 	ft_printf("Problems with execveF\n");
 	return (1);
@@ -57,7 +57,7 @@ int	ft_execute_middle(int **pipes, char **args, t_list *head, int cmd_num, int i
 	int i;
 	
 	i = 0;
-	ft_printf("MIDDLE\n");
+	// ft_printf("MIDDLE\n");
     while (i < cmd_num + 1)
 	{
 		if (i != index)
@@ -74,7 +74,7 @@ int	ft_execute_middle(int **pipes, char **args, t_list *head, int cmd_num, int i
 	close(pipes[index + 1][1]);
 	dup2(pipes[index][0], STDIN_FILENO);
 	close(pipes[index][0]);
-	ft_printf("M%sM\n", head->cmd_m[0]);
+	// ft_printf("M%sM\n", head->cmd_m[0]);
 	execve(head->cmd_m[0], args, NULL);
 	ft_printf("Problems with execveM\n");
 	return (1);
@@ -85,7 +85,7 @@ int	ft_execute_last(int **pipes, char **args, t_list *head, int cmd_num)
 	int i;
 	
 	i = 0;
-	ft_printf("LAST\n");
+	// ft_printf("LAST\n");
     while (i < cmd_num + 1)
 	{
 		if (i != cmd_num)
@@ -101,7 +101,7 @@ int	ft_execute_last(int **pipes, char **args, t_list *head, int cmd_num)
 	close(pipes[0][1]);
 	dup2(pipes[0][1], STDIN_FILENO);
 	close(pipes[cmd_num][0]);
-	ft_printf("L%sL\n", head->cmd_m[0]);
+	// ft_printf("L%sL\n", head->cmd_m[0]);
 	execve(head->cmd_m[0], args, NULL);
 	ft_printf("Problems with execveL\n");
 	return (1);
@@ -116,9 +116,19 @@ int ft_start_executing(t_list	**cmd_list, int cmd_num)
 	int 	**pipes;
 	const char 	*binpath;
 
-	//binpath = "/bin/"; //flag per MACOS
-	binpath = "/usr/bin/"; //flag per ubuntu
+	binpath = "/bin/"; //flag per MACOS
 	head = *cmd_list;
+	
+	// while (head)
+	// {
+	// 	head->cmd_m[0][ft_strlen(head->cmd_m[0]) + ft_strlen(binpath) - 2] = '\0';
+	// 	head->cmd_m[0] = ft_strjoin(binpath, head->cmd_m[0]);
+	// 	ft_printf("Z%sZ\n", head->cmd_m[0]);
+	// 	head = head->next;
+	// }
+	
+	// binpath = "/usr/bin/"; //flag per ubuntu
+	
 	pid = (int*) malloc (sizeof(int) * cmd_num);
 	pipes = (int**) malloc (sizeof(int) * cmd_num);
 
@@ -138,8 +148,8 @@ int ft_start_executing(t_list	**cmd_list, int cmd_num)
 	i = 0;
 	while(head)
 	{
-		head->cmd_m[0][ft_strlen(head->cmd_m[0]) - 2] = '\0';
 		head->cmd_m[0] = ft_strjoin(binpath, head->cmd_m[0]);
+		head->cmd_m[0][ft_strlen(head->cmd_m[0]) + ft_strlen(binpath) - 2] = '\0';
 		char *args[] = {head->cmd_m[0], head->cmd_m[1], NULL}; //da mettere in un while per unire tutti i vari argomenti in args
 
 		pid[i] = fork();
@@ -173,24 +183,24 @@ int ft_start_executing(t_list	**cmd_list, int cmd_num)
 		head = head->next;
 	}
 
+	i = 0;
+	while (i < cmd_num)
+	{
+		wait(NULL);
+		i++;
+	}
+	
+	if (cmd_num != 1)		//le pipes sono già state chiuse in ft_execute_single
+	{
 		i = 0;
-		while (i < cmd_num)
+		while (i < cmd_num_plus)
 		{
-			wait(NULL);
+			close(pipes[i][0]);
+			close(pipes[i][1]);
+			// ft_printf("Ho chiuso pip[%d][0] e pip[%d][1]\n", i, i);
 			i++;
 		}
-		
-		if (cmd_num != 1)		//le pipes sono già state chiuse in ft_execute_single
-		{
-			i = 0;
-			while (i < cmd_num_plus)
-			{
-				close(pipes[i][0]);
-				close(pipes[i][1]);
-				ft_printf("Ho chiuso pip[%d][0] e pip[%d][1]\n", i, i);
-				i++;
-			}
-		}
+	}
 
 	return (0);
 }
