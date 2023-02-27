@@ -8,10 +8,10 @@
             "name": "(lldb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/Users/sgerace/Desktop/minishell/minishell",
+            "program": "/goinfre/sgerace/minishell/minishell",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "/Users/sgerace/Desktop/minishell",
+            "cwd": "/goinfre/sgerace/minishell",
             "environment": [],
             "externalConsole": true,
             "MIMode": "lldb"
