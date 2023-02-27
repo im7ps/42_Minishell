@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 19:31:05 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/27 18:08:22 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/02/27 18:17:24 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_execute_single(int **pipes, char **args, t_list *head, int cmd_num)
 {
-	ft_printf("Dasdasdasd\n");
+	// ft_printf("Dasdasdasd\n");
 	char *arg1s[] = {"/bin/echo", "SINGLE", NULL};
 	close(pipes[0][0]);
 	close(pipes[0][1]);
@@ -28,7 +28,7 @@ int	ft_execute_single(int **pipes, char **args, t_list *head, int cmd_num)
 int ft_execute_first(int **pipes, char **args, t_list *head, int cmd_num, int index)
 {
 	int err = 0;
-	ft_printf("FIRST\n");
+	// ft_printf("FIRST\n");
 
 	close(pipes[index][0]);
 
@@ -48,7 +48,7 @@ int ft_execute_first(int **pipes, char **args, t_list *head, int cmd_num, int in
 int	ft_execute_middle(int **pipes, char **args, t_list *head, int cmd_num, int index)
 {
 	int err = 0;
-	ft_printf("MIDDLE\n");
+	// ft_printf("MIDDLE\n");
 
 	err = dup2(pipes[index + 1][1], STDOUT_FILENO);
 	if (err == -1)
@@ -73,7 +73,7 @@ int	ft_execute_middle(int **pipes, char **args, t_list *head, int cmd_num, int i
 int	ft_execute_last(int **pipes, char **args, t_list *head, int cmd_num, int index)
 {
 	int err = 0;
-	ft_printf("LAST\n");
+	// ft_printf("LAST\n");
 	
 	close(pipes[index + 1][1]);
 	err = dup2(pipes[index][0], STDIN_FILENO);
@@ -154,11 +154,12 @@ char	*ft_trypath(char	*cmd, t_list **envp)
 		cmd = ft_strjoin(trypath[i], cmd);
 		if (access(cmd, X_OK) == 0)
 		{
-			ft_printf("found!\n");
+			// ft_printf("found!\n");
 			return (cmd);
 		}
 		else
 		{
+			// ft_printf("Not found!\n");
 			cmd = cmdcopy;
 		}
 		i++;
@@ -202,7 +203,7 @@ int ft_start_executing(t_list	**cmd_list, int cmd_num, t_list **envp)
 		else
 		{
 			head->cmd_m[0] = trypath;
-			ft_printf("%sZ\n", head->cmd_m[0]);
+			// ft_printf("%sZ\n", head->cmd_m[0]);
 		}
 
 		char *args[] = {trypath, head->cmd_m[1], NULL}; //da mettere in un while per unire tutti i vari argomenti in args
@@ -227,7 +228,6 @@ int ft_start_executing(t_list	**cmd_list, int cmd_num, t_list **envp)
 		{
 			close(pipes[i][0]);
 			close(pipes[i][1]);
-			ft_printf("Ho chiuso pip[%d][0] e pip[%d][1]\n", i, i);
 			i++;
 		}
 	}
