@@ -328,17 +328,17 @@ int start(int cmd_num)
 				close(fd[1]);
 				dup2(fd[0], STDIN_FILENO);
 				close(fd[0]);
-				char *args2[] = {"echo", "LAST", NULL};
-				execve("/bin/echo", args2, NULL);
+				char *args2[] = {"echo", "-e", NULL};
+				execve("/bin/cat", args2, NULL);
 				return 0;
 			}
 		}
 		i++;
 	}
 	i = 0;
-	while (i < 3)
+	while (i < cmd_num)
 	{
-		waitpid(pid[i], NULL, 0);
+		wait(NULL);
 		i++;
 	}
 	close(fd[0]);
@@ -351,5 +351,46 @@ int start(int cmd_num)
 //STDIN-> main -> +5 | +5 | +5 -> STDOUT
 int main(int argc, char **argv)
 {
-	start(5);
+	int pid[2];
+	int fd[2];
+
+	pipe(fd);
+
+	int i = 0;
+	while (i < 2)
+	{
+		pid[i] = fork();
+		if(pid[i] == 0)
+		{
+			if (i == 0)
+			{
+				char *args[] = {"/bin/echo", "TEST", NULL};
+				dup2(fd[1], STDOUT_FILENO);
+				close(fd[1]);
+				close(fd[0]);
+				execve(args[0], args, NULL);
+				exit(1);
+
+			}
+			else if (i == 1)
+			{
+				char *args[] = {"/bin/cat", "-e", NULL};
+				dup2(fd[0], STDIN_FILENO);
+				close(fd[1]);
+				close(fd[0]);
+				execve(args[0], args, NULL);
+				exit(1);
+			}
+		}
+		i++;
+	}
+	close(fd[0]);
+	close(fd[1]);
+	i = 0;
+	while (i < 2)
+	{
+		wait(NULL);
+		i++;
+	}
+	return (0);
 }
