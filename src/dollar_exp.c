@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_exp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:51:10 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/17 15:30:21 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/01 18:34:06 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,10 @@ char	*ft_dollar_expander(t_minishell **minip)
 				{
 					tmp = ft_dollar_starter(&mini, cmd_list->cmd_m[i]);
 					if (tmp != NULL)
+					{
 						cmd_list->cmd_m[i] = tmp;
+						free(tmp);
+					}
 				}
 				j++;
 			}

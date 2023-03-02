@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/24 20:33:32 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/02 23:00:18 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_minishell
 int		ft_parser(t_minishell **minip, t_miniflags **minif);
 int		ft_input_checker(char	*input);
 int		ft_is_escaped(char	c);
-void	ft_create_list(t_list **cmd_list, char **full_cmd);
+t_list	*ft_create_list(t_list **cmd_list, char **full_cmd);
 
 //building functions
 t_minishell *ft_get_mini(t_minishell *mini);

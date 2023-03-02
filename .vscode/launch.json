@@ -20,12 +20,12 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/Users/sgerace/Desktop/minishell/minishell",
+            "program": "/home/step/C/minishell/minishell",
             "args": [],
             "stopAtEntry": true,
-            "cwd": "/Users/sgerace/Desktop/minishell",
+            "cwd": "/home/step/C/minishell",
             "environment": [],
-            "externalConsole": true,
+            "externalConsole": false,
             "miDebuggerPath": "gdb",
             "setupCommands": [
                 {

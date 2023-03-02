@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:01:20 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/23 20:30:10 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/01 19:26:50 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	**fill_mv(const char *s, char *c, char	**matrix, int num_w)
 				len--;
 			}
 			matrix[j] = ft_substr(s, i, len);			//...usa substring per iniettare la stringa dentro la riga j-esima della matrice
-			//matrix[j][i + len] = s[i + len];
+			ft_printf("%s\n", matrix[j]);
 			j++;
 		}
 		i += len;								//i + len e' il trick per evitare di ricominciare la ricerca ogni volta dall inizio della stringa anziche' ricominciare dal char dopo il troncamento

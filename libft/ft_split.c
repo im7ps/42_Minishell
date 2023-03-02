@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 16:34:30 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/15 17:21:03 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/01 20:01:13 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ char	**fill_m(const char *s, char c, char	**matrix, int num_w)
 		}	
 		if (len != 0)									//se hai 0 char che ti indicano il punto di troncamento vuol dire che non devi troncare mai la stringa, in caso contrario...
 		{
+			printf("SPLIT %d\n", len);
 			matrix[j] = ft_substr(s, i, len);			//...usa substring per iniettare la stringa dentro la riga j-esima della matrice
 			j++;
 		}
@@ -99,11 +100,14 @@ char	**ft_split(char const *s, char c)
 
 	if (!s)
 		return (NULL);
-	num_w = count_w((char *)s, c);								//capisci in quanti "pezzi" verra' divisa la stringa originale
-	matrix = (char **) malloc(sizeof(char *) * (num_w + 1));	//occhio alle parentesi...
+	num_w = count_w((char *)s, c);
+	matrix = (char **) malloc(sizeof(char *) * (num_w + 1));
 	if (!matrix)
 		return (NULL);
 	matrix[num_w] = NULL;
 	matrix = fill_m(s, c, matrix, num_w);
+	int i = 0;
+	while (matrix[i])
+		ft_printf("%s\n", matrix[i++]);
 	return (matrix);
 }

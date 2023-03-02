@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   old_split.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 15:11:37 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/17 20:15:25 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/01 16:59:06 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	**ft_old_split(char const *s, char c)
 		return (NULL);
 	str_len = ft_strlen(s);
 	num_w = old_count_w((char *)s, c);								//capisci in quanti "pezzi" verra' divisa la stringa originale
-	matrix = (char **) malloc(sizeof(char *) * (num_w + 1));	//occhio alle parentesi...
+	matrix = (char **) malloc(sizeof(char *) * (num_w + 1));		//occhio alle parentesi...
 	if (!matrix)
 		return (NULL);
 	matrix[num_w] = NULL;

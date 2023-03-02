@@ -3,31 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/02/24 21:04:38 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/02 23:39:11 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	ft_clean_all(t_minishell **minip, t_miniflags **minif)
-{
-	t_minishell *mini;
-	t_miniflags *flags;
-
-	mini = *minip;
-	flags = *minif;
-	free_stuff(NULL, NULL, &mini->envp_list, flags);
-	free_stuff(NULL, NULL, &mini->cmd_list, NULL);
-	free_stuff(NULL, NULL, &mini->envp_list, NULL);
-}
-
 void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 {
 	t_minishell *mini;
 	t_miniflags *flags;
+	t_list		*tmp;
 	int			cmd_num;
 
 	mini = *minip;
@@ -37,18 +26,24 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 	if (signal(SIGQUIT, &ft_CTRL_S_handler) == SIG_ERR)
 		printf("failed to register quit\n");
 
-	while (exit_status == 0)
-	{
-		mini->input = readline("minishell> ");
+	//while (exit_status == 0)
+	//{
+		//mini->input = readline("minishell> ");
+		mini->input = "echo testone $PWD | cat -e siuum";
 		if (mini->input == NULL)
 		{
 			ft_printf("Error: l'input non può essere nullo\n");
-			free_stuff(NULL, NULL, &mini->envp_list, flags);
+			ft_lst_delete(&mini->envp_list);
+			free(mini);
+			free(flags);
 			ft_CTRL_D_handler(0);
 		}
 		else if (!(ft_strncmp(mini->input, "exit", 4)))
 		{
 			ft_printf("Caricamento procedura d'uscita in corso, non spegnere il computer\n");
+			ft_lst_delete(&mini->envp_list);
+			free(mini);
+			free(flags);
 			sleep(1);
 			exit(1);
 		}
@@ -57,27 +52,32 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 			ft_printf("Error: è stata scritta qualche cagata astronomica\n");
 			ft_perror(ERR_INPUT, NULL);
 		}
-		add_history(mini->input);
 		if (ft_parser(&mini, &flags))
 		{
 			ft_printf("Error: parser fallito\n");
-			free_stuff(NULL, NULL, &mini->envp_list, flags);
-			free_stuff(NULL, NULL, &mini->cmd_list, NULL);
+			//free_stuff(NULL, NULL, &mini->envp_list, flags);
+			//free_stuff(NULL, NULL, &mini->cmd_list, NULL);
 			exit(1);
 		}
-		cmd_num = ft_count_commands(&mini->cmd_list);
-		ft_start_executing(&mini->cmd_list, cmd_num, &mini->envp_list);
-		ft_lst_delete(&mini->cmd_list);
-		
-		/*int i = 0;
+		//cmd_num = ft_count_commands(&mini->cmd_list);
+		//ft_start_executing(&mini->cmd_list, cmd_num, &mini->envp_list);
+		//add_history(mini->input);
+		mini = *minip;
 		while (mini->cmd_list)
 		{
-			ft_printf("%s\n", mini->cmd_list->cmd_m[1]);
-			mini->cmd_list = mini->cmd_list->next;
-			i++;
+			tmp = mini->cmd_list;  // store the current node pointer before advancing to the next node
+			mini->cmd_list = mini->cmd_list->next;   // move to the next node
+			free_stuff(tmp, tmp->cmd_m, NULL, NULL);  // free memory allocated for the current node
 		}
-		ft_printf("Num cmd: %d\n", i);*/
-	}
+		//free_stuff(NULL, mini->cmd_list->cmd_m, NULL, NULL);
+		/*mini = *minip;
+		while (mini->cmd_list)
+		{
+			free_stuff(NULL, mini->full_cmd, NULL, NULL);
+			mini->cmd_list = mini->cmd_list->next;
+		}*/
+		ft_lst_delete(&mini->cmd_list);
+	//}
 	return ;
 }
 
@@ -96,10 +96,9 @@ int	main(int argc, char **argv, char **envp)
 
 	mini = ft_mini_constructor(&mini, &miniflags, envp);
 	ft_execute_mini(&mini, &miniflags);
-
-	//free_stuff(NULL, NULL, &mini->envp_list, NULL);
-	//free(mini);
-	//free(miniflags);
+	ft_lst_delete(&mini->envp_list);
+	free(mini);
+	free(miniflags);
 	return (0);
 }
 

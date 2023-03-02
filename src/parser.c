@@ -6,13 +6,13 @@
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:44:36 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/23 20:30:38 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/02 23:28:09 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	ft_create_list(t_list **cmd_list, char	**full_cmd)
+t_list *ft_create_list(t_list **cmd_list, char	**full_cmd)
 {
 	int		i;
 	int		j;
@@ -21,11 +21,17 @@ void	ft_create_list(t_list **cmd_list, char	**full_cmd)
 	i = 0;
 	while (full_cmd[i])
 	{
+		ft_printf("FCMD %s\n", full_cmd[i]);
+		ft_printf("FCMD %p\n", full_cmd[i]);
 		j = 0;	
-		new_node = ft_malloc_stuff(NODE_NUM);
+		new_node = (t_list*) malloc(sizeof(t_list));
 		new_node->cmd_m = ft_split(full_cmd[i], ' ');
+		ft_printf("ADDRESS NODE %p\n", new_node);
+		ft_printf("STRING NODE %s\n", new_node->cmd_m[0]);
 		while (new_node->cmd_m[j])
 		{
+			//ft_printf("%p\n", new_node->cmd_m[j]);
+			//ft_printf("%s\n", new_node->cmd_m[j]);
 			if (new_node->cmd_m[j][ft_strlen(new_node->cmd_m[j]) - 1] == ' ')
 				new_node->cmd_m[j][ft_strlen(new_node->cmd_m[j]) - 1] = '\0';	//l ultimo char é uno spazio, sicuramente dovuto allo split
 			j++;
@@ -39,7 +45,8 @@ void	ft_create_list(t_list **cmd_list, char	**full_cmd)
 		ft_lstadd_back(cmd_list, new_node);
 		i++;
 	}
-	return ;
+	free_stuff(NULL, full_cmd, NULL, NULL);
+	return (*cmd_list);
 }
 
 char	ft_choose_att(char	*str)
@@ -174,9 +181,7 @@ int	ft_parser(t_minishell **minip, t_miniflags **minif)
 	mini = *minip;
 	flags = *minif;
 	mini->full_cmd = ft_split_variant(mini->input);
-	ft_create_list(&mini->cmd_list, mini->full_cmd);
-	ft_dollar_expander(&mini);
-	ft_set_attributes(&mini, &flags);
-	//free_stuff(NULL, mini->full_cmd, NULL, NULL);
+	mini->cmd_list = ft_create_list(&mini->cmd_list, mini->full_cmd);
+	//ft_dollar_expander(&mini);
 	return (0);
 }

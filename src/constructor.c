@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   constructor.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 18:33:46 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/24 20:40:06 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/01 16:07:15 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ t_minishell *ft_load_envp(t_minishell **minip, char **envp)
 		new_node->value = split_ret[1];
 		new_node->next = NULL;
 		ft_lstadd_back(&mini->envp_list, new_node);
-		//free_stuff(NULL, split_ret, NULL, NULL);
+		free_stuff(NULL, split_ret, NULL, NULL);
+		//free(split_ret);
 		i++;
 	}
 	return (mini);
@@ -51,7 +52,7 @@ t_minishell *ft_mini_constructor(t_minishell **mini, t_miniflags **miniflags, ch
 
 	exit_status = 0;
 
-	minip->input = "Miao\n";
+	minip->input = NULL;
 	minip->full_cmd = NULL;
 	minip->cmd_list = NULL;
 	minip->envp_list = NULL;

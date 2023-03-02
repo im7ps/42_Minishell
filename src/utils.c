@@ -6,11 +6,23 @@
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 18:29:08 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/23 20:34:05 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/02 23:24:01 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+void	ft_clean_all(t_minishell **minip, t_miniflags **minif)
+{
+	t_minishell *mini;
+	t_miniflags *flags;
+
+	mini = *minip;
+	flags = *minif;
+	free_stuff(NULL, NULL, &mini->envp_list, flags);
+	free_stuff(NULL, NULL, &mini->cmd_list, NULL);
+	free_stuff(NULL, NULL, &mini->envp_list, NULL);
+}
 
 int	free_stuff(t_list *node, char **matrix, t_list **stack, t_miniflags *flags)
 {
@@ -26,6 +38,7 @@ int	free_stuff(t_list *node, char **matrix, t_list **stack, t_miniflags *flags)
 	{
 		while (matrix[i])
 		{
+			ft_printf("FREE %p\n", matrix[i]);
 			free(matrix[i++]);
 		}
 		free(matrix);
@@ -52,6 +65,7 @@ void	ft_lst_delete(t_list **stack)
 	tmp = *stack;
 	while (*stack != NULL)
 	{
+		
 		tmp = (*stack)->next;
 		free (*stack);
 		*stack = tmp;
