@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:44:36 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/02 23:28:09 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/03 18:35:01 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,26 @@ int	ft_parser(t_minishell **minip, t_miniflags **minif)
 	flags = *minif;
 	mini->full_cmd = ft_split_variant(mini->input);
 	mini->cmd_list = ft_create_list(&mini->cmd_list, mini->full_cmd);
-	//ft_dollar_expander(&mini);
+	/*mini = *minip;
+	while (mini->cmd_list)
+	{
+		i = 0;
+		while (mini->cmd_list->cmd_m[i])
+		{
+			//ft_printf("CHECK %s\n", mini->cmd_list->cmd_m[i]);
+			mini->cmd_list->cmd_m[i] = ft_dollar_expander(&mini->envp_list, mini->cmd_list->cmd_m[i]);
+			if (mini->cmd_list->cmd_m[i] == NULL)
+			{
+				ft_printf("Sus\n");
+			}
+			ft_printf("DOLLAR %s\n", mini->cmd_list->cmd_m[i]);
+			i++;
+		}
+		mini->cmd_list = mini->cmd_list->next;
+	}*/
+	/*mini = *minip;
+	ft_printf("DOLLAR %s\n", mini->cmd_list->cmd_m[0]);
+	ft_printf("DOLLAR %s\n", mini->cmd_list->cmd_m[1]);
+	ft_printf("DOLLAR %s\n", mini->cmd_list->cmd_m[2]);*/
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:51:10 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/01 18:34:06 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/03 18:31:01 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,20 @@
 *	confronta str con la lista di variabili d'ambiente storata in minip.envp, se c'é
 *	corrispondenza allora ritorna la value della key trovata, in caso contrario ritorna NULL
 */
-char    *ft_expander_finder(char *str, t_minishell **minip)
+char    *ft_expander_finder(t_minishell **minip, int i, char *input)
 {
 	size_t      smaller;
 	t_list      *mini;
+	char		str[i];
 
+	ft_printf("%s\n", input);
+	ft_strlcpy(str, input, i);
+	ft_printf("%s\n", str);
 	mini = (*minip)->envp_list;
 	while (mini)
 	{
 		smaller = ft_smaller_string(str, mini->key);
-		if (ft_strlen(str) == ft_strlen(mini->key))
+		if (ft_strlen(str) + 1 == ft_strlen(mini->key))
 		{
 			if (!(ft_strncmp(str, mini->key, smaller)))
 			{
@@ -54,9 +58,7 @@ char    *ft_expander_helper(t_minishell **minip, char *input)
 	{
 		i++;
 	}
-	tmp = (char *) malloc (sizeof(char) * i + 1);
-	ft_strlcpy(tmp, input, i + 1);
-	tmp = ft_expander_finder(tmp, &mini);
+	tmp = ft_expander_finder(&mini, i + 1, input);
 	if (tmp == NULL)
 		return (NULL);
 	//printf("EXPANDED: %s\n", tmp);
@@ -70,85 +72,70 @@ char    *ft_expander_helper(t_minishell **minip, char *input)
 *	se il valore ritornato é non NULL aggiorna la stringa da ritornare, in caso
 *	contrario ritorna NULL
 */
-char	*ft_dollar_starter(t_minishell **minip, char  *str)
+char	*ft_dollar_starter(t_list **envp, char  *str, int i)
 {
-	t_minishell *mini;
-	int			i;
-	int 		len;
+	int len;
+	int	smaller;
+	t_list *envp_p;
 
-	mini = *minip;
-	i = -1;
-	len = ft_strlen(str);
-	while (str[++i])
+	len = 0;
+	smaller = 0;
+	envp_p = *envp;
+	if (i + 1 < ft_strlen(str))
 	{
-		if (str[i] == '$')
+		i++;
+		while (((str[i + len] > 64 && str[i + len] < 91) || str[i + len] == 95) && str[i + len] != '\0')
 		{
-			if (i + 1 < len)
+			len++;
+		}
+	}
+
+	while (envp_p != NULL)
+	{
+		if (len == ft_strlen(envp_p->key))
+		{
+			if (!(ft_strncmp(str + 1, envp_p->key, len)))
 			{
-				i++;
-				if ((str[i] > 64 && str[i] < 91) || str[i] == 95)
-				{
-					str = ft_expander_helper(&mini, str + i);
-					if (str == NULL)
-						return (NULL);	
-				}
-				else if (str[i] == '?')
-				{
-					//$? va espanso con l exit status dell ultimo processo eseguito (l exit status sará la variabile globale da aggiornare sempre)
-					return (NULL);
-				}
+				return (envp_p->value);
 			}
 		}
+		envp_p = envp_p->next;
+	}
+	return (NULL);
+}
+
+char	*ft_dollar_expander(t_list **envp, char *str)
+{
+	int			i;
+	int			j;
+	char		*tmp;
+	int			quotes = 0;
+	int			toggle;
+
+	toggle = 1;
+	i = 0;
+	while (str[i])
+	{
+		quotes = ft_is_escaped(str[i]);
+		if (quotes == 2 || quotes == -2 || quotes == -3)
+		{
+			toggle = toggle * -1;
+		}
+		if (str[i] == '$' && toggle != -1)
+		{
+			//ft_printf("K %s V %s\n", (*envp)->key, (*envp)->value);
+			tmp = ft_dollar_starter(envp, str, i);
+			if (tmp != NULL)
+			{
+				return (tmp);
+			}
+			else
+			{
+				return (str + i);
+			}
+		}
+		i++;
 	}
 	return (str);
 }
 
-/*  
-*   ft_dollar_expander: 
-*	scansiona ogni elemento della matrice di comandi, se in un elemento é presente il dollaro
-*	avvia dollar_starter, se la funziona ritorna un valore non NULL aggiorna il valore
-*	della stringa
-*/
-char	*ft_dollar_expander(t_minishell **minip)
-{
-	t_minishell	*mini;
-	t_list 		*cmd_list;
-	int			i;
-	int			j;
-	char		*tmp;
-	int			quotes;
-	int			toggle;
-
-	toggle = 1;
-	cmd_list = (*minip)->cmd_list;
-	mini = *minip;
-	while (cmd_list)
-	{
-		i = 0;
-		while (cmd_list->cmd_m[i])
-		{
-			j = 0;
-			while (cmd_list->cmd_m[i][j])
-			{
-				quotes = ft_is_escaped(cmd_list->cmd_m[i][j]);
-				if (quotes == 2 || quotes == -2)
-				{
-					toggle = toggle * -1;
-				}
-				if (cmd_list->cmd_m[i][j] == '$' && toggle != -1)
-				{
-					tmp = ft_dollar_starter(&mini, cmd_list->cmd_m[i]);
-					if (tmp != NULL)
-					{
-						cmd_list->cmd_m[i] = tmp;
-						free(tmp);
-					}
-				}
-				j++;
-			}
-			i++;
-		}
-		cmd_list = cmd_list->next;
-	}
-	return (mini->input);
-}

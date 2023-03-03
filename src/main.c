@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/03/02 23:39:11 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/03 19:10:22 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,19 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 	return ;
 }
 
+void	free_env_keyvalue(t_list *envp)
+{
+	t_list *env;
+
+	env = envp;
+	while (env)
+	{
+		free(env->key);
+		free(env->value);
+		env = env->next;
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell *mini;
@@ -96,6 +109,10 @@ int	main(int argc, char **argv, char **envp)
 
 	mini = ft_mini_constructor(&mini, &miniflags, envp);
 	ft_execute_mini(&mini, &miniflags);
+
+	
+	free_env_keyvalue(mini->envp_list);
+
 	ft_lst_delete(&mini->envp_list);
 	free(mini);
 	free(miniflags);

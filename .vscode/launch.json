@@ -4,26 +4,27 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "name": "(lldb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/goinfre/sgerace/minishell/minishell",
+            "program": "/goinfre/sgerace/42_Minishell/minishell",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "/goinfre/sgerace/minishell",
+            "cwd": "/goinfre/sgerace/42_Minishell",
             "environment": [],
-            "externalConsole": true,
+            "externalConsole": false,
             "MIMode": "lldb"
         },
         {
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/home/step/C/minishell/minishell",
+            "program": "/home/step/C/42_Minishell/minishell",
             "args": [],
-            "stopAtEntry": true,
-            "cwd": "/home/step/C/minishell",
+            "stopAtEntry": false,
+            "cwd": "/home/step/C/42_Minishell",
             "environment": [],
             "externalConsole": false,
             "miDebuggerPath": "gdb",

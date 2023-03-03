@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/02 23:00:18 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/03 17:25:38 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,10 @@ void	ft_sig_handler(int signum, siginfo_t *info, void *ucontext);
 
 
 //dollar expander
-char	*ft_dollar_expander(t_minishell **mini);
+char	*ft_dollar_expander(t_list **envp, char *str);
 char    *ft_expander_helper(t_minishell **mini, char *input);
-char    *ft_expander_finder(char *str, t_minishell **minip);
-char	*ft_dollar_starter(t_minishell **minip, char  *str);
+char    *ft_expander_finder(t_minishell **minip, int i, char *input);
+char	*ft_dollar_starter(t_list **envp, char  *str, int i);
 
 //utils
 void		ft_execute_mini(t_minishell **mini, t_miniflags **minif);

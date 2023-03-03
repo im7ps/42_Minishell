@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 15:11:37 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/01 16:59:06 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/03 02:26:10 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ char	**old_fill_m(const char *s, char c, char	**matrix, int num_w)
 		if (len != 0)									//se hai 0 char che ti indicano il punto di troncamento vuol dire che non devi troncare mai la stringa, in caso contrario...
 		{
 			matrix[j] = ft_substr(s, i, len - 1);			//...usa substring per iniettare la stringa dentro la riga j-esima della matrice
+			matrix[j][ft_strlen(matrix[j])] = '\0';
 			j++;
 		}
 		i += len;										//i + len e' il trick per evitare di ricominciare la ricerca ogni volta dall inizio della stringa anziche' ricominciare dal char dopo il troncamento

@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 18:29:08 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/02 23:24:01 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/03 18:34:08 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	free_stuff(t_list *node, char **matrix, t_list **stack, t_miniflags *flags)
 	{
 		while (matrix[i])
 		{
-			ft_printf("FREE %p\n", matrix[i]);
+			//ft_printf("FREE %p\n", matrix[i]);
 			free(matrix[i++]);
 		}
 		free(matrix);
@@ -65,7 +65,6 @@ void	ft_lst_delete(t_list **stack)
 	tmp = *stack;
 	while (*stack != NULL)
 	{
-		
 		tmp = (*stack)->next;
 		free (*stack);
 		*stack = tmp;
