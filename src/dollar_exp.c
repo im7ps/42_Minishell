@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:51:10 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/03 18:31:01 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/03 19:45:16 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ char	*ft_dollar_starter(t_list **envp, char  *str, int i)
 	int len;
 	int	smaller;
 	t_list *envp_p;
+	char	*value_copy;
 
 	len = 0;
 	smaller = 0;
@@ -96,7 +97,10 @@ char	*ft_dollar_starter(t_list **envp, char  *str, int i)
 		{
 			if (!(ft_strncmp(str + 1, envp_p->key, len)))
 			{
-				return (envp_p->value);
+				value_copy = malloc(sizeof(char) * ft_strlen(envp_p->value) + 1);
+				ft_strlcpy(value_copy, envp_p->value, ft_strlen(envp_p->value) + 1);
+				free(str);
+				return (value_copy);
 			}
 		}
 		envp_p = envp_p->next;

@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/03/03 19:10:22 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/03 19:43:43 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,18 @@ void	free_env_keyvalue(t_list *envp)
 	env = envp;
 	while (env)
 	{
-		free(env->key);
-		free(env->value);
+		if (env->key != NULL)
+		{
+			//ft_printf("FREEING %p %s\n", env->key, env->key);
+			free(env->key);
+			env->key = NULL;
+		}
+		if (env->value != NULL)
+		{
+			//ft_printf("FREEING %p %s\n", env->value, env->value);
+			free(env->value);
+			env->value = NULL;
+		}
 		env = env->next;
 	}
 }
@@ -112,7 +122,6 @@ int	main(int argc, char **argv, char **envp)
 
 	
 	free_env_keyvalue(mini->envp_list);
-
 	ft_lst_delete(&mini->envp_list);
 	free(mini);
 	free(miniflags);
