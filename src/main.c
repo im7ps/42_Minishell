@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/03/03 19:43:43 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/03 19:50:34 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 	//while (exit_status == 0)
 	//{
 		//mini->input = readline("minishell> ");
-		mini->input = "echo testone $PWD | cat -e siuum";
+		mini->input = "echo '$PWD' | cat -e";
 		if (mini->input == NULL)
 		{
 			ft_printf("Error: l'input non può essere nullo\n");
@@ -55,14 +55,14 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 		if (ft_parser(&mini, &flags))
 		{
 			ft_printf("Error: parser fallito\n");
-			//free_stuff(NULL, NULL, &mini->envp_list, flags);
-			//free_stuff(NULL, NULL, &mini->cmd_list, NULL);
+			free_stuff(NULL, NULL, &mini->envp_list, flags);
+			free_stuff(NULL, NULL, &mini->cmd_list, NULL);
 			exit(1);
 		}
-		//cmd_num = ft_count_commands(&mini->cmd_list);
+		tmp = mini->cmd_list;
+		cmd_num = ft_count_commands(&mini->cmd_list);
 		//ft_start_executing(&mini->cmd_list, cmd_num, &mini->envp_list);
 		//add_history(mini->input);
-		mini = *minip;
 		while (mini->cmd_list)
 		{
 			tmp = mini->cmd_list;  // store the current node pointer before advancing to the next node
