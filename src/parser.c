@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:44:36 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/03 19:28:21 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/06 18:09:45 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ int	ft_parser(t_minishell **minip, t_miniflags **minif)
 			{
 				ft_printf("Sus\n");
 			}
-			ft_printf("DOLLAR %s\n", cmd->cmd_m[i]);
+			// ft_printf("DOLLAR %s\n", cmd->cmd_m[i]);
 			i++;
 		}
 		cmd = cmd->next;

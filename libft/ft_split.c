@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 16:34:30 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/01 20:01:13 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/06 18:10:26 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ char	**fill_m(const char *s, char c, char	**matrix, int num_w)
 		}	
 		if (len != 0)									//se hai 0 char che ti indicano il punto di troncamento vuol dire che non devi troncare mai la stringa, in caso contrario...
 		{
-			printf("SPLIT %d\n", len);
 			matrix[j] = ft_substr(s, i, len);			//...usa substring per iniettare la stringa dentro la riga j-esima della matrice
 			j++;
 		}
@@ -106,8 +105,8 @@ char	**ft_split(char const *s, char c)
 		return (NULL);
 	matrix[num_w] = NULL;
 	matrix = fill_m(s, c, matrix, num_w);
-	int i = 0;
-	while (matrix[i])
-		ft_printf("%s\n", matrix[i++]);
+	//int i = 0;
+	// while (matrix[i])
+	// 	ft_printf("%s\n", matrix[i++]);
 	return (matrix);
 }

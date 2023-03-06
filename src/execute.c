@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 19:31:05 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/27 19:12:51 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/06 19:01:36 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,7 @@ int ft_start_executing(t_list	**cmd_list, int cmd_num, t_list **envp)
 	t_list		*head;
 	int			*pid;
 	int			i;
+	int			not_built_in_counter;
 	int 		**pipes;
 	char		**args;
 
@@ -211,6 +212,7 @@ int ft_start_executing(t_list	**cmd_list, int cmd_num, t_list **envp)
 	args = NULL;
 	head = *cmd_list;
 
+	not_built_in_counter = 0;
 	i = 0;
     while(i < cmd_num + 1) 
 	{
@@ -226,21 +228,32 @@ int ft_start_executing(t_list	**cmd_list, int cmd_num, t_list **envp)
 	i = 0;
 	while(head)
 	{
-		args = ft_load_args(&head, envp);
+		// if (is_builtin(head, envp, pipes, i, cmd_num))
+		// {
+		// 	// write(pipes[i + 1][1], "test\n", 5);
+		// 	ft_printf("Eseguito comando builtin\n");
+		// }
+		// else
+		// {
+			//ft_nbuiltin_handler();
+			// not_built_in_counter++;
+			args = ft_load_args(&head, envp);
 
-		pid[i] = fork();
-		if (pid[i] < 0)
-			return (2);
+			pid[i] = fork();
+			if (pid[i] < 0)
+				return (2);
 
-		if (pid[i] == 0)
-		{
-			if (ft_execute_command(pipes, args, head, cmd_num, i) == 1)
-				return (1);
-			return (0);
-		}
+			if (pid[i] == 0)
+			{
+				if (ft_execute_command(pipes, args, head, cmd_num, i) == 1)
+					return (1);
+				return (0);
+			}
+		// }
 		i++;
 		head = head->next;
 	}
+	// ft_printf("Closing pipes...\n");
 	if (cmd_num != 1)		//le pipes sono già state chiuse in ft_execute_single
 	{
 		i = 0;
@@ -253,6 +266,7 @@ int ft_start_executing(t_list	**cmd_list, int cmd_num, t_list **envp)
 	}
 
 	i = 0;
+	// while (i < cmd_num - not_built_in_counter)
 	while (i < cmd_num)
 	{
 		wait(NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_variant.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:01:20 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/01 19:26:50 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/06 18:09:52 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	**fill_mv(const char *s, char *c, char	**matrix, int num_w)
 				len--;
 			}
 			matrix[j] = ft_substr(s, i, len);			//...usa substring per iniettare la stringa dentro la riga j-esima della matrice
-			ft_printf("%s\n", matrix[j]);
+			// ft_printf("%s\n", matrix[j]);
 			j++;
 		}
 		i += len;								//i + len e' il trick per evitare di ricominciare la ricerca ogni volta dall inizio della stringa anziche' ricominciare dal char dopo il troncamento

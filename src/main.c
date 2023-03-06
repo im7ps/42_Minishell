@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/03/03 19:50:34 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/06 19:02:05 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 	if (signal(SIGQUIT, &ft_CTRL_S_handler) == SIG_ERR)
 		printf("failed to register quit\n");
 
-	//while (exit_status == 0)
-	//{
-		//mini->input = readline("minishell> ");
-		mini->input = "echo '$PWD' | cat -e";
+	while (exit_status == 0)
+	{
+		mini->input = readline("minishell> ");
+		// mini->input = "echo -n -n -nnnnn -na -n sium'$PWD' tits | cat -e";
 		if (mini->input == NULL)
 		{
 			ft_printf("Error: l'input non può essere nullo\n");
@@ -61,7 +61,7 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 		}
 		tmp = mini->cmd_list;
 		cmd_num = ft_count_commands(&mini->cmd_list);
-		//ft_start_executing(&mini->cmd_list, cmd_num, &mini->envp_list);
+		ft_start_executing(&mini->cmd_list, cmd_num, &mini->envp_list);
 		//add_history(mini->input);
 		while (mini->cmd_list)
 		{
@@ -77,7 +77,7 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 			mini->cmd_list = mini->cmd_list->next;
 		}*/
 		ft_lst_delete(&mini->cmd_list);
-	//}
+	}
 	return ;
 }
 

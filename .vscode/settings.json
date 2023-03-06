@@ -1,7 +1,8 @@
 {
     "files.associations": {
         "stdlib.h": "c",
-        "minishell.h": "c"
+        "minishell.h": "c",
+        "unistd.h": "c"
     },
     "editor.insertSpaces": false
 }
