@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/03/06 19:02:05 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/07 15:14:50 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 	while (exit_status == 0)
 	{
 		mini->input = readline("minishell> ");
-		// mini->input = "echo -n -n -nnnnn -na -n sium'$PWD' tits | cat -e";
+		//mini->input = "echo -n -n -nnnnn maremma | echo -n -n -nnnnn maremma\n | cat -e";
 		if (mini->input == NULL)
 		{
 			ft_printf("Error: l'input non può essere nullo\n");
@@ -62,7 +62,7 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 		tmp = mini->cmd_list;
 		cmd_num = ft_count_commands(&mini->cmd_list);
 		ft_start_executing(&mini->cmd_list, cmd_num, &mini->envp_list);
-		//add_history(mini->input);
+		add_history(mini->input);
 		while (mini->cmd_list)
 		{
 			tmp = mini->cmd_list;  // store the current node pointer before advancing to the next node

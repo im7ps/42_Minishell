@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 19:31:05 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/06 19:01:36 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/07 15:07:39 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,17 +228,16 @@ int ft_start_executing(t_list	**cmd_list, int cmd_num, t_list **envp)
 	i = 0;
 	while(head)
 	{
-		// if (is_builtin(head, envp, pipes, i, cmd_num))
-		// {
-		// 	// write(pipes[i + 1][1], "test\n", 5);
-		// 	ft_printf("Eseguito comando builtin\n");
-		// }
-		// else
-		// {
+		if (is_builtin(head, envp, pipes, i, cmd_num, args))
+	 	{
+			//write(pipes[i + 1][1], "test\n", 5);
+			not_built_in_counter++;
+			ft_printf("Eseguito comando builtin\n");
+		}
+		else
+		{
 			//ft_nbuiltin_handler();
-			// not_built_in_counter++;
 			args = ft_load_args(&head, envp);
-
 			pid[i] = fork();
 			if (pid[i] < 0)
 				return (2);
@@ -249,7 +248,7 @@ int ft_start_executing(t_list	**cmd_list, int cmd_num, t_list **envp)
 					return (1);
 				return (0);
 			}
-		// }
+		}
 		i++;
 		head = head->next;
 	}
@@ -266,8 +265,8 @@ int ft_start_executing(t_list	**cmd_list, int cmd_num, t_list **envp)
 	}
 
 	i = 0;
-	// while (i < cmd_num - not_built_in_counter)
-	while (i < cmd_num)
+	//while (i < cmd_num)
+	while (i < cmd_num - not_built_in_counter)
 	{
 		wait(NULL);
 		i++;

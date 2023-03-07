@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/06 18:20:24 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/07 13:42:35 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ t_minishell *ft_mini_constructor(t_minishell **mini, t_miniflags **miniflags, ch
 int	ft_perror(int err, char *cmd);
 
 //builtins
-int		is_builtin(t_list *head, t_list **envp, int **pipes, int index, int cmd_num);
-int		ft_echo(t_list *head, int **pipes, int index, int cmd_num);
+int		is_builtin(t_list *head, t_list **envp, int **pipes, int index, int cmd_num, char **args);
+int		ft_echo(t_list *head, int **pipes, int index, int cmd_num, char **args);
 int		ft_cd();
 int		ft_pwd();
 int		ft_export();
