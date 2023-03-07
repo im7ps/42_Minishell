@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/03/07 15:14:50 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/07 20:18:16 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 	if (signal(SIGQUIT, &ft_CTRL_S_handler) == SIG_ERR)
 		printf("failed to register quit\n");
 
-	while (exit_status == 0)
-	{
-		mini->input = readline("minishell> ");
-		//mini->input = "echo -n -n -nnnnn maremma | echo -n -n -nnnnn maremma\n | cat -e";
+	// while (exit_status == 0)
+	// {
+	// 	mini->input = readline("minishell> ");
+		mini->input = "echo maremma | echo mare5mma | echo mare412mma | echo marem12ma | echo maremm3a | cat -e ";
 		if (mini->input == NULL)
 		{
 			ft_printf("Error: l'input non può essere nullo\n");
@@ -59,25 +59,36 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 			free_stuff(NULL, NULL, &mini->cmd_list, NULL);
 			exit(1);
 		}
-		tmp = mini->cmd_list;
+	
 		cmd_num = ft_count_commands(&mini->cmd_list);
-		ft_start_executing(&mini->cmd_list, cmd_num, &mini->envp_list);
+
 		add_history(mini->input);
+	
+		tmp = mini->cmd_list;
+		// while(tmp)
+		// {
+		// 	ft_printf("%s\n", tmp->cmd_m[0]);
+		// 	tmp = tmp->next;
+		// }
+
+		ft_start_executing(&mini->cmd_list, cmd_num, &mini->envp_list);		//esegue il comando inserito dall utente o eventualmente la pipeline
+
 		while (mini->cmd_list)
 		{
 			tmp = mini->cmd_list;  // store the current node pointer before advancing to the next node
 			mini->cmd_list = mini->cmd_list->next;   // move to the next node
 			free_stuff(tmp, tmp->cmd_m, NULL, NULL);  // free memory allocated for the current node
 		}
-		//free_stuff(NULL, mini->cmd_list->cmd_m, NULL, NULL);
-		/*mini = *minip;
-		while (mini->cmd_list)
-		{
-			free_stuff(NULL, mini->full_cmd, NULL, NULL);
-			mini->cmd_list = mini->cmd_list->next;
-		}*/
+
+		// free_stuff(NULL, mini->cmd_list->cmd_m, NULL, NULL);
+		// /*mini = *minip;
+		// while (mini->cmd_list)
+		// {
+		// 	free_stuff(NULL, mini->full_cmd, NULL, NULL);
+		// 	mini->cmd_list = mini->cmd_list->next;
+		// }*/
 		ft_lst_delete(&mini->cmd_list);
-	}
+	// }
 	return ;
 }
 
@@ -118,9 +129,9 @@ int	main(int argc, char **argv, char **envp)
 	miniflags = (t_miniflags *) malloc (sizeof(t_miniflags));
 
 	mini = ft_mini_constructor(&mini, &miniflags, envp);
+
 	ft_execute_mini(&mini, &miniflags);
 
-	
 	free_env_keyvalue(mini->envp_list);
 	ft_lst_delete(&mini->envp_list);
 	free(mini);

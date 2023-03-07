@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:36:13 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/07 15:30:04 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/07 20:15:41 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ int	ft_is_flag(char *cmd_arg)
 	return (1);
 }
 
-int	ft_echo(t_list *head, int **pipes, int index, int cmd_num, char **args)
+int	ft_echo(t_list *head, int **pipes, int index, int cmd_num)
 {
 	int	i;
 	int last_arg;
@@ -174,16 +174,16 @@ int	ft_echo(t_list *head, int **pipes, int index, int cmd_num, char **args)
 		i++;
 	}
 	last_arg = i;
-	/*if (flag_index == 0)
+	if (flag_index == 0)
 	{
 		//ft_strjoin(head->cmd_m[last_arg - 1], '\n');
 		head->cmd_m[last_arg - 1][ft_strlen(head->cmd_m[last_arg - 1])] = '\n';
-	}*/
-	/*if (!(ft_strncmp(head->cmd_m[last_arg - 1], "|", 1)))
+	}
+	if (!(ft_strncmp(head->cmd_m[last_arg - 1], "|", 1)))
 	{
-		//ft_printf("Found: %s\n", head->cmd_m[last_arg - 1]);
-		head->cmd_m[last_arg - 1][ft_strlen(head->cmd_m[last_arg - 1])] = '\n';
-	}*/
+		ft_printf("Found: %s\n", head->cmd_m[last_arg - 1]);
+		head->cmd_m[last_arg - 1][ft_strlen(head->cmd_m[last_arg - 1])] = '\0';
+	}
 	i = 1;
 	while (head->cmd_m[i])
 	{
@@ -194,6 +194,7 @@ int	ft_echo(t_list *head, int **pipes, int index, int cmd_num, char **args)
 			{
 				if (i != last_arg - 1)
 				{
+					ft_printf("|%s|\n", head->cmd_m[i]);
 					write(pipes[index + 1][1], head->cmd_m[i], (ft_strlen(head->cmd_m[i]) * sizeof(char)));
 					//write(pipes[index + 1][1], " ", sizeof(char));
 				}
