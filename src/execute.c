@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 19:31:05 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/07 20:09:24 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/08 15:20:02 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int ft_execute_first(int **pipes, char **args, t_list *head, int cmd_num, int in
 	}
 	close(pipes[index + 1][1]);
 
-	execve(args[0], args, NULL);
+	execve(head->cmd_m[0], head->cmd_m, NULL);
 	ft_printf("Problems with execveF\n");
 
 	return (1);
@@ -64,7 +64,7 @@ int	ft_execute_middle(int **pipes, char **args, t_list *head, int cmd_num, int i
 	}
 	close(pipes[index][0]);
 
-	execve(args[0], args, NULL);
+	execve(head->cmd_m[0], head->cmd_m, NULL);
 	ft_printf("Problems with execveM\n");
 	return (1);
 }
@@ -84,15 +84,7 @@ int	ft_execute_last(int **pipes, char **args, t_list *head, int cmd_num, int ind
 	close(pipes[index][0]);
 
 	// ft_printf("L%sL\n", head->cmd_m[0]);
-
-	// int i = 0;
-	// while (args[i])
-	// {
-	// 	ft_printf("args inside |%s|\n", args[i]);
-	// 	i++;
-	// }
-
-	execve(args[0], args, NULL);
+	execve(head->cmd_m[0], head->cmd_m, NULL);
 	ft_printf("Problems with execveL\n");
 	return (1);
 }
@@ -175,33 +167,21 @@ char	*ft_trypath(char	*cmd, t_list **envp)
 	return (NULL);
 }
 
-char	**ft_load_args(t_list **cmd_list, t_list **envp)
+char	**ft_delete_redirection(char **cmd_m)
 {
-	int		i;
-	char 	**args;
-	t_list	*head;
+	int i;
 
 	i = 0;
-	head = *cmd_list;
-	while (head->cmd_m[i])
+	while (cmd_m[i])
 	{
 		i++;
 	}
-	args = (char **) malloc (sizeof(char *) * (i + 1));
-	args[0] = ft_trypath(head->cmd_m[0], envp);
-	i = 1;
-	while (head->cmd_m[i])
-	{
-		args[i] = (char *) malloc (sizeof(char) * ft_strlen(head->cmd_m[i]) + 1);
-		args[i] = head->cmd_m[i];
-		i++;
-	}
-	if (args[i - 1][ft_strlen(head->cmd_m[i - 1]) - 1] == '>' || args[i - 1][ft_strlen(head->cmd_m[i - 1]) - 1] == '<' || args[i - 1][ft_strlen(head->cmd_m[i - 1]) - 1] == '|')
+	if (cmd_m[i - 1][ft_strlen(cmd_m[i - 1]) - 1] == '>' || cmd_m[i - 1][ft_strlen(cmd_m[i - 1]) - 1] == '<' || cmd_m[i - 1][ft_strlen(cmd_m[i - 1]) - 1] == '|')
 	{
 		ft_printf("Sostituito redirection with NULL\n");
-		args[i - 1] = NULL;
+		cmd_m[i - 1] = NULL;
 	}
-	return (args);
+	return (cmd_m);	
 }
 
 int ft_start_executing(t_list	**cmd_list, int cmd_num, t_list **envp)
@@ -209,13 +189,13 @@ int ft_start_executing(t_list	**cmd_list, int cmd_num, t_list **envp)
 	t_list		*head;
 	int			*pid;
 	int			i;
-	int			not_built_in_counter;
 	int 		**pipes;
+	int			not_built_in_counter;
 	char		**args;
 
 	pid = (int*) malloc (sizeof(int) * cmd_num);
-	pipes = (int**) malloc (sizeof(int) * cmd_num + 1);
-	
+	pipes = (int**) malloc (sizeof(int*) * (cmd_num + 1));
+
 	args = NULL;
 	head = *cmd_list;
 
@@ -242,7 +222,8 @@ int ft_start_executing(t_list	**cmd_list, int cmd_num, t_list **envp)
 		}
 		else
 		{
-			args = ft_load_args(&head, envp);
+			head->cmd_m[0] = ft_trypath(head->cmd_m[0], envp);
+			head->cmd_m = ft_delete_redirection(head->cmd_m);
 			pid[i] = fork();
 			if (pid[i] < 0)
 				return (2);
@@ -257,7 +238,6 @@ int ft_start_executing(t_list	**cmd_list, int cmd_num, t_list **envp)
 		i++;
 		head = head->next;
 	}
-
 	if (cmd_num != 1)		//le pipes sono già state chiuse in ft_execute_single
 	{
 		i = 0;
@@ -276,5 +256,13 @@ int ft_start_executing(t_list	**cmd_list, int cmd_num, t_list **envp)
 		i++;
 	}
 
+	i = 0;
+    while(i < cmd_num + 1) 
+	{
+		//free(pipes[i]);
+		i++;
+    }
+	//free(pipes);
+	//free(pid);
 	return (0);
 }
