@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/06 16:36:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/08 23:12:53 by sgerace          ###   ########.fr       */
+/*   Created: 2023/03/08 23:29:49 by sgerace           #+#    #+#             */
+/*   Updated: 2023/03/08 23:30:46 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../inc/libft.h"
 
-int	ft_env(t_list **envp)
+char	*ft_strndup(const char *s1, int n)
 {
-	t_list *env;
+	char	*stack;
 
-	env = *envp;
-	while (env)
-	{
-		ft_printf("%s=%s\n", env->key, env->value);
-		env = env->next;
-	}
-	return (0);
+	if (s1 == NULL)
+		return (NULL);
+	stack = (char *) malloc(sizeof(char) * (n + 1));
+	if (s1 == NULL)
+		return (NULL);
+	else
+		ft_memcpy(stack, s1, n);
+	return (stack);
 }

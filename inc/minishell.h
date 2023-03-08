@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/07 18:53:43 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/09 00:33:35 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ int		is_builtin(t_list *head, t_list **envp, int **pipes, int index, int cmd_num
 int		ft_echo(t_list *head, int **pipes, int index, int cmd_num);
 int		ft_cd();
 int		ft_pwd();
-int		ft_export();
-int		ft_unset();
-int		ft_env();
+int		ft_export(t_list *head, t_list **envp);
+int		ft_unset(t_list *head, t_list **envp);
+int		ft_env(t_list **envp);
 
 //without the proto of this func readline does not work
 void	rl_replace_line(const char *text, int clear_undo);
