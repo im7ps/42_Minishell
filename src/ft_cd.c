@@ -6,11 +6,35 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:35:55 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/09 19:31:11 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/09 20:06:29 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+char *malloc_pwd()
+{
+    char *cwd;
+    size_t size;
+	
+	size = 16;
+    while (1) 
+	{
+        cwd = (char *) malloc (size);
+        if (getcwd(cwd, size) != NULL) 
+		{
+            return cwd;
+        }
+        if (size >= 1024) 
+		{
+            printf("Il percorso ha superato 1024 caratteri di lunghezza\n");
+            free(cwd);
+            return NULL;
+        }
+        size *= 2;
+        free(cwd);
+    }
+}
 
 int	update_env_pwd(char *new_path, t_list **envp)
 {
@@ -40,8 +64,7 @@ int	ft_absolute_path(char *abs_path, t_list **envp)
         // la directory esiste ed è stata aperta con successo
         if (chdir(abs_path) == 0) // cambia la directory corrente
 		{
-			ft_printf("time to change the env pwd\n");
-			//update_env_pwd(abs_path);
+			update_env_pwd(abs_path, envp);
 		}
 		else
 		{
@@ -53,6 +76,7 @@ int	ft_absolute_path(char *abs_path, t_list **envp)
 	else
 	{
 		ft_printf("Il percorso non esiste!\n");
+		return (1);
 	}
 	return (0);
 }
@@ -61,34 +85,19 @@ int	ft_move_forward(char *path, t_list **envp)
 {
 	char	*abs_path;
 	char	*pwd_slash;
-	char	pwd[1024];
+	char	*pwd;
 
+	if (path == NULL)
+		return (1);
+	ft_printf("|%s|\n", path);
+	pwd = malloc_pwd();
 	getcwd(pwd, sizeof(pwd));
 	pwd_slash = ft_strjoin(pwd, "/");
 	abs_path = ft_strjoin(pwd_slash, path);
-	ft_absolute_path(abs_path, envp);
-	free(abs_path);
-	free(pwd_slash);
-	return (0);
-}
-
-int	ft_move_backwards(char *path, t_list **envp)
-{
-	int	i;
-	int	counter;
-
-	i = 0;
-	counter = 0;
-	while (path[i])
-	{
-		if (!(ft_strncmp(path, "../", 3)))
-		{
-			i = i + 2;
-			counter++;
-		}
-		i++;
-	}
-	
+	if (ft_absolute_path(abs_path, envp))
+		return (1);
+	//free(abs_path);
+	//free(pwd_slash);
 	return (0);
 }
 
@@ -98,10 +107,11 @@ int	ft_move_backwards_one(t_list **envp)
 	int		last_slash;
 	int		res;
 	char	*newpath;
-	char	pwd[1024];
+	char	*pwd;
 
 	i = 0;
 	last_slash = 0;
+	pwd = malloc_pwd();
 	getcwd(pwd, sizeof(pwd));
 	while (pwd[i])
 	{
@@ -117,6 +127,32 @@ int	ft_move_backwards_one(t_list **envp)
 	if (res != 0)
 		return (1);
 	update_env_pwd(newpath, envp);
+	return (0);
+}
+
+int	ft_move_backwards(char *path, t_list **envp)
+{
+	int		i;
+	int		counter;
+	char	*pwd;
+
+	i = 0;
+	counter = 0;
+	pwd = malloc_pwd();
+	getcwd(pwd, sizeof(pwd));
+	while (!(ft_strncmp(path, "../", 3)))
+	{
+		path = path + 3;
+		counter++;
+	}
+	while (counter--)
+	{
+		ft_move_backwards_one(envp);
+	}
+	if (ft_move_forward(path, envp))
+	{
+		update_env_pwd(pwd, envp);
+	}
 	return (0);
 }
 
