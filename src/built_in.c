@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:16:59 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/09 00:33:02 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/09 16:52:41 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	is_builtin(t_list *head, t_list **envp, int **pipes, int index, int cmd_num)
 	}
 	else if (!ft_strncmp(head->cmd_m[0], "cd", 2))
 	{
-		return (!(ft_cd()));
+		return (!(ft_cd(head, envp)));
 	}
 	else if (!ft_strncmp(head->cmd_m[0], "pwd", 3))
 	{

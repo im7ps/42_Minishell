@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/03/08 23:03:32 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/09 16:54:03 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,28 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 		}
 		tmp = mini->cmd_list;
 		cmd_num = ft_count_commands(&mini->cmd_list);
+		t_list *env = mini->envp_list;
+		while (env)
+		{
+			if (!(ft_strncmp(env->key, "PWD", 3)))
+			{
+				ft_printf("Old pwd: %s\n", env->value);
+			}
+			env = env->next;
+		}
+
 		ft_start_executing(&mini->cmd_list, cmd_num, &mini->envp_list);
+
+		t_list *env2 = mini->envp_list;
+		while (env2)
+		{
+			if (!(ft_strncmp(env2->key, "PWD", 3)))
+			{
+				ft_printf("New pwd: %s\n", env2->value);
+			}
+			env2 = env2->next;
+		}
+
 		while (mini->cmd_list)
 		{
 			tmp = mini->cmd_list;

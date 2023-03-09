@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/09 00:33:35 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/09 16:55:00 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <unistd.h>
 # include <signal.h>
 # include <string.h>
+# include <dirent.h>
 # include <sys/wait.h>
 
 # define ERR_NCMD 0
@@ -74,7 +75,7 @@ int	ft_perror(int err, char *cmd);
 //builtins
 int		is_builtin(t_list *head, t_list **envp, int **pipes, int index, int cmd_num);
 int		ft_echo(t_list *head, int **pipes, int index, int cmd_num);
-int		ft_cd();
+char	*ft_cd(t_list *head, t_list **envp);
 int		ft_pwd();
 int		ft_export(t_list *head, t_list **envp);
 int		ft_unset(t_list *head, t_list **envp);

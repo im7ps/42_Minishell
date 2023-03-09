@@ -6,11 +6,184 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:35:55 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/06 16:36:07 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/09 19:31:11 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_cd()
+#include "../inc/minishell.h"
+
+int	update_env_pwd(char *new_path, t_list **envp)
 {
+	t_list	*env;
+
+	env = *envp;
+	while (env)
+	{
+		if (!(ft_strncmp(env->key, "PWD", 3)))
+		{
+			free(env->value);
+			env->value = NULL;
+			env->value = new_path;
+		}
+		env = env->next;
+	}
 	return (0);
+}
+
+int	ft_absolute_path(char *abs_path, t_list **envp)
+{
+    DIR *dir;
+
+	dir = opendir(abs_path);  // apre la directory
+    if (dir) 
+	{
+        // la directory esiste ed è stata aperta con successo
+        if (chdir(abs_path) == 0) // cambia la directory corrente
+		{
+			ft_printf("time to change the env pwd\n");
+			//update_env_pwd(abs_path);
+		}
+		else
+		{
+			ft_printf("Error changing directory\n");
+			return (1);
+		}
+		closedir(dir);
+	}
+	else
+	{
+		ft_printf("Il percorso non esiste!\n");
+	}
+	return (0);
+}
+
+int	ft_move_forward(char *path, t_list **envp)
+{
+	char	*abs_path;
+	char	*pwd_slash;
+	char	pwd[1024];
+
+	getcwd(pwd, sizeof(pwd));
+	pwd_slash = ft_strjoin(pwd, "/");
+	abs_path = ft_strjoin(pwd_slash, path);
+	ft_absolute_path(abs_path, envp);
+	free(abs_path);
+	free(pwd_slash);
+	return (0);
+}
+
+int	ft_move_backwards(char *path, t_list **envp)
+{
+	int	i;
+	int	counter;
+
+	i = 0;
+	counter = 0;
+	while (path[i])
+	{
+		if (!(ft_strncmp(path, "../", 3)))
+		{
+			i = i + 2;
+			counter++;
+		}
+		i++;
+	}
+	
+	return (0);
+}
+
+int	ft_move_backwards_one(t_list **envp)
+{
+	int		i;
+	int		last_slash;
+	int		res;
+	char	*newpath;
+	char	pwd[1024];
+
+	i = 0;
+	last_slash = 0;
+	getcwd(pwd, sizeof(pwd));
+	while (pwd[i])
+	{
+		if (pwd[i] == '/')
+		{
+			last_slash = i;
+		}
+		i++;
+	}
+	newpath = (char *) malloc (sizeof(char) * (last_slash + 1));
+	ft_strlcpy(newpath, pwd, last_slash + 1);
+	res = chdir(newpath);
+	if (res != 0)
+		return (1);
+	update_env_pwd(newpath, envp);
+	return (0);
+}
+
+int	ft_relative_path(char *rel_path, int len, t_list **envp)
+{
+	int	i;
+
+	i = 0;
+	if ((len == 2 && (rel_path[0] == '.' && rel_path[1] == '/')) || (len == 1 && rel_path[0] == '.'))		//stai nella directory corrente
+	{
+		ft_printf("Input: ./ or .\n");
+		return (0);
+	}
+	else if ((len == 2 && (rel_path[0] == '.' && rel_path[1] == '.')))
+	{
+		ft_move_backwards_one(envp);
+	}
+	else
+	{
+		if (ft_isalpha(rel_path[0]))
+		{
+			ft_move_forward(rel_path, envp);
+		}
+		else
+		{
+			ft_move_backwards(rel_path, envp);
+		}
+	}
+	return (0);
+}
+
+char	*ft_cd(t_list *head, t_list **envp)
+{
+	char	*prev_dir;
+	int		chdir_res;
+	int 	i;
+
+	i = 0;
+	while (head->cmd_m[i])
+	{
+		ft_printf("%i\n", i);
+		i++;
+	}
+	if (i > 2) //se ci sono piú di due argomenti cd fallisce
+	{
+		ft_printf("cd: string not in pwd: %s\n", head->cmd_m[2]);
+	}
+	else
+	{
+		if (head->cmd_m[1][0] == '/')
+		{
+			ft_absolute_path(head->cmd_m[1], envp);
+		}
+		else if (head->cmd_m[1][0] == '.' || ft_isalpha(head->cmd_m[1][0]))
+		{
+			ft_relative_path(head->cmd_m[1], ft_strlen(head->cmd_m[1]), envp);
+		}
+	}
+	//se é un path relativo: 
+	//verso dietro-> capire di quante cartelle bisogna andare indietro e poi chiamare chdir con il percorso assoluto modificato
+	//verso avanti-> fare la strjoin con il pwd attuale e aggiungere la cartella in cui si vuole entrare
+
+	//se é un path assoluto mandarlo direttamente a chdir
+
+	//in caso di successo aggiornare la variabile pwd dell env
+
+	
+
+	return (prev_dir);
 }
