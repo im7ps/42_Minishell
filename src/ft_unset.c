@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:36:34 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/09 00:43:48 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/09 20:24:19 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,24 +44,39 @@ void ft_delete_node(t_list **list, t_list *nodeToDelete)
     free(nodeToDelete);
 }
 
-int	ft_unset(t_list *head, t_list **envp)
+int	ft_unset(t_list *head, t_list **envp, char  *var)
 {
 	int		i;
 	t_list	*env;
 
 	i = 0;
-	while (head->cmd_m[i])
-	{
-		env = *envp;
-		while (env)
-		{
-			if (!(strncmp(head->cmd_m[i], env->key, ft_strlen(head->cmd_m[i]))))
-			{
-				ft_delete_node(envp, env);
-			}
-			env = env->next;
-		}
-		i++;
-	}
+    if (var != NULL)
+    {
+        env = *envp;
+        while (env)
+        {
+            if (!(strncmp(var, env->key, ft_strlen(var))))
+            {
+                ft_delete_node(envp, env);
+            }
+            env = env->next;
+        }
+    }
+    else if (head != NULL)
+    {
+        while (head->cmd_m[i])
+        {
+            env = *envp;
+            while (env)
+            {
+                if (!(strncmp(head->cmd_m[i], env->key, ft_strlen(head->cmd_m[i]))))
+                {
+                    ft_delete_node(envp, env);
+                }
+                env = env->next;
+            }
+            i++;
+        }
+    }
 	return (0);
 }

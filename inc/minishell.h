@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/09 16:55:00 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/09 20:28:18 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ int		ft_echo(t_list *head, int **pipes, int index, int cmd_num);
 char	*ft_cd(t_list *head, t_list **envp);
 int		ft_pwd();
 int		ft_export(t_list *head, t_list **envp);
-int		ft_unset(t_list *head, t_list **envp);
+int		ft_unset(t_list *head, t_list **envp, char *var);
+void 	ft_delete_node(t_list **list, t_list *nodeToDelete);
 int		ft_env(t_list **envp);
 
 //without the proto of this func readline does not work

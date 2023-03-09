@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:16:59 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/09 16:52:41 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/09 20:18:07 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ int	is_builtin(t_list *head, t_list **envp, int **pipes, int index, int cmd_num)
 {
 	if (!ft_strncmp(head->cmd_m[0], "echo", 4))
 	{
-		// ft_printf("FOUND %s\n", head->cmd_m[0]);
-		// return (1);
 		return (!(ft_echo(head, pipes, index, cmd_num)));
 	}
 	else if (!ft_strncmp(head->cmd_m[0], "cd", 2))
@@ -34,7 +32,7 @@ int	is_builtin(t_list *head, t_list **envp, int **pipes, int index, int cmd_num)
 	}
 	else if (!ft_strncmp(head->cmd_m[0], "unset", 5))
 	{
-		return (!(ft_unset(head, envp)));
+		return (!(ft_unset(head, envp, NULL)));
 	}
 	else if (!ft_strncmp(head->cmd_m[0], "env", 3))
 	{

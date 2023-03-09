@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:36:24 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/09 00:32:51 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/09 20:30:03 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	ft_export(t_list *head, t_list **envp)
 	int		j;
 	int		k;
 	t_list 	*new_node;
+	t_list	*env;
 
 	i = 1;
 	while (head->cmd_m[i])
@@ -69,16 +70,26 @@ int	ft_export(t_list *head, t_list **envp)
 		}
 		else
 		{
-			new_node = (t_list *) malloc (sizeof(t_list));
-			if (new_node == NULL)
-				return (1);
-
 			j = 0;
 			while (head->cmd_m[i][j] != '=')
 			{
 				j++;
 			}
+			//check se hanno inserito solo il nome della variabile, in tal caso il programma non deve fare nulla
+			if (j >= ft_strlen(head->cmd_m[i]))
+			{
+				return (0);
+			}
+
+			//check se la variabile nell env esiste giá, in tal caso il programma elimina il nodo relativo a quella variabile e ne alloca un'altra con il nuovo content
+			
+			//se la variabile non esiste, alloca un nuovo nodo alla lista envp con il relativo contenuto
+			new_node = (t_list *) malloc (sizeof(t_list));
+			if (new_node == NULL)
+				return (1);
+
 			new_node->key = ft_substr_old(head->cmd_m[i], 0, j);
+			ft_unset(NULL, envp, new_node->key);
 			k = 0;
 			while (head->cmd_m[i][j + k] != '\0')
 			{

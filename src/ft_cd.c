@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:35:55 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/09 20:06:29 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/09 20:09:53 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ int	ft_move_forward(char *path, t_list **envp)
 
 	if (path == NULL)
 		return (1);
-	ft_printf("|%s|\n", path);
 	pwd = malloc_pwd();
 	getcwd(pwd, sizeof(pwd));
 	pwd_slash = ft_strjoin(pwd, "/");
