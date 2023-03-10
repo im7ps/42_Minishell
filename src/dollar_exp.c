@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:51:10 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/03 19:46:21 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/10 17:32:22 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,34 @@ char	*ft_dollar_starter(t_list **envp, char  *str, int i)
 	}
 	return (NULL);
 }
+/*
+char	*ft_dollar_expander(t_list **envp, char *str)
+{
+	int			i;
+	int			j;
+	char		*tmp;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '$')
+		{
+			tmp = ft_dollar_starter(envp, str, i);
+			if (tmp != NULL)
+			{
+				return (tmp);
+			}
+			else
+			{
+				return (str + i);
+			}
+		}
+		i++;
+	}
+	return (str);
+}
+*/
+
 
 char	*ft_dollar_expander(t_list **envp, char *str)
 {

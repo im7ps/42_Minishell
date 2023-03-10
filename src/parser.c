@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:44:36 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/06 18:09:45 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/10 17:30:25 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,33 @@ void	ft_set_attributes(t_minishell **minip, t_miniflags **minif)
 	// }
 }
 
+char	*ft_quotes_eraser(char *cmd)
+{
+	int		i;
+	int		j;
+	int		quotes_c;
+	char	*clean_cmd;
+
+	quotes_c = 0;
+	clean_cmd = (char *) malloc (sizeof(char) * (ft_strlen(cmd) + 1));
+	i = 0;
+	j = 0;
+	while (cmd[i])
+	{
+		quotes_c = ft_is_escaped(cmd[i]);
+		if (quotes_c == 0)
+		{
+			clean_cmd[j] = cmd[i];
+			j++;
+		}
+		i++;
+	}
+	clean_cmd[j] = '\0';
+	free(cmd);
+	ft_printf("Quotes: %d\n", quotes_c);
+	return (clean_cmd);
+}
+
 int	ft_parser(t_minishell **minip, t_miniflags **minif)
 {
 	t_minishell *mini;
@@ -185,11 +212,13 @@ int	ft_parser(t_minishell **minip, t_miniflags **minif)
 		while (cmd->cmd_m[i])
 		{
 			//ft_printf("CHECK %s\n", cmd->cmd_m[i]);
+			cmd->cmd_m[i] = ft_quotes_eraser(cmd->cmd_m[i]);
 			cmd->cmd_m[i] = ft_dollar_expander(&mini->envp_list, cmd->cmd_m[i]);
 			if (cmd->cmd_m[i] == NULL)
 			{
 				ft_printf("Sus\n");
 			}
+			ft_printf("%s\n", cmd->cmd_m[i]);
 			// ft_printf("DOLLAR %s\n", cmd->cmd_m[i]);
 			i++;
 		}

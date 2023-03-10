@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:36:24 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/10 14:49:12 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/10 16:34:08 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,18 @@ char	*ft_delete_quotes(char *value)
 	return (value);	
 }
 
+void	ft_export_alone(t_list **envp)
+{
+	t_list *env;
+
+	env = *envp;
+	while (env)
+	{
+		ft_printf("declare -x %s\n", env->value);
+		env = env->next;
+	}
+}
+
 int	ft_export(t_list *head, t_list **envp)
 {
 	int		i;
@@ -60,6 +72,16 @@ int	ft_export(t_list *head, t_list **envp)
 	t_list 	*new_node;
 	t_list	*env;
 
+	i = 0;
+	while (head->cmd_m[i])
+	{
+		i++;
+	}
+	if ((ft_strlen(head->cmd_m[0]) == 6) && !(ft_strncmp(head->cmd_m[0], "export", 6)) && i == 1)
+	{
+		ft_export_alone(envp);
+		return (0);
+	}
 	i = 1;
 	while (head->cmd_m[i])
 	{
@@ -70,12 +92,18 @@ int	ft_export(t_list *head, t_list **envp)
 		}
 		else
 		{
+			//controlla se il primo carattere è alfabetico o è un underscore, in tutti gli altri casi error
+			if (!(ft_isalpha(head->cmd_m[i][j]) || head->cmd_m[i][j] == '_'))
+			{
+				ft_printf("error\n");
+				return (1);
+			}
 			j = 0;
 			while (head->cmd_m[i][j] != '=')
 			{
 				j++;
 			}
-			//check se hanno inserito solo il nome della variabile, in tal caso il programma non deve fare nulla
+			//check se hanno inserito solo il nome della variabile, in tal caso il programma non fa nulla
 			if (j >= ft_strlen(head->cmd_m[i]))
 			{
 				return (0);

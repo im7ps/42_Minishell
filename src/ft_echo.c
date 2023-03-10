@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:36:13 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/09 22:52:20 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/10 16:39:12 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,13 +133,11 @@ int	ft_is_flag(char *cmd_arg)
 {
 	int	i;
 
-	//ft_printf("debug: %s\n", cmd_arg[0]);
 	if (cmd_arg[0] != '-')			//se il primo char non é un - sicuramente non é una flag
 		return (0);
 	i = 1;
 	while (cmd_arg[i])
 	{
-		ft_printf("debug: %c\n", cmd_arg[i]);
 		if (cmd_arg[i] != 'n')		//se un char dell argomento non é n non é una flag
 			return (0);
 		i++;
@@ -178,8 +176,10 @@ int	ft_echo(t_list *head, int **pipes, int index, int cmd_num)
 	{
 		if (i > flag_index)
 		{
+			//se non è l ultimo comando l output non va su STDOUT
 			if (index != cmd_num - 1)
 			{
+				//va scritto tutto tranne la pipe
 				if (i != last_arg - 1)
 				{
 					write(pipes[index + 1][1], head->cmd_m[i], ((ft_strlen(head->cmd_m[i])) * sizeof(char)));
@@ -196,6 +196,7 @@ int	ft_echo(t_list *head, int **pipes, int index, int cmd_num)
 					}
 				}
 			}
+			//se è l ultimo comando l output va su STDOUT
 			else
 			{
 				write(STDOUT_FILENO, head->cmd_m[i], (ft_strlen(head->cmd_m[i]) * sizeof(char)));
