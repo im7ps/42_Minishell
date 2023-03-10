@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 20:47:30 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/07 14:35:23 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/10 17:51:45 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ int	ft_input_checker(char	*input)
 	qcount = 0;
 	while (input[i])
 	{
-		if (!(input[i] == '"' || input[i] == '$' || input[i] == '\'' || input[i] == '|' || input[i] == '-' || \
+		if (!(input[i] == '=' || input[i] == '"' || input[i] == '$' || input[i] == '\'' || input[i] == '|' || input[i] == '-' || \
 			input[i] == '>' || input[i] == '<' || input[i] == ' ' || (input[i] > 47 && input[i] < 58) || \
 			input[i] == '_' || (input[i] > 64 && input[i] < 91) || (input[i] > 96 && input[i] < 123)))
 		{
