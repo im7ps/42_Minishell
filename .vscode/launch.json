@@ -18,13 +18,13 @@
             "MIMode": "lldb"
         },
         {
-            "name": "(gdb) Launch",
+	        "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/home/step/C/42_Minishell/minishell",
+            "program": "/home/step/C/minishell/minishell",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "/home/step/C/42_Minishell",
+            "cwd": "/home/step/C/minishell",
             "environment": [],
             "externalConsole": false,
             "miDebuggerPath": "gdb",

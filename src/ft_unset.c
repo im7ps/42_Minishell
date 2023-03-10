@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:36:34 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/09 20:24:19 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/10 15:12:20 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void ft_delete_node(t_list **list, t_list *nodeToDelete)
     // Modifica il puntatore "next" del nodo precedente in modo che punti al nodo successivo
     prevNode->next = nodeToDelete->next;
     free(nodeToDelete);
+	nodeToDelete = NULL;
 }
 
 int	ft_unset(t_list *head, t_list **envp, char  *var)
@@ -72,6 +73,7 @@ int	ft_unset(t_list *head, t_list **envp, char  *var)
                 if (!(strncmp(head->cmd_m[i], env->key, ft_strlen(head->cmd_m[i]))))
                 {
                     ft_delete_node(envp, env);
+					break;
                 }
                 env = env->next;
             }
