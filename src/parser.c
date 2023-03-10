@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:44:36 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/10 17:30:25 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/10 17:36:52 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,7 +218,6 @@ int	ft_parser(t_minishell **minip, t_miniflags **minif)
 			{
 				ft_printf("Sus\n");
 			}
-			ft_printf("%s\n", cmd->cmd_m[i]);
 			// ft_printf("DOLLAR %s\n", cmd->cmd_m[i]);
 			i++;
 		}
