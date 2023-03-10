@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/09 20:28:18 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/10 18:35:27 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,12 @@ int	ft_perror(int err, char *cmd);
 //builtins
 int		is_builtin(t_list *head, t_list **envp, int **pipes, int index, int cmd_num);
 int		ft_echo(t_list *head, int **pipes, int index, int cmd_num);
-char	*ft_cd(t_list *head, t_list **envp);
-int		ft_pwd();
-int		ft_export(t_list *head, t_list **envp);
+char	*ft_cd(t_list *head, t_list **envp, int cmd_num);
+int		ft_pwd(char **cmd_m, int **pipes, int index);
+int		ft_export(t_list *head, t_list **envp, int **pipes, int index);
 int		ft_unset(t_list *head, t_list **envp, char *var);
-void 	ft_delete_node(t_list **list, t_list *nodeToDelete);
-int		ft_env(t_list **envp);
+void 	ft_delete_node(t_list **head, t_list *node_to_delete);
+int		ft_env(t_list **envp, int **pipes, int index, char **cmd_m);
 
 //without the proto of this func readline does not work
 void	rl_replace_line(const char *text, int clear_undo);

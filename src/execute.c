@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 19:31:05 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/10 16:41:41 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/10 18:45:15 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,11 +223,11 @@ int ft_start_executing(t_list	**cmd_list, int cmd_num, t_list **envp)
 			not_built_in_counter++;
 			ft_printf("Eseguito comando builtin\n");
 		}
-		else if (!builtin_res)
-		{
-			printf("builtin error\n");
-			return (1);
-		}
+		//else if (!builtin_res)
+		//{
+		//	printf("builtin error\n");
+		//	return (1);
+		//}
 		else
 		{
 			head->cmd_m[0] = ft_trypath(head->cmd_m[0], envp);

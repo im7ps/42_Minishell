@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:16:59 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/10 17:53:59 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/10 18:35:19 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ int	is_builtin(t_list *head, t_list **envp, int **pipes, int index, int cmd_num)
 	}
 	else if (!ft_strncmp(head->cmd_m[0], "cd", 2))
 	{
-		return (!(ft_cd(head, envp)));
+		return (!(ft_cd(head, envp, cmd_num)));
 	}
 	else if (!ft_strncmp(head->cmd_m[0], "pwd", 3))
 	{
-		return (!(ft_pwd()));
+		return (!(ft_pwd(head->cmd_m, pipes, index)));
 	}
 	else if (!ft_strncmp(head->cmd_m[0], "export", 6))
 	{
-		return (!(ft_export(head, envp)));
+		return (!(ft_export(head, envp, pipes, index)));
 	}
 	else if (!ft_strncmp(head->cmd_m[0], "unset", 5))
 	{
@@ -36,7 +36,7 @@ int	is_builtin(t_list *head, t_list **envp, int **pipes, int index, int cmd_num)
 	}
 	else if (!ft_strncmp(head->cmd_m[0], "env", 3))
 	{
-		return (!(ft_env(envp)));
+		return (!(ft_env(envp, pipes, index, head->cmd_m)));
 	}
 	return (0);
 }

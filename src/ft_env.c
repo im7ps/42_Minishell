@@ -6,20 +6,45 @@
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:36:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/08 23:12:53 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/10 19:21:14 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	ft_env(t_list **envp)
+int	ft_env(t_list **envp, int **pipes, int index, char **cmd_m)
 {
-	t_list *env;
+	t_list	*env;
+	int		i;
 
+	i = 0;
+	while (cmd_m[i])
+	{
+		i++;
+	}
 	env = *envp;
 	while (env)
 	{
-		ft_printf("%s=%s\n", env->key, env->value);
+		if (!ft_strncmp(cmd_m[i - 1], "|", 1))
+		{
+			if (env->key)
+			{
+				write(pipes[index + 1][1], env->key, (sizeof(char) * ft_strlen(env->key)));
+			}
+			write(pipes[index + 1][1], "=", sizeof(char));
+			if (env->value)
+			{
+				write(pipes[index + 1][1], env->value, (sizeof(char) * ft_strlen(env->value)));
+			}
+			write(pipes[index + 1][1], "\n", sizeof(char));
+		}
+		else
+		{
+			/*write(STDOUT_FILENO, env->key, (sizeof(char) * (ft_strlen(env->key) + 1)));
+			write(STDOUT_FILENO, "=", sizeof(char));
+			write(STDOUT_FILENO, env->value, (sizeof(char) * (ft_strlen(env->value) + 1)));*/
+			ft_printf("%s=%s\n", env->key, env->value);
+		}
 		env = env->next;
 	}
 	return (0);

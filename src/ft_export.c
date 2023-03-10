@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:36:24 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/10 18:05:01 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/10 19:14:46 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	ft_export_alone(t_list **envp)
 	}
 }
 
-int	ft_export(t_list *head, t_list **envp)
+int	ft_export(t_list *head, t_list **envp, int **pipes, int index)
 {
 	int		i;
 	int		j;
@@ -73,10 +73,6 @@ int	ft_export(t_list *head, t_list **envp)
 	t_list	*env;
 
 	i = 0;
-	while (head->cmd_m[i])
-	{
-		i++;
-	}
 	if ((ft_strlen(head->cmd_m[0]) == 6) && !(ft_strncmp(head->cmd_m[0], "export", 6)) && i == 1)
 	{
 		ft_export_alone(envp);
@@ -110,7 +106,7 @@ int	ft_export(t_list *head, t_list **envp)
 			{
 				j = 0;
 				env = *envp;
-				ft_env(&env);
+				ft_env(&env, pipes, index, head->cmd_m);
 				while (head->cmd_m[i])
 				{
 					ft_printf("declare -x %s\n", head->cmd_m[i]);

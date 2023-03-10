@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:35:55 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/09 20:09:53 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/10 18:11:14 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,42 +183,47 @@ int	ft_relative_path(char *rel_path, int len, t_list **envp)
 	return (0);
 }
 
-char	*ft_cd(t_list *head, t_list **envp)
+//se é un path relativo: 
+//verso dietro-> capire di quante cartelle bisogna andare indietro e poi chiamare chdir con il percorso assoluto modificato
+//verso avanti-> fare la strjoin con il pwd attuale e aggiungere la cartella in cui si vuole entrare
+
+//se é un path assoluto mandarlo direttamente a chdir
+
+//in caso di successo aggiornare la variabile pwd dell env
+char	*ft_cd(t_list *head, t_list **envp, int cmd_num)
 {
 	char	*prev_dir;
 	int		chdir_res;
 	int 	i;
 
-	i = 0;
-	while (head->cmd_m[i])
+	if (cmd_num != 1)
 	{
-		ft_printf("%i\n", i);
-		i++;
-	}
-	if (i > 2) //se ci sono piú di due argomenti cd fallisce
-	{
-		ft_printf("cd: string not in pwd: %s\n", head->cmd_m[2]);
+		ft_printf("cd con altri comandi non fa nulla perciò return\n");
+		return (0);
 	}
 	else
 	{
-		if (head->cmd_m[1][0] == '/')
+		i = 0;
+		while (head->cmd_m[i])
 		{
-			ft_absolute_path(head->cmd_m[1], envp);
+			ft_printf("%i\n", i);
+			i++;
 		}
-		else if (head->cmd_m[1][0] == '.' || ft_isalpha(head->cmd_m[1][0]))
+		if (i > 2) //se ci sono piú di due argomenti cd fallisce
 		{
-			ft_relative_path(head->cmd_m[1], ft_strlen(head->cmd_m[1]), envp);
+			ft_printf("cd: string not in pwd: %s\n", head->cmd_m[2]);
 		}
+		else
+		{
+			if (head->cmd_m[1][0] == '/')
+			{
+				ft_absolute_path(head->cmd_m[1], envp);
+			}
+			else if (head->cmd_m[1][0] == '.' || ft_isalpha(head->cmd_m[1][0]))
+			{
+				ft_relative_path(head->cmd_m[1], ft_strlen(head->cmd_m[1]), envp);
+			}
+		}
+		return (prev_dir);
 	}
-	//se é un path relativo: 
-	//verso dietro-> capire di quante cartelle bisogna andare indietro e poi chiamare chdir con il percorso assoluto modificato
-	//verso avanti-> fare la strjoin con il pwd attuale e aggiungere la cartella in cui si vuole entrare
-
-	//se é un path assoluto mandarlo direttamente a chdir
-
-	//in caso di successo aggiornare la variabile pwd dell env
-
-	
-
-	return (prev_dir);
 }
