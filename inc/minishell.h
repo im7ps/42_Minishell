@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/15 00:22:39 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/15 17:58:29 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,16 @@ char	*read_and_join(int fd, char	*dst, int buffer_size);
 char	*get_line(char	*buffer);
 char	*store_extra_char(char	*buffer);
 
+//redirection
+char	**ft_delete_redirection(char **cmd_m);
+int		ft_redirection_type(char **command);
+
 //malloc & free
 void    *ft_malloc_stuff(int n);
 
 //executing commands
-int ft_start_executing(t_list	**cmd_list, int cmd_num, t_list **envp);
-int		ft_exec_cmd(t_list	*head, int cmd_num);
+int 	ft_start_executing(t_list	**cmd_list, int cmd_num, t_list **envp);
+int		ft_execute_command(int **pipes, char **args, t_list *head, int cmd_num, int index);
 
 //signals
 void	ft_CTRL_C_handler(int signum);
@@ -122,6 +126,7 @@ char		**ft_old_split(char const *s, char c);
 int			old_count_w(char *str, char c);
 char		**old_fill_m(const char *s, char c, char	**matrix, int num_w);
 int			ft_count_commands(t_list **cmd_list);
+char		*ft_trypath(char	*cmd, t_list **envp);
 
 //free
 void		ft_lst_delete(t_list **stack);

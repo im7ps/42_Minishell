@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 19:06:26 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/07 18:21:43 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/15 22:46:28 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
+	if (s1 == NULL || s2 == NULL)
+	{
+		return (0);
+	}
 	while ((*s1 || *s2) && n--)
 	{
 		if (*s1 != *s2)

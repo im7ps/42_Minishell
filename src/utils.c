@@ -3,14 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 18:29:08 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/03 18:34:08 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/15 20:06:48 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+char	*ft_trypath(char	*cmd, t_list **envp)
+{
+	t_list 	*env;
+	char	**trypath;
+	char	*cmdcopy;
+	int		i;
+
+	i = 0;
+	env = *envp;
+	while (env)
+	{
+		if (!(ft_strncmp("PATH", env->key, 4)))
+		{
+			trypath = ft_old_split(env->value, ':');
+		}
+		i++;
+		env = env->next;
+	}
+
+	cmdcopy = cmd;
+
+	i = 0;
+	while (trypath[i])
+	{
+		trypath[i] = ft_strjoin(trypath[i], "/");
+		cmd = ft_strjoin(trypath[i], cmd);
+		if (access(cmd, X_OK) == 0)
+		{
+			ft_printf("found: %s\n", cmd);
+			return (cmd);
+		}
+		else
+		{
+			//ft_printf("Not found!\n");
+			cmd = cmdcopy;
+		}
+		i++;
+	}
+	return (NULL);
+}
 
 void	ft_clean_all(t_minishell **minip, t_miniflags **minif)
 {
