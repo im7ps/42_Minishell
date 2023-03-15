@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/03/10 17:35:15 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/15 17:33:01 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 		// {
 		// 	if (!(ft_strncmp(env->key, "PWD", 3)))
 		// 	{
-		// 		ft_printf("Old pwd: %s\n", env->value);
+		// 		ft_printf("VALUE: %s\n", env->value);
 		// 	}
 		// 	env = env->next;
 		// }

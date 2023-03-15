@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/10 18:35:27 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/15 00:22:39 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@
 # include <unistd.h>
 # include <signal.h>
 # include <string.h>
+# include <fcntl.h>
 # include <dirent.h>
+# include <sys/stat.h>
 # include <sys/wait.h>
 
 # define ERR_NCMD 0
@@ -85,6 +87,11 @@ int		ft_env(t_list **envp, int **pipes, int index, char **cmd_m);
 //without the proto of this func readline does not work
 void	rl_replace_line(const char *text, int clear_undo);
 
+//get next line
+char	*get_next_line(int fd, int buffer_size);
+char	*read_and_join(int fd, char	*dst, int buffer_size);
+char	*get_line(char	*buffer);
+char	*store_extra_char(char	*buffer);
 
 //malloc & free
 void    *ft_malloc_stuff(int n);

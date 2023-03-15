@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 16:23:15 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/08 23:59:49 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/14 23:40:02 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 typedef struct s_list
 {
+	int		red;
 	char	**cmd_m;			//node variables
 	char	*name;				//node variables
 	char	**flags;			//node variables

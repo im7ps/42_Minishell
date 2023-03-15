@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:44:36 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/10 17:36:52 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/15 15:31:50 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_list *ft_create_list(t_list **cmd_list, char	**full_cmd)
 		new_node->flags = NULL;
 		new_node->key = NULL;
 		new_node->value = NULL;
+		new_node->red = -1;
 		new_node->next = NULL;
 		ft_lstadd_back(cmd_list, new_node);
 		i++;
@@ -188,7 +189,6 @@ char	*ft_quotes_eraser(char *cmd)
 	}
 	clean_cmd[j] = '\0';
 	free(cmd);
-	ft_printf("Quotes: %d\n", quotes_c);
 	return (clean_cmd);
 }
 
@@ -211,7 +211,6 @@ int	ft_parser(t_minishell **minip, t_miniflags **minif)
 		i = 0;
 		while (cmd->cmd_m[i])
 		{
-			//ft_printf("CHECK %s\n", cmd->cmd_m[i]);
 			cmd->cmd_m[i] = ft_quotes_eraser(cmd->cmd_m[i]);
 			cmd->cmd_m[i] = ft_dollar_expander(&mini->envp_list, cmd->cmd_m[i]);
 			if (cmd->cmd_m[i] == NULL)
