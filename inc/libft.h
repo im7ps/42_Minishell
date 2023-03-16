@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 16:23:15 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/14 23:40:02 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/16 19:50:56 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*ft_strdup(const char *s1);
 char	*ft_strndup(const char *s1, int n);
 char	*ft_substr(char const *s, unsigned int start, int len);
 char	*ft_substr_old(char const *s, unsigned int start, int len);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin(char const *s1, char const *s2, int flag);
 char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *s, char c);
 char	*ft_itoa(int n);

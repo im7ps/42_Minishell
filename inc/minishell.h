@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/15 17:58:29 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/16 17:01:52 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void	ft_sig_handler(int signum, siginfo_t *info, void *ucontext);
 char	*ft_dollar_expander(t_list **envp, char *str);
 char    *ft_expander_helper(t_minishell **mini, char *input);
 char    *ft_expander_finder(t_minishell **minip, int i, char *input);
-char	*ft_dollar_starter(t_list **envp, char  *str, int i);
+char	*ft_dollar_starter(t_list **envp, char  *str);
 
 //utils
 void		ft_execute_mini(t_minishell **mini, t_miniflags **minif);
@@ -127,6 +127,7 @@ int			old_count_w(char *str, char c);
 char		**old_fill_m(const char *s, char c, char	**matrix, int num_w);
 int			ft_count_commands(t_list **cmd_list);
 char		*ft_trypath(char	*cmd, t_list **envp);
+int			ft_count_rows(char **cmd_m);
 
 //free
 void		ft_lst_delete(t_list **stack);

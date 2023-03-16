@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:35:55 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/10 18:11:14 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/16 19:50:32 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ int	ft_move_forward(char *path, t_list **envp)
 		return (1);
 	pwd = malloc_pwd();
 	getcwd(pwd, sizeof(pwd));
-	pwd_slash = ft_strjoin(pwd, "/");
-	abs_path = ft_strjoin(pwd_slash, path);
+	pwd_slash = ft_strjoin(pwd, "/", 0);
+	abs_path = ft_strjoin(pwd_slash, path, 0);
 	if (ft_absolute_path(abs_path, envp))
 		return (1);
 	//free(abs_path);

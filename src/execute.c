@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 19:31:05 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/15 22:45:23 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/16 20:37:27 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,12 +163,9 @@ int ft_start_executing(t_list	**cmd_list, int cmd_num, t_list **envp)
 				struct 		stat st;
 				
 				file_content = NULL;
-				while (!(ft_strncmp(file_content, "EOF", 3)))
+				while (1)
 				{
-					write(1, "\n", 1);
-					rl_on_new_line();
-					rl_replace_line("heredoc>", 0);
-					rl_redisplay();
+					readline("heredoc >");
 
 					fd2 = open("heredoc_tmp.txt", O_RDWR | O_CREAT, 0644);
 					if (!fd2)
@@ -187,14 +184,14 @@ int ft_start_executing(t_list	**cmd_list, int cmd_num, t_list **envp)
 					buffer_size = st.st_size;
 					file_content = (char *) malloc (sizeof(char) * (buffer_size + 1));
 					read(fd2, file_content, buffer_size);
-					// if (!ft_strncmp(file_content, "EOF", 3))
-					// {
-					// 	free(file_content);
-					// 	file_content = NULL;
-					// 	close(fd2);
-					// 	break ;
-					// }
-					// write(fd2, file_content, buffer_size);
+					if (!ft_strncmp(file_content, "EOF", 3))
+					{
+						free(file_content);
+						file_content = NULL;
+						close(fd2);
+						break ;
+					}
+					write(fd2, file_content, buffer_size);
 
 					// free(file_content);
 					// file_content = NULL;
@@ -202,7 +199,6 @@ int ft_start_executing(t_list	**cmd_list, int cmd_num, t_list **envp)
 				}
 				
 			}
-			ft_printf("Im here!!!\n");
 			builtin_res = is_builtin(head, envp, pipes, i, cmd_num);
 			if (builtin_res)
 			{
@@ -216,7 +212,10 @@ int ft_start_executing(t_list	**cmd_list, int cmd_num, t_list **envp)
 				if (head->cmd_m[0] == NULL)
 				{
 					ft_printf("Command not found\n");
-					head = head->next;
+					if (head->next != NULL)
+						head = head->next;
+					else
+						return (1);
 				}
 				if (head->next != NULL)
 				{

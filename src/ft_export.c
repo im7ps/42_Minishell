@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:36:24 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/10 19:14:46 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/16 16:51:19 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	ft_export_alone(t_list **envp)
 	env = *envp;
 	while (env)
 	{
-		ft_printf("declare -x %s\n", env->value);
+		ft_printf("declare -x %s=\"%s\"\n", env->key, env->value);
 		env = env->next;
 	}
 }
@@ -73,7 +73,7 @@ int	ft_export(t_list *head, t_list **envp, int **pipes, int index)
 	t_list	*env;
 
 	i = 0;
-	if ((ft_strlen(head->cmd_m[0]) == 6) && !(ft_strncmp(head->cmd_m[0], "export", 6)) && i == 1)
+	if ((ft_strlen(head->cmd_m[0]) == 6 && ft_count_rows(head->cmd_m) == 1) && !(ft_strncmp(head->cmd_m[0], "export", 6)))
 	{
 		ft_export_alone(envp);
 		return (0);

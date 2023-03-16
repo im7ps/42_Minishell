@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:01:20 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/06 18:09:52 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/16 19:50:42 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ char	**fill_mv(const char *s, char *c, char	**matrix, int num_w)
 	if (s[0] == '>')
 	{
 		if (s[1] == '>')
-			matrix[0] = ft_strjoin(matrix[0], ">>");
+			matrix[0] = ft_strjoin(matrix[0], ">>", 0);
 		else if (s[1] == ' ')
-			matrix[0] = ft_strjoin(matrix[0], ">");
+			matrix[0] = ft_strjoin(matrix[0], ">", 0);
 		j++;
 	}
 	else if (s[0] == '<')
@@ -39,7 +39,7 @@ char	**fill_mv(const char *s, char *c, char	**matrix, int num_w)
 		if (s[1] == '<')
 			return (NULL);
 		else if (s[1] == ' ')
-			matrix[0] = ft_strjoin(matrix[0], "<");
+			matrix[0] = ft_strjoin(matrix[0], "<", 0);
 		j++;
 	}
 	///////////////////////////////////////////////

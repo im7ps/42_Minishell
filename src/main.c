@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/03/15 17:33:01 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/16 20:40:02 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 			ft_lst_delete(&mini->envp_list);
 			//free(mini);
 			//free(flags);
-			sleep(1);
 			exit(1);
 		}
 		if (ft_input_checker(mini->input) != 0)
@@ -74,7 +73,7 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 		// 	env = env->next;
 		// }
 
-		ft_start_executing(&mini->cmd_list, cmd_num, &mini->envp_list);
+		//ft_start_executing(&mini->cmd_list, cmd_num, &mini->envp_list);
 
 		// t_list *env2 = mini->envp_list;
 		// while (env2)

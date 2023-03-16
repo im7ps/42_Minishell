@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:44:36 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/15 15:31:50 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/16 21:07:40 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,14 +116,12 @@ char	ft_choose_att(char	*str)
 	return (type);
 }
 
-int		ft_count_rows(t_minishell **minip)
+int		ft_count_rows(char **cmd_m)
 {
 	int i;
-	t_minishell *mini;
 
 	i = 0;
-	mini = *minip;
-	while (mini->cmd_list->cmd_m[i])
+	while (cmd_m[i])
 	{
 		i++;
 	}
@@ -139,7 +137,7 @@ void	ft_set_attributes(t_minishell **minip, t_miniflags **minif)
 	char		type;
 	
 	i = 0;
-	len = ft_count_rows(minip);
+	//len = ft_count_rows((*minip)->cmd_list->cmd_m);
 	//mini->cmd_list->flags = (char **) malloc (sizeof(char *) * len);
 	// mini = *minip;
 	// while (mini->cmd_list)
@@ -166,30 +164,53 @@ void	ft_set_attributes(t_minishell **minip, t_miniflags **minif)
 	// }
 }
 
-char	*ft_quotes_eraser(char *cmd)
-{
-	int		i;
-	int		j;
-	int		quotes_c;
-	char	*clean_cmd;
+// char	*ft_quotes_eraser(char *cmd)
+// {
+// 	int		i;
+// 	int		j;
+// 	int		quotes_c;
+// 	char	*clean_cmd;
 
-	quotes_c = 0;
-	clean_cmd = (char *) malloc (sizeof(char) * (ft_strlen(cmd) + 1));
+// 	quotes_c = 0;
+// 	clean_cmd = (char *) malloc (sizeof(char) * (ft_strlen(cmd) + 1));
+// 	i = 0;
+// 	j = 0;
+// 	while (cmd[i])
+// 	{
+// 		quotes_c = ft_is_escaped(cmd[i]);
+// 		if (quotes_c == 0)
+// 		{
+// 			clean_cmd[j] = cmd[i];
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// 	clean_cmd[j] = '\0';
+// 	free(cmd);
+// 	return (clean_cmd);
+// }
+
+char *ft_quotes_eraser(char *final)
+{
+	char *tmp;
+	char c;
+	int i;
+	int j;
+
 	i = 0;
 	j = 0;
-	while (cmd[i])
+	if (final[0] == '"' || final[0] == '\'')
 	{
-		quotes_c = ft_is_escaped(cmd[i]);
-		if (quotes_c == 0)
-		{
-			clean_cmd[j] = cmd[i];
-			j++;
-		}
-		i++;
+		c = final[i++];
+		tmp = malloc(sizeof(char) * ft_strlen(final));
+		while(final[i] != c && final[i])
+			tmp[j++] = final[i++];
+		tmp[j] = '\0';
+		free(final);
+		final = NULL;
+		return(tmp);
 	}
-	clean_cmd[j] = '\0';
-	free(cmd);
-	return (clean_cmd);
+	return (final);
 }
 
 int	ft_parser(t_minishell **minip, t_miniflags **minif)
@@ -211,17 +232,23 @@ int	ft_parser(t_minishell **minip, t_miniflags **minif)
 		i = 0;
 		while (cmd->cmd_m[i])
 		{
-			cmd->cmd_m[i] = ft_quotes_eraser(cmd->cmd_m[i]);
+			//ft_printf("EXPANDED: %s\n", cmd->cmd_m[i]);
 			cmd->cmd_m[i] = ft_dollar_expander(&mini->envp_list, cmd->cmd_m[i]);
 			if (cmd->cmd_m[i] == NULL)
 			{
 				ft_printf("Sus\n");
+				return (1);
 			}
-			// ft_printf("DOLLAR %s\n", cmd->cmd_m[i]);
+			cmd->cmd_m[i] = ft_quotes_eraser(cmd->cmd_m[i]);
+			if (cmd->cmd_m[i] == NULL)
+			{
+				ft_printf("Sus\n");
+				return (1);
+			}
+			ft_printf("FINAL %s\n", cmd->cmd_m[i]);
 			i++;
 		}
 		cmd = cmd->next;
 	}
-
 	return (0);
 }
