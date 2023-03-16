@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:51:10 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/16 21:23:04 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/16 22:16:43 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,24 @@
 char	*search_content_env(t_list **head, char *str)
 {
 	t_list	*tmp;
-	char	*value; 
+	char	*value;
+	int		len;
 
+	len = 0;
+	while (ft_isalnum(str[len++]))
+		;
 	tmp = (*head);
 	while (tmp != NULL)
 	{
-		if (!ft_strncmp(tmp->key, str, ft_strlen(tmp->key)))
+		if (ft_strlen(tmp->key) == len)
 		{
-			value = (char *) malloc (sizeof(char) * (ft_strlen(tmp->value) + 1));
-			ft_strlcpy(value, tmp->value, ft_strlen(tmp->value) + 1);
-			value[ft_strlen(tmp->value)] = '\0';
-			return(value);
+			if (!ft_strncmp(tmp->key, str, ft_strlen(tmp->key)))
+			{
+				value = (char *) malloc (sizeof(char) * (ft_strlen(tmp->value) + 1));
+				ft_strlcpy(value, tmp->value, ft_strlen(tmp->value) + 1);
+				value[ft_strlen(tmp->value)] = '\0';
+				return(value);
+			}
 		}
 		tmp = tmp->next;
 	}
@@ -41,11 +48,8 @@ char *take_env(char *args, t_list **envp, int i)
 
 	j = 0;
 	after = 0;
-
 	while(args[j] != '$')
-	{
 		j++;
-	}
 	if (j != 0)
 	{
 		predollar = (char *) malloc (sizeof(char) * (j + 1));
@@ -54,66 +58,24 @@ char *take_env(char *args, t_list **envp, int i)
 	}
 	while (ft_isalnum(args[j + (++after)]))
 		;
-	ft_printf("Post dollar %s\n", args + j + after);
-	if (after != 1)
-	{
-		value = NULL;
-	}
-	else
-	{
-		value = search_content_env(envp, args + j + 1);
-	}
+	value = search_content_env(envp, args + j + 1);
 	if (j != 0)
 	{
-		value = ft_strjoin(predollar, value, 2);
+		if (!value)
+		{
+			value = predollar;
+		}
+		else if (value && predollar)
+			value = ft_strjoin(predollar, value, 0);
 	}
 	if (after != 1)
 	{
-		value = ft_strjoin(value, args + j + after, 0);
+		if (!value)
+			value = args + j + after;
+		else if (value && (args + j + after))
+			value = ft_strjoin(value, args + j + after, 0);
 	}
 	return(value);
-}
-
-char	*ft_expander(char *str, t_list **envp)
-{
-	t_list *env;
-	int		i;
-	char	*before_dollar;
-
-	env = *envp;
-	i = 0;
-
-	while (str[i] != '$')
-	{
-		i++;
-	}
-	if (i != 0)
-	{
-		before_dollar = (char *) malloc (sizeof(char) * (i + 1));
-		before_dollar[i] = '\0';
-		ft_strlcpy(before_dollar, str, i + 1);
-		ft_printf("Devo espandere: %s\n", before_dollar);
-	}
-
-	// while (envp_p != NULL)
-	// {
-	// 	if (len == ft_strlen(envp_p->key))
-	// 	{
-	// 		if (!(ft_strncmp(str + 1, envp_p->key, len)))
-	// 		{
-	// 			value_copy = malloc(sizeof(char) * ft_strlen(envp_p->value) + 1);
-	// 			ft_strlcpy(value_copy, envp_p->value, ft_strlen(envp_p->value) + 1);
-	// 			free(str);
-	// 			return (value_copy);
-	// 		}
-	// 	}
-	// 	envp_p = envp_p->next;
-	// }
-
-
-	// if (before_dollar)
-	// 	free(before_dollar);
-	return (NULL);
 }
 
 char	*ft_dollar_starter(t_list **envp, char  *str)
