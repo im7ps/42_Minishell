@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:44:36 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/16 21:07:40 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/17 15:25:31 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ void	ft_set_attributes(t_minishell **minip, t_miniflags **minif)
 // 	j = 0;
 // 	while (cmd[i])
 // 	{
-// 		quotes_c = ft_is_escaped(cmd[i]);
+// 		quotes_c = ft_is_escaped(cmd[i], 0);
 // 		if (quotes_c == 0)
 // 		{
 // 			clean_cmd[j] = cmd[i];
@@ -190,7 +190,7 @@ void	ft_set_attributes(t_minishell **minip, t_miniflags **minif)
 // 	return (clean_cmd);
 // }
 
-char *ft_quotes_eraser(char *final)
+char *ft_quotes_eraser(char *str)
 {
 	char *tmp;
 	char c;
@@ -199,18 +199,34 @@ char *ft_quotes_eraser(char *final)
 
 	i = 0;
 	j = 0;
-	if (final[0] == '"' || final[0] == '\'')
+	c = 0;
+	tmp = NULL;
+	while (str[i])
 	{
-		c = final[i++];
-		tmp = malloc(sizeof(char) * ft_strlen(final));
-		while(final[i] != c && final[i])
-			tmp[j++] = final[i++];
-		tmp[j] = '\0';
-		free(final);
-		final = NULL;
-		return(tmp);
+		if (str[i] == '\'' || str[i] == '"')
+		{
+			c = str[i];
+		}
+		i++;
 	}
-	return (final);
+	i = 0;
+	if (c != 0)
+	{
+		tmp = (char *) malloc (sizeof(char) * (ft_strlen(str) - 1));		//ha 2 spazi in piú perché le quotes verranno eliminate e 1 in meno per il fine stringa
+		while (str[i])
+		{
+			if (str[i] != '\'' && str[i] != '"')
+			{
+				tmp[j] = str[i];
+				j++;
+			}
+			i++;
+		}
+		tmp[j] = '\0';
+	}
+	if (tmp != NULL)
+		return (tmp);
+	return (str);
 }
 
 int	ft_parser(t_minishell **minip, t_miniflags **minif)

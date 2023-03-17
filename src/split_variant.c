@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:01:20 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/16 19:50:42 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/17 15:08:57 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	**fill_mv(const char *s, char *c, char	**matrix, int num_w)
 		{			
 			if (s[i + len] == 34 || s[i + len] == 39)
 			{
-				quotes = ft_is_escaped(s[i + len]);
+				quotes = ft_is_escaped(s[i + len], 0);
 				if (quotes > 0)
 					qcount++;
 				else if (quotes < 0)
@@ -100,7 +100,7 @@ int	count_wv(char *str, char *c)
 	{
 		if (*str == 34 || *str == 39)
 		{
-			quotes = ft_is_escaped(*str);
+			quotes = ft_is_escaped(*str, 0);
 			if (quotes > 0)
 				qcount++;
 			else if (quotes < 0)

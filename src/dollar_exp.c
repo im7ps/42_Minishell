@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:51:10 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/16 22:42:02 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/17 15:09:14 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ char *take_env(char *args, t_list **envp, int i)
 	while (ft_isalnum(args[j + (++after)]))
 		;
 	dollar = take_dollar(args, j);
-	ft_printf("Post dollar %s\n", dollar);
 	value = search_content_env(envp, dollar);
 	if (j != 0)
 	{
@@ -92,48 +91,6 @@ char *take_env(char *args, t_list **envp, int i)
 		
 	}
 	return(value);
-}
-
-char	*ft_expander(char *str, t_list **envp)
-{
-	t_list *env;
-	int		i;
-	char	*before_dollar;
-
-	env = *envp;
-	i = 0;
-
-	while (str[i] != '$')
-	{
-		i++;
-	}
-	if (i != 0)
-	{
-		before_dollar = (char *) malloc (sizeof(char) * (i + 1));
-		before_dollar[i] = '\0';
-		ft_strlcpy(before_dollar, str, i + 1);
-		ft_printf("Devo espandere: %s\n", before_dollar);
-	}
-
-	// while (envp_p != NULL)
-	// {
-	// 	if (len == ft_strlen(envp_p->key))
-	// 	{
-	// 		if (!(ft_strncmp(str + 1, envp_p->key, len)))
-	// 		{
-	// 			value_copy = malloc(sizeof(char) * ft_strlen(envp_p->value) + 1);
-	// 			ft_strlcpy(value_copy, envp_p->value, ft_strlen(envp_p->value) + 1);
-	// 			free(str);
-	// 			return (value_copy);
-	// 		}
-	// 	}
-	// 	envp_p = envp_p->next;
-	// }
-
-
-	// if (before_dollar)
-	// 	free(before_dollar);
-	return (NULL);
 }
 
 char	*ft_dollar_starter(t_list **envp, char  *str)
@@ -203,7 +160,14 @@ char	*ft_dollar_expander(t_list **envp, char *str)
 	while (str[i])
 	{
 		// controlla le virgolette
-		quotes = ft_is_escaped(str[i]);
+		if (i == 0)
+		{
+			quotes = ft_is_escaped(str[i], 1);
+		}
+		else
+		{
+			quotes = ft_is_escaped(str[i], 0);
+		}
 		if (quotes == 1)
 			in_dquotes = !in_dquotes;
 		else if (quotes == 2)

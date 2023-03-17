@@ -6,17 +6,22 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 20:47:30 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/16 21:01:29 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/17 15:08:44 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	ft_is_escaped(char	c)
+int	ft_is_escaped(char	c, int flag)
 {
 	static	bool	d_quote;
 	static	bool	s_quote;
 
+	if (flag)
+	{
+		d_quote = false;
+		s_quote = false;
+	}
 	if (c == 34 && !(d_quote || s_quote))
 	{
 		d_quote = true;
@@ -57,7 +62,7 @@ int	ft_double_red_checker(char	*input)
 	quotestoggle = 0;
 	while (input[i])
 	{
-		quotescount = ft_is_escaped(input[i]);
+		quotescount = ft_is_escaped(input[i], 0);
 		if (quotescount > 0)
 			quotestoggle++;
 		else if (quotescount < 0)
@@ -131,7 +136,7 @@ int	ft_input_checker(char	*input)
 		// {
 		// 	return (1);
 		// }
-		quotes = ft_is_escaped(input[i]);
+		quotes = ft_is_escaped(input[i], 0);
 		if(quotes > 0)
 			 qcount++;
 		else if (quotes < 0)

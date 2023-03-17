@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/16 17:01:52 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/17 15:08:12 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ typedef struct s_minishell
 //function to check and manipulate the input read from readline
 int		ft_parser(t_minishell **minip, t_miniflags **minif);
 int		ft_input_checker(char	*input);
-int		ft_is_escaped(char	c);
+int		ft_is_escaped(char	c, int flag);
 t_list	*ft_create_list(t_list **cmd_list, char **full_cmd);
 
 //building functions

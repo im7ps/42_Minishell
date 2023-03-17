@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:36:24 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/16 16:51:19 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/17 15:08:34 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_delete_quotes(char *value)
 	counter = 0;
 	while (value[i])
 	{
-		if (ft_is_escaped(value[i]) == 0)
+		if (ft_is_escaped(value[i], 0) == 0)
 		{
 			counter++;
 		}
@@ -38,7 +38,7 @@ char	*ft_delete_quotes(char *value)
 		i = 0;
 		while (value[i])
 		{
-			if (ft_is_escaped(value[i]) == 0)
+			if (ft_is_escaped(value[i], 0) == 0)
 			{
 				newvalue[k] = value[i];
 				k++;
