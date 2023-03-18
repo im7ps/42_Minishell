@@ -1,0 +1,51 @@
+<mxfile host="65bd71144e">
+    <diagram id="lQBfscxoMevyfBHIxW_O" name="Page-1">
+        <mxGraphModel dx="861" dy="343" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="41" value="INIZIO CICLO:&lt;br&gt;start_red = -1;&lt;br&gt;final_red = -1;&lt;br&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;rotation=0;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="20" width="100" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="44" value="&amp;gt;&lt;br&gt;Value = 4&lt;br&gt;&lt;br&gt;&amp;lt;&lt;br&gt;Value = 5&lt;br&gt;&lt;br&gt;&amp;gt;&amp;gt;&lt;br&gt;Value = 2&lt;br&gt;&lt;br&gt;&amp;lt;&amp;lt;&lt;br&gt;Value = 3&lt;br&gt;&lt;br&gt;|&lt;br&gt;Value = 1&lt;br&gt;&lt;br&gt;No Redirection&lt;br&gt;Value = 0" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="35" y="80" width="100" height="260" as="geometry"/>
+                </mxCell>
+                <mxCell id="46" value="&amp;gt; e &amp;gt;&amp;gt; combinati hanno lo stesso behaviour" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="205" y="35" width="260" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="47" value="CMD* ARG? &amp;gt; FILENAME* ARG?" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="235" y="80" width="200" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="50" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="48" target="49">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="48" value="CMD* ARG? &amp;gt; FILENAME1* ARG? &amp;gt; FILENAME2* ARG?" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="170" y="120" width="330" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="49" value="gli argomenti subiscono tutti il comando iniziale e il loro output&amp;nbsp;&lt;br&gt;viene mandato nel filename piú giovane (filename2),&lt;br&gt;&lt;br&gt;in pratica &amp;gt; prende un file e ci scrive tutti gli argomenti, &lt;br&gt;in modalitá append, &lt;br&gt;se&amp;nbsp;non trova un altra &amp;gt; o &amp;gt;&amp;gt; alla fine della stringa, &lt;br&gt;sennó scrive tutto sul&lt;br&gt;successivo filename" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="560" y="70" width="360" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="51" value="IS THE SAME AS" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="275" y="150" width="120" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="55" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="52" target="49">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="52" value="CMD* ARG? &amp;gt; FILENAME1* ARG? &amp;gt;&amp;gt; FILENAME2* ARG?" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="165" y="180" width="340" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="53" value="IS THE SAME AS" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="275" y="215" width="120" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="57" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="54" target="49">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="590.0000000000002" y="260" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="54" value="CMD* ARG? &amp;gt;&amp;gt; FILENAME1* ARG? &amp;gt; FILENAME2* ARG?" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="170" y="245" width="340" height="30" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

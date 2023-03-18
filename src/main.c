@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/03/16 20:40:02 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/18 20:52:23 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,11 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 			exit(1);
 		}
 		tmp = mini->cmd_list;
-		cmd_num = ft_count_commands(&mini->cmd_list);
+
+		//inizializza variabile contenente numero dei comandi
+		mini->cmd_num = ft_count_commands(&mini->cmd_list);
+		//inizializza le flag redirection in ogni nodo della lista, settando red di partenza e di fine argomento della pipeline
+		ft_upload_redirection(&mini->cmd_list);
 
 		// t_list *env = mini->envp_list;
 		// while (env)
@@ -73,7 +77,7 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 		// 	env = env->next;
 		// }
 
-		//ft_start_executing(&mini->cmd_list, cmd_num, &mini->envp_list);
+		ft_start_executing(minip, &mini->cmd_list, &mini->envp_list);
 
 		// t_list *env2 = mini->envp_list;
 		// while (env2)
@@ -91,6 +95,10 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 			mini->cmd_list = mini->cmd_list->next;
 			//free_stuff(tmp, tmp->cmd_m, NULL, NULL);
 		}
+		//necessario resettare tutti i parametri fra un iterazione e l altra
+		mini->index = 0;
+		mini->built_in_counter = 0;
+		mini->cmd_num = 0;
 		ft_lst_delete(&mini->cmd_list);
 	}
 	return ;

@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 18:33:46 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/15 15:28:43 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/18 20:18:37 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ t_minishell	*ft_load_envp(t_minishell **minip, char **envp)
 		split_ret = ft_old_split(envp[i], '=');
 		new_node->key = ft_strdup(split_ret[0]);
 		new_node->value = ft_strdup(split_ret[1]);
+		new_node->start_red = 0;
+		new_node->final_red = 0;
 		new_node->red = 0;
 		new_node->name = NULL;
 		new_node->args = NULL;
@@ -64,6 +66,9 @@ t_minishell *ft_mini_constructor(t_minishell **mini, t_miniflags **miniflags, ch
 	minip->input = NULL;
 	minip->full_cmd = NULL;
 	minip->cmd_list = NULL;
+	minip->index = 0;
+	minip->cmd_num = 0;
+	minip->built_in_counter = 0;
 
 	minip->envp_list = NULL;
 	minip = ft_get_mini(minip);

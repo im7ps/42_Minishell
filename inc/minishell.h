@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/17 15:08:12 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/18 20:51:51 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,12 @@ typedef struct s_miniflags
 
 typedef struct s_minishell
 {
-	int		exit_status; // serve a controllare se la shell deve essere ancora in esecuzione (vedi while nel main)
-	char	*input; // qui viene storato l'input originale dell'utente
-	char	**full_cmd; // qui l'input viene splittato in un array per essere gestito
+	int		built_in_counter;	//tiene conto di quante built in sono state eseguite dal programma
+	int		cmd_num;			//numero dei comandi
+	int		index;				//indice del comando
+	int		exit_status; 		// serve a controllare se la shell deve essere ancora in esecuzione (vedi while nel main)
+	char	*input; 			// qui viene storato l'input originale dell'utente
+	char	**full_cmd; 		// qui l'input viene splittato in un array per essere gestito
 	t_list	*envp_list;
 	t_list	*cmd_list;
 }	t_minishell;
@@ -75,7 +78,7 @@ t_minishell *ft_mini_constructor(t_minishell **mini, t_miniflags **miniflags, ch
 int	ft_perror(int err, char *cmd);
 
 //builtins
-int		is_builtin(t_list *head, t_list **envp, int **pipes, int index, int cmd_num);
+int		handle_builtin(t_list *head, t_list **envp, int **pipes, int index, int cmd_num);
 int		ft_echo(t_list *head, int **pipes, int index, int cmd_num);
 char	*ft_cd(t_list *head, t_list **envp, int cmd_num);
 int		ft_pwd(char **cmd_m, int **pipes, int index);
@@ -96,13 +99,19 @@ char	*store_extra_char(char	*buffer);
 //redirection
 char	**ft_delete_redirection(char **cmd_m);
 int		ft_redirection_type(char **command);
+int		ft_redirect_output(int **pipes, t_list *head, int i);
+int		ft_append_output(int **pipes, t_list *head, int i);
+int		ft_redirect_input(t_list *head, int **pipes, int i);
+void	ft_upload_redirection(t_list **cmd_list);
 
 //malloc & free
 void    *ft_malloc_stuff(int n);
 
 //executing commands
-int 	ft_start_executing(t_list	**cmd_list, int cmd_num, t_list **envp);
-int		ft_execute_command(int **pipes, char **args, t_list *head, int cmd_num, int index);
+int 	ft_start_executing(t_minishell **minip, t_list	**cmd_list, t_list **envp);
+int		ft_execute_command(int **pipes, t_list *head, int cmd_num, int index);
+void 	wait_for_execution(int cmd_num, int built_in_counter);
+int 	handle_non_builtin(t_list *head, t_list **envp, int **pipes, int index, int cmd_num);
 
 //signals
 void	ft_CTRL_C_handler(int signum);
@@ -128,6 +137,10 @@ char		**old_fill_m(const char *s, char c, char	**matrix, int num_w);
 int			ft_count_commands(t_list **cmd_list);
 char		*ft_trypath(char	*cmd, t_list **envp);
 int			ft_count_rows(char **cmd_m);
+
+//pipes
+void		open_pipes(int **pipes, int cmd_num);
+void		close_pipes(int **pipes, int cmd_num);
 
 //free
 void		ft_lst_delete(t_list **stack);

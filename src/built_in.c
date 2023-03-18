@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:16:59 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/10 18:35:19 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/18 19:48:01 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	is_builtin(t_list *head, t_list **envp, int **pipes, int index, int cmd_num)
+int	handle_builtin(t_list *head, t_list **envp, int **pipes, int index, int cmd_num)
 {
 	if (!ft_strncmp(head->cmd_m[0], "echo", 4))
 	{
