@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:16:59 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/22 18:21:20 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/22 23:13:57 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	handle_builtin(t_minishell *mini, t_list *head, t_list **envp, int **pipes, 
 	}
 	else if (!ft_strncmp(head->cmd_m[0], "cd", 2))
 	{
-		return (!(ft_cd(head, envp, cmd_num)));
+		ft_cd(head, envp);
 	}
 	else if (!ft_strncmp(head->cmd_m[0], "pwd", 3))
 	{

@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/22 18:57:49 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/22 23:14:13 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ typedef struct s_minishell
 	t_list	*cmd_list;
 }	t_minishell;
 
+void	ft_cd(t_list *head, t_list **envp);
+
 //char *final_exp(char *args, t_list *env);
 char *ft_dollar_expander(char *args, t_list *env);
 
@@ -84,7 +86,7 @@ int	ft_perror(int err, char *cmd);
 int 	handle_command(t_minishell *mini, t_list *head, t_list **envp, int **pipes, int index, int cmd_num);
 int		handle_builtin(t_minishell *mini, t_list *head, t_list **envp, int **pipes, int index, int cmd_num);
 int		ft_echo(t_minishell *mini, t_list *head, int **pipes, int index, int cmd_num);
-char	*ft_cd(t_list *head, t_list **envp, int cmd_num);
+//char	*ft_cd(t_list *head, t_list **envp, int cmd_num);
 int		ft_pwd(char **cmd_m, int **pipes, int index);
 int		ft_export(t_list *head, t_list **envp, int **pipes, int index);
 int		ft_unset(t_list *head, t_list **envp, char *var);

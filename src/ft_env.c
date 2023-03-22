@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:36:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/10 19:21:14 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/22 23:17:18 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,6 @@ int	ft_env(t_list **envp, int **pipes, int index, char **cmd_m)
 		}
 		else
 		{
-			/*write(STDOUT_FILENO, env->key, (sizeof(char) * (ft_strlen(env->key) + 1)));
-			write(STDOUT_FILENO, "=", sizeof(char));
-			write(STDOUT_FILENO, env->value, (sizeof(char) * (ft_strlen(env->value) + 1)));*/
 			ft_printf("%s=%s\n", env->key, env->value);
 		}
 		env = env->next;
