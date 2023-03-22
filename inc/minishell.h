@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/22 23:14:13 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/22 23:32:30 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ typedef struct s_minishell
 	t_list	*cmd_list;
 }	t_minishell;
 
-void	ft_cd(t_list *head, t_list **envp);
+int	ft_cd(t_list *head, t_list **envp);
 
 //char *final_exp(char *args, t_list *env);
 char *ft_dollar_expander(char *args, t_list *env);

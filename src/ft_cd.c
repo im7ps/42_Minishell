@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:35:55 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/22 23:22:51 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/22 23:49:51 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,37 +246,36 @@ void	cd_path(t_list **envp)
 	}
 }
 
-void	ft_cd(t_list *head, t_list **envp)
+int	ft_cd(t_list *head, t_list **envp)
 {
 	char	*tmp;
 	int		len;
-	t_list 	*env;
-
-	env = *envp;
-	while (env)
-	{
-
-		ft_printf("%s=%s\n", env->key, env->value);
-
-		env = env->next;
-	}
-
-
 
 	len = ft_count_rows(head->cmd_m);
 	if (len == 1)
 	{
-		ft_printf("le mie palle quando %s\n", head->cmd_m[0]);
 		tmp = getenv("HOME");
 		chdir(tmp);
+		cd_path(envp);
+		return (0);
+	}
+	else if (head->cmd_m[1] != NULL && head->cmd_m[1][0] == '~')
+	{
+		tmp = getenv("HOME");
+		chdir(tmp);
+
+		if (chdir(head->cmd_m[1] + 2) == -1)
+			ft_printf("chdir fallito colione\n");
 		cd_path(envp);
 	}
 	else if (chdir(head->cmd_m[1]) == -1)
 	{
 		g_exit_status = 1;
-		printf("cd: %s: error_palle", head->cmd_m[1]);
+		printf("cd: |%s|: error_palle", head->cmd_m[1]);
 		printf("\n");
+		return (1);
 	}
 	else
 		cd_path(envp);
+	return (0);
 }

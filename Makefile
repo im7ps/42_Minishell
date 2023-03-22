@@ -6,11 +6,15 @@
 #    By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 21:39:43 by dgioia            #+#    #+#              #
-#    Updated: 2023/03/18 20:07:19 by sgerace          ###   ########.fr        #
+#    Updated: 2023/03/23 00:02:28 by sgerace          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	minishell
+
+USER = sgerace
+
+HOME = /Users/${USER}
 
 LIBFT 	= 	libft/libft.a
 PRINTF 	= 	ft_printf/libftprintf.a
