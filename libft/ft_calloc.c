@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 17:05:39 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/07 18:21:43 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/22 21:47:18 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,11 @@
 void	*ft_calloc(size_t count, size_t size)
 {
 	void	*stack;
-	size_t	dimension;
 
-	dimension = count * size;
-	stack = (char *) malloc(sizeof(char) * dimension);
+	stack = (char *) malloc(sizeof(char) * size);
 	if (!stack)											//se l-allocazione fallisce return 0
 		return (0);
 	else
-		ft_bzero(stack, dimension);						//else allochiamo un-area di memoria inizializzata da vari '\0'
+		ft_bzero(stack, count);					//else allochiamo un-area di memoria inizializzata da vari '\0'
 	return (stack);
 }

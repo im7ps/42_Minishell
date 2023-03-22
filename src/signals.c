@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 18:25:32 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/23 23:29:47 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/22 18:19:33 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	ft_CTRL_C_handler(int signum)
 
 void	ft_CTRL_D_handler(int signum)
 {
-	exit_status = -1;
 	exit(0);
 }
 

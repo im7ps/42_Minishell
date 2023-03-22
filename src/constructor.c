@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 18:33:46 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/18 20:18:37 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/22 18:17:26 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,13 @@ t_minishell *ft_mini_constructor(t_minishell **mini, t_miniflags **miniflags, ch
 	minif = *miniflags;
 	minip = *mini;
 
-	exit_status = 0;
-
 	minip->input = NULL;
 	minip->full_cmd = NULL;
 	minip->cmd_list = NULL;
 	minip->index = 0;
 	minip->cmd_num = 0;
 	minip->built_in_counter = 0;
+	minip->flush = 0;
 
 	minip->envp_list = NULL;
 	minip = ft_get_mini(minip);

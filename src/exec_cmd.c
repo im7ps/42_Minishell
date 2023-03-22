@@ -6,21 +6,29 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 17:52:56 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/18 20:06:41 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/22 18:35:29 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
+int g_exit_status;
+
 // Funzione esterna per la parte 3
-void wait_for_execution(int cmd_num, int built_in_counter) 
+int wait_for_execution(int cmd_num, int built_in_counter) 
 {
     int i = 0;
-    while (i < cmd_num - built_in_counter) 
+    while (i < cmd_num - built_in_counter)
 	{
-        wait(NULL);
+        waitpid(-1, &g_exit_status, 0);
+        if (WIFEXITED(g_exit_status))
+		{
+            printf("Exit status del processo figlio: %d\n", WEXITSTATUS(g_exit_status));
+			return (g_exit_status);
+		}
         i++;
     }
+	return (0);
 }
 
 int	ft_execute_single(int **pipes, t_list *head, int cmd_num)
@@ -35,20 +43,20 @@ int	ft_execute_single(int **pipes, t_list *head, int cmd_num)
 }
 
 //esegue il primo comando, pipes sono le pipe in cui scrivere l output e scrivere l input, args non viene //utilizzato, head é il mio nodo che contiene tutte le informazioni del comando, cmd_num é il numero dei comandi, index é la posizione del comando nell elenco dei comandi, in questo caso é il primo comando quindi index = 1
-int ft_execute_first(int **pipes, t_list *head, int cmd_num, int index)
+int ft_execute_first(t_minishell *mini, int **pipes, t_list *head, int cmd_num, int index)
 {
-	int err;
+	int		err;
 	char	*file_content;
 
-	ft_printf("Exec first cat\n");
-	// read(pipes[index][0], file_content, 12);
-	// close(pipes[index][0]);
-	err = dup2(pipes[index + 1][1], STDOUT_FILENO);
-	if (err == -1)
-	{
-		ft_printf("Error using dup2F\n");
+	if (mini->flush != 1)
+	{		
+		err = dup2(pipes[index + 1][1], STDOUT_FILENO);
+		if (err == -1)
+		{
+			ft_printf("Error using dup2F\n");
+		}
 	}
-	// close(pipes[index + 1][1]);
+		
 	int i = 0;
 	while (i < cmd_num + 1)
 	{
@@ -61,24 +69,24 @@ int ft_execute_first(int **pipes, t_list *head, int cmd_num, int index)
 	return (1);
 }
 
-int	ft_execute_middle(int **pipes, t_list *head, int cmd_num, int index)
+int	ft_execute_middle(t_minishell *mini, int **pipes, t_list *head, int cmd_num, int index)
 {
 	int err = 0;
 
-	err = dup2(pipes[index + 1][1], STDOUT_FILENO);
-	if (err == -1)
-	{
-		ft_printf("Error using dup2M1\n");
+	if (mini->flush != 1)
+	{		
+		err = dup2(pipes[index + 1][1], STDOUT_FILENO);
+		if (err == -1)
+		{
+			ft_printf("Error using dup2F\n");
+		}
 	}
-	// close(pipes[index + 1][1]);
 
 	err = dup2(pipes[index][0], STDIN_FILENO);
 	if (err == -1)
 	{
 		ft_printf("Error using dup2M2\n");
 	}
-	// close(pipes[index][0]);
-
 
 	int i = 0;
 	while (i < cmd_num + 1)
@@ -119,7 +127,7 @@ int	ft_execute_last(int **pipes, t_list *head, int cmd_num, int index)
 	return (1);
 }
 
-int	ft_execute_command(int **pipes, t_list *head, int cmd_num, int index)
+int	ft_execute_command(t_minishell *mini, int **pipes, t_list *head, int cmd_num, int index)
 {
 	if (cmd_num == 1)
 	{
@@ -128,12 +136,12 @@ int	ft_execute_command(int **pipes, t_list *head, int cmd_num, int index)
 	}
 	else if (index == 0 && cmd_num != 1)
 	{
-		if (ft_execute_first(pipes, head, cmd_num, index))
+		if (ft_execute_first(mini, pipes, head, cmd_num, index))
 			return (0);
 	}
 	else if (index != cmd_num - 1 && index != 0)
 	{
-		if (ft_execute_middle(pipes, head, cmd_num, index))
+		if (ft_execute_middle(mini, pipes, head, cmd_num, index))
 			return (0);
 	}
 	else if (index == cmd_num - 1)
@@ -146,18 +154,22 @@ int	ft_execute_command(int **pipes, t_list *head, int cmd_num, int index)
 
 
 // funzione per gestire i comandi non built-in
-int handle_non_builtin(t_list *head, t_list **envp, int **pipes, int index, int cmd_num)
+int handle_non_builtin(t_minishell *mini, t_list *head, t_list **envp, int **pipes, int index, int cmd_num)
 {
     pid_t pid;
 
-    head->cmd_m[0] = ft_trypath(head->cmd_m[0], envp);
+	if (head->cmd_m[0][0] != '/')
+	{
+		head->cmd_m[0] = ft_trypath(head->cmd_m[0], envp);
+	}
     if (head->cmd_m[0] == NULL)
     {
         ft_printf("Command not found\n");
+		g_exit_status = 127;
         if (head->next != NULL)
             head = head->next;
         else
-            return (1);
+            return (127);
     }
     if (head->next != NULL)
         head->next->red = ft_redirection_type(head->cmd_m);
@@ -167,7 +179,7 @@ int handle_non_builtin(t_list *head, t_list **envp, int **pipes, int index, int 
         return (2);
     if (pid == 0)
     {
-        if (ft_execute_command(pipes, head, cmd_num, index))
+        if (ft_execute_command(mini, pipes, head, cmd_num, index))
             return (1);
         return (0);
     }

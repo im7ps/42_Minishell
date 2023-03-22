@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/18 20:51:51 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/22 18:57:49 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 # define ERR_INPUT 7
 # define NODE_NUM 90
 
-int	exit_status;
+extern int g_exit_status;
 
 typedef struct s_miniflags
 {
@@ -56,12 +56,15 @@ typedef struct s_minishell
 	int		built_in_counter;	//tiene conto di quante built in sono state eseguite dal programma
 	int		cmd_num;			//numero dei comandi
 	int		index;				//indice del comando
-	int		exit_status; 		// serve a controllare se la shell deve essere ancora in esecuzione (vedi while nel main)
+	int		flush;				// == 1 se il contenuto é da scrivere sullo STDOUT
 	char	*input; 			// qui viene storato l'input originale dell'utente
 	char	**full_cmd; 		// qui l'input viene splittato in un array per essere gestito
 	t_list	*envp_list;
 	t_list	*cmd_list;
 }	t_minishell;
+
+//char *final_exp(char *args, t_list *env);
+char *ft_dollar_expander(char *args, t_list *env);
 
 //function to check and manipulate the input read from readline
 int		ft_parser(t_minishell **minip, t_miniflags **minif);
@@ -78,8 +81,9 @@ t_minishell *ft_mini_constructor(t_minishell **mini, t_miniflags **miniflags, ch
 int	ft_perror(int err, char *cmd);
 
 //builtins
-int		handle_builtin(t_list *head, t_list **envp, int **pipes, int index, int cmd_num);
-int		ft_echo(t_list *head, int **pipes, int index, int cmd_num);
+int 	handle_command(t_minishell *mini, t_list *head, t_list **envp, int **pipes, int index, int cmd_num);
+int		handle_builtin(t_minishell *mini, t_list *head, t_list **envp, int **pipes, int index, int cmd_num);
+int		ft_echo(t_minishell *mini, t_list *head, int **pipes, int index, int cmd_num);
 char	*ft_cd(t_list *head, t_list **envp, int cmd_num);
 int		ft_pwd(char **cmd_m, int **pipes, int index);
 int		ft_export(t_list *head, t_list **envp, int **pipes, int index);
@@ -101,17 +105,18 @@ char	**ft_delete_redirection(char **cmd_m);
 int		ft_redirection_type(char **command);
 int		ft_redirect_output(int **pipes, t_list *head, int i);
 int		ft_append_output(int **pipes, t_list *head, int i);
-int		ft_redirect_input(t_list *head, int **pipes, int i);
+int		ft_redirect_input(t_minishell *mini, t_list *head, int **pipes, int i);
 void	ft_upload_redirection(t_list **cmd_list);
+int		ft_is_redirection(char *str);
 
 //malloc & free
 void    *ft_malloc_stuff(int n);
 
 //executing commands
 int 	ft_start_executing(t_minishell **minip, t_list	**cmd_list, t_list **envp);
-int		ft_execute_command(int **pipes, t_list *head, int cmd_num, int index);
-void 	wait_for_execution(int cmd_num, int built_in_counter);
-int 	handle_non_builtin(t_list *head, t_list **envp, int **pipes, int index, int cmd_num);
+int		ft_execute_command(t_minishell *mini, int **pipes, t_list *head, int cmd_num, int index);
+int 	wait_for_execution(int cmd_num, int built_in_counter);
+int		handle_non_builtin(t_minishell *mini, t_list *head, t_list **envp, int **pipes, int index, int cmd_num);
 
 //signals
 void	ft_CTRL_C_handler(int signum);
@@ -121,7 +126,7 @@ void	ft_sig_handler(int signum, siginfo_t *info, void *ucontext);
 
 
 //dollar expander
-char	*ft_dollar_expander(t_list **envp, char *str);
+//char	*ft_dollar_expander(t_list **envp, char *str);
 char    *ft_expander_helper(t_minishell **mini, char *input);
 char    *ft_expander_finder(t_minishell **minip, int i, char *input);
 char	*ft_dollar_starter(t_list **envp, char  *str);

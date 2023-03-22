@@ -6,11 +6,26 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 17:56:56 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/18 20:51:40 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/20 18:25:37 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+int	ft_is_redirection(char *str)
+{
+	if (!(ft_strncmp(str, "|", 1)))
+		return (1);
+	else if (!(ft_strncmp(str, ">>", 2)))
+		return (2);
+	else if (!(ft_strncmp(str, "<<", 2)))
+		return (3);
+	else if (!(ft_strncmp(str, ">", 1)))
+		return (4);
+	else if (!(ft_strncmp(str, "<", 1)))
+		return (5);
+	return (0);
+}
 
 int	ft_redirection_type(char **command)
 {

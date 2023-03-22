@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:36:13 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/10 16:39:12 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/22 16:37:05 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ int	ft_is_flag(char *cmd_arg)
 	return (1);
 }
 
-int	ft_echo(t_list *head, int **pipes, int index, int cmd_num)
+int	ft_echo(t_minishell *mini, t_list *head, int **pipes, int index, int cmd_num)
 {
 	int	i;
 	int last_arg;
@@ -174,14 +174,20 @@ int	ft_echo(t_list *head, int **pipes, int index, int cmd_num)
 	i = 1;
 	while (head->cmd_m[i])
 	{
+		if (mini->flush == 1)
+		{
+			ft_printf("Agg flush\n");
+		}
 		if (i > flag_index)
 		{
 			//se non è l ultimo comando l output non va su STDOUT
-			if (index != cmd_num - 1)
+			if (index != cmd_num - 1 && mini->flush != 1) // 
 			{
 				//va scritto tutto tranne la pipe
+				// ft_printf("In the pipe!\n");
 				if (i != last_arg - 1)
 				{
+					ft_printf("Here yes!\n");
 					write(pipes[index + 1][1], head->cmd_m[i], ((ft_strlen(head->cmd_m[i])) * sizeof(char)));
 					if (i != last_arg - 2)
 					{
@@ -194,19 +200,26 @@ int	ft_echo(t_list *head, int **pipes, int index, int cmd_num)
 					{
 						write(pipes[index + 1][1], "\n", sizeof(char));
 					}
+					ft_printf("Here two!\n");
 				}
 			}
 			//se è l ultimo comando l output va su STDOUT
 			else
 			{
-				write(STDOUT_FILENO, head->cmd_m[i], (ft_strlen(head->cmd_m[i]) * sizeof(char)));
-				if (i != last_arg - 1)
+				// ft_printf("Se flusha\n");
+				if (ft_is_redirection(head->cmd_m[i]) == 0)
 				{
-					write(STDOUT_FILENO, " ", sizeof(char));
-				}
-				if (flag_index == 0 && i == last_arg - 1)
-				{
-					write(STDOUT_FILENO, "\n", sizeof(char));
+					// ft_printf("Se flusha no redir\n");
+					// ft_printf("Su schermo!\n");
+					write(STDOUT_FILENO, head->cmd_m[i], (ft_strlen(head->cmd_m[i]) * sizeof(char)));
+					if (i != last_arg - 1)
+					{
+						write(STDOUT_FILENO, " ", sizeof(char));
+					}
+					if (flag_index == 0 && i == last_arg - 1)
+					{
+						write(STDOUT_FILENO, "\n", sizeof(char));
+					}
 				}
 			}
 		}

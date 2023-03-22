@@ -6,11 +6,13 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/03/18 20:52:23 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/22 18:32:44 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+int	g_exit_status;
 
 void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 {
@@ -26,7 +28,7 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 	if (signal(SIGQUIT, &ft_CTRL_S_handler) == SIG_ERR)
 		printf("failed to register quit\n");
 
-	while (exit_status == 0)
+	while (1)
 	{
 		mini->input = readline("minishell> ");
 		//mini->input = "echo '$PWD' | cat -e";
@@ -96,6 +98,8 @@ void	ft_execute_mini(t_minishell **minip, t_miniflags **minif)
 			//free_stuff(tmp, tmp->cmd_m, NULL, NULL);
 		}
 		//necessario resettare tutti i parametri fra un iterazione e l altra
+		ft_printf("exit s: %d\n", g_exit_status);
+		mini->flush = 0;
 		mini->index = 0;
 		mini->built_in_counter = 0;
 		mini->cmd_num = 0;
@@ -142,7 +146,7 @@ int	main(int argc, char **argv, char **envp)
 
 	mini = ft_mini_constructor(&mini, &miniflags, envp);
 	ft_execute_mini(&mini, &miniflags);
-
+	g_exit_status = 0;
 	
 	//free_env_keyvalue(mini->envp_list);
 	ft_lst_delete(&mini->envp_list);

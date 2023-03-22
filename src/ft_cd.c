@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:35:55 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/16 19:50:32 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/22 17:59:26 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ int	ft_relative_path(char *rel_path, int len, t_list **envp)
 	i = 0;
 	if ((len == 2 && (rel_path[0] == '.' && rel_path[1] == '/')) || (len == 1 && rel_path[0] == '.'))		//stai nella directory corrente
 	{
-		ft_printf("Input: ./ or .\n");
+		// ft_printf("Input: ./ or .\n");
 		return (0);
 	}
 	else if ((len == 2 && (rel_path[0] == '.' && rel_path[1] == '.')))

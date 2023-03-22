@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:44:36 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/18 18:36:52 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/22 21:57:35 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,8 +248,7 @@ int	ft_parser(t_minishell **minip, t_miniflags **minif)
 		i = 0;
 		while (cmd->cmd_m[i])
 		{
-			//ft_printf("EXPANDED: %s\n", cmd->cmd_m[i]);
-			cmd->cmd_m[i] = ft_dollar_expander(&mini->envp_list, cmd->cmd_m[i]);
+			cmd->cmd_m[i] = ft_dollar_expander(cmd->cmd_m[i], mini->envp_list);
 			if (cmd->cmd_m[i] == NULL)
 			{
 				ft_printf("Sus\n");
