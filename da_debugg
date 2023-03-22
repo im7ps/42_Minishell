@@ -1,6 +1,7 @@
+exit status X
+dollar exp: espandere il valore $? (exit status) X
+
 cancella le virgolette male
-exit status 
-dollar exp: espandere il valore $? (exit status)
 solo spazi o tab come input
-cd non entra in path solo alfanumerico, cd da solo va in $HOME
+cd non entra in path solo alfanumerico, cd da solo va in $HOME 
 unset PATH

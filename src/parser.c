@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:44:36 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/22 21:57:35 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/22 22:39:49 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,7 @@ char *ft_quotes_eraser(char *str)
 		tmp = (char *) malloc (sizeof(char) * (ft_strlen(str) - 1));		//ha 2 spazi in piú perché le quotes verranno eliminate e 1 in meno per il fine stringa
 		while (str[i])
 		{
-			if (str[i] != '\'' && str[i] != '"')
+			if (str[i] != c)
 			{
 				tmp[j] = str[i];
 				j++;
