@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 20:47:30 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/17 15:08:44 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/22 22:43:06 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,10 +124,24 @@ int	ft_input_checker(char	*input)
 	int	i;
 	int	quotes;
 	int	qcount;
+	bool onlytab;
 
 	i = 0;
+	onlytab = true;
 	quotes = 0;
 	qcount = 0;
+	while (input[i])
+	{
+		if (input[i] != ' ')
+			onlytab = false;
+		i++;
+	}
+	if (onlytab)
+	{
+		ft_printf("Che stronzo hai messo solo spazi lol\n");
+		return (1);
+	}
+	i = 0;
 	while (input[i])
 	{
 		// if (!(input[i] == ';' || input[i] == '/' || input[i] == '.' || input[i] == '=' || input[i] == '"' || input[i] == '$' || input[i] == '\'' || input[i] == '|' || input[i] == '-' || \
