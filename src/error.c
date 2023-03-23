@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 22:10:59 by dgioia            #+#    #+#             */
-/*   Updated: 2023/03/22 18:32:17 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/23 01:12:38 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_perror(int err, char *cmd)
 	if (err == ERR_NCMD)
 	{
 		ft_printf("%s: Command not found!\n", cmd);
-		g_exit_status = 127;
+		//g_exit_status = 127;
 	}
 	if (err == ERR_QUOTE)
 	{

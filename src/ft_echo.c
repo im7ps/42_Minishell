@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:36:13 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/22 16:37:05 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/23 22:42:27 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,6 @@ int	ft_echo(t_minishell *mini, t_list *head, int **pipes, int index, int cmd_num
 				// ft_printf("In the pipe!\n");
 				if (i != last_arg - 1)
 				{
-					ft_printf("Here yes!\n");
 					write(pipes[index + 1][1], head->cmd_m[i], ((ft_strlen(head->cmd_m[i])) * sizeof(char)));
 					if (i != last_arg - 2)
 					{
@@ -200,16 +199,13 @@ int	ft_echo(t_minishell *mini, t_list *head, int **pipes, int index, int cmd_num
 					{
 						write(pipes[index + 1][1], "\n", sizeof(char));
 					}
-					ft_printf("Here two!\n");
 				}
 			}
 			//se è l ultimo comando l output va su STDOUT
 			else
 			{
-				// ft_printf("Se flusha\n");
 				if (ft_is_redirection(head->cmd_m[i]) == 0)
 				{
-					// ft_printf("Se flusha no redir\n");
 					// ft_printf("Su schermo!\n");
 					write(STDOUT_FILENO, head->cmd_m[i], (ft_strlen(head->cmd_m[i]) * sizeof(char)));
 					if (i != last_arg - 1)

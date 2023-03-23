@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 17:52:56 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/22 18:35:29 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/23 22:30:41 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,22 @@
 
 int g_exit_status;
 
-// Funzione esterna per la parte 3
-int wait_for_execution(int cmd_num, int built_in_counter) 
+int	wait_for_execution(int cmd_num, int built_in_counter) 
 {
     int i = 0;
     while (i < cmd_num - built_in_counter)
 	{
-        waitpid(-1, &g_exit_status, 0);
-        if (WIFEXITED(g_exit_status))
+		if (g_exit_status != 130)
 		{
-            printf("Exit status del processo figlio: %d\n", WEXITSTATUS(g_exit_status));
-			return (g_exit_status);
+        	waitpid(-1, &g_exit_status, 0);
+			if (WIFEXITED(g_exit_status))
+			{
+				printf("Exit status del processo figlio: %d\n", WEXITSTATUS(g_exit_status));
+			}
+		}
+		else
+		{
+			wait(NULL);
 		}
         i++;
     }
@@ -33,12 +38,15 @@ int wait_for_execution(int cmd_num, int built_in_counter)
 
 int	ft_execute_single(int **pipes, t_list *head, int cmd_num)
 {
+	ft_printf("Single command: %s\n", head->cmd_m[0]);
 	close(pipes[0][0]);
 	close(pipes[0][1]);
 	close(pipes[1][0]);
 	close(pipes[1][1]);
-	execve(head->cmd_m[0], head->cmd_m, NULL);
+	if (execve(head->cmd_m[0], head->cmd_m, NULL) == -1)
+		g_exit_status = 1;
 	ft_printf("Problems with execveS\n");
+	g_exit_status = 127;
 	return 0;
 }
 
@@ -48,6 +56,7 @@ int ft_execute_first(t_minishell *mini, int **pipes, t_list *head, int cmd_num, 
 	int		err;
 	char	*file_content;
 
+	ft_printf("Executing first: %s\n", head->cmd_m[0]);
 	if (mini->flush != 1)
 	{		
 		err = dup2(pipes[index + 1][1], STDOUT_FILENO);
@@ -64,8 +73,10 @@ int ft_execute_first(t_minishell *mini, int **pipes, t_list *head, int cmd_num, 
 		close(pipes[i][1]);
 		i++;
 	}
-	execve(head->cmd_m[0], head->cmd_m, NULL);
+	if (execve(head->cmd_m[0], head->cmd_m, NULL) == -1)
+		g_exit_status = 1;
 	ft_printf("Problems with execveF\n");
+	g_exit_status = 127;
 	return (1);
 }
 
@@ -73,6 +84,7 @@ int	ft_execute_middle(t_minishell *mini, int **pipes, t_list *head, int cmd_num,
 {
 	int err = 0;
 
+	ft_printf("Executing middle: %s\n", head->cmd_m[0]);
 	if (mini->flush != 1)
 	{		
 		err = dup2(pipes[index + 1][1], STDOUT_FILENO);
@@ -95,9 +107,10 @@ int	ft_execute_middle(t_minishell *mini, int **pipes, t_list *head, int cmd_num,
 		close(pipes[i][1]);
 		i++;
 	}
-	execve(head->cmd_m[0], head->cmd_m, NULL);
+	if (execve(head->cmd_m[0], head->cmd_m, NULL) == -1)
+		g_exit_status = 1;
 	ft_printf("Problems with execveM\n");
-
+	g_exit_status = 127;
 	return (1);
 }
 
@@ -107,6 +120,7 @@ int	ft_execute_last(int **pipes, t_list *head, int cmd_num, int index)
 	int err = 0;
 
 	// close(pipes[index + 1][1]);
+	ft_printf("Executing last: %s\n", head->cmd_m[0]);
 	err = dup2(pipes[index][0], STDIN_FILENO);
 	if (err == -1)
 	{
@@ -121,33 +135,48 @@ int	ft_execute_last(int **pipes, t_list *head, int cmd_num, int index)
 		close(pipes[i][1]);
 		i++;
 	}
-	execve(head->cmd_m[0], head->cmd_m, NULL);
+	if (execve(head->cmd_m[0], head->cmd_m, NULL) == -1)
+		g_exit_status = 1;
 	ft_printf("Problems with execveL\n");
-
+	g_exit_status = 127;
 	return (1);
 }
 
 int	ft_execute_command(t_minishell *mini, int **pipes, t_list *head, int cmd_num, int index)
 {
+	if (signal(SIGINT, &ft_CTRL_C_handler) == SIG_ERR)
+		printf("failed to register interrupt\n");
 	if (cmd_num == 1)
 	{
 		if(ft_execute_single(pipes, head, cmd_num))
+		{
+			// g_exit_status = 0;
 			return (0);
+		}
 	}
 	else if (index == 0 && cmd_num != 1)
 	{
 		if (ft_execute_first(mini, pipes, head, cmd_num, index))
+		{
+			// g_exit_status = 0;
 			return (0);
+		}
 	}
 	else if (index != cmd_num - 1 && index != 0)
 	{
 		if (ft_execute_middle(mini, pipes, head, cmd_num, index))
+		{
+			// g_exit_status = 0;
 			return (0);
+		}
 	}
 	else if (index == cmd_num - 1)
 	{
 		if (ft_execute_last(pipes, head, cmd_num, index))
+		{
+			// g_exit_status = 0;
 			return (0);
+		}
 	}
 	return (1);
 }
@@ -158,6 +187,7 @@ int handle_non_builtin(t_minishell *mini, t_list *head, t_list **envp, int **pip
 {
     pid_t pid;
 
+	ft_printf("Il comando non builtin testato é: %s\n", head->cmd_m[0]);
 	if (head->cmd_m[0][0] != '/')
 	{
 		head->cmd_m[0] = ft_trypath(head->cmd_m[0], envp);
@@ -166,9 +196,9 @@ int handle_non_builtin(t_minishell *mini, t_list *head, t_list **envp, int **pip
     {
         ft_printf("Command not found\n");
 		g_exit_status = 127;
-        if (head->next != NULL)
-            head = head->next;
-        else
+        // if (head->next != NULL)
+        //     head = head->next;
+        // else
             return (127);
     }
     if (head->next != NULL)

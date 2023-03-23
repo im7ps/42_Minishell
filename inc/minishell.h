@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/22 23:32:30 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/23 17:48:01 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_miniflags
 
 typedef struct s_minishell
 {
+	int		path_flag;
 	int		built_in_counter;	//tiene conto di quante built in sono state eseguite dal programma
 	int		cmd_num;			//numero dei comandi
 	int		index;				//indice del comando

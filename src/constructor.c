@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 18:33:46 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/22 18:17:26 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/23 17:48:50 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,6 @@ t_minishell	*ft_load_envp(t_minishell **minip, char **envp)
 	t_list 		*new_node;
 	char		**split_ret;
 	int			i;
-
-	// i = 0;
-	// while (envp[i])
-	// {
-	// 	ft_printf("Test %s\n", envp[i]);
-	// 	i++;
-	// }
 	
 	mini = *minip;
 	i = 0;
@@ -68,6 +61,7 @@ t_minishell *ft_mini_constructor(t_minishell **mini, t_miniflags **miniflags, ch
 	minip->cmd_num = 0;
 	minip->built_in_counter = 0;
 	minip->flush = 0;
+	minip->path_flag = 0;
 
 	minip->envp_list = NULL;
 	minip = ft_get_mini(minip);

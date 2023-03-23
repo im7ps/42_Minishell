@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 18:29:08 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/16 19:50:50 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/23 22:28:33 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*ft_trypath(char	*cmd, t_list **envp)
 		cmd = ft_strjoin(trypath[i], cmd, 0);
 		if (access(cmd, X_OK) == 0)
 		{
-			ft_printf("found: %s\n", cmd);
+			// ft_printf("found: %s\n", cmd);
 			return (cmd);
 		}
 		else

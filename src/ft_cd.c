@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:35:55 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/22 23:49:51 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/23 01:11:57 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,7 +270,7 @@ int	ft_cd(t_list *head, t_list **envp)
 	}
 	else if (chdir(head->cmd_m[1]) == -1)
 	{
-		g_exit_status = 1;
+		//g_exit_status = 1;
 		printf("cd: |%s|: error_palle", head->cmd_m[1]);
 		printf("\n");
 		return (1);

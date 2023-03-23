@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 17:56:56 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/20 18:25:37 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/23 22:28:22 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	**ft_delete_redirection(char **cmd_m)
 	}
 	if (cmd_m[i - 1][ft_strlen(cmd_m[i - 1]) - 1] == '>' || cmd_m[i - 1][ft_strlen(cmd_m[i - 1]) - 1] == '<' || cmd_m[i - 1][ft_strlen(cmd_m[i - 1]) - 1] == '|')
 	{
-		ft_printf("Sostituito redirection with NULL\n");
+		// ft_printf("Sostituito redirection with NULL\n");
 		cmd_m[i - 1] = NULL;
 	}
 	return (cmd_m);	

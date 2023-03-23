@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 19:31:05 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/22 18:37:44 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/23 22:35:09 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,44 @@
 
 int	g_exit_status;
 
+int	ft_check_path(t_list **envp)
+{
+	t_list *env;
+	
+	env = *envp;
+	while (env != NULL)
+	{
+		if (!(ft_strncmp(env->key, "PATH", 5)))
+		{
+			// ft_printf("There is path!\n");
+			return (0);
+		}
+		env = env->next;
+	}
+	// ft_printf("There is no path!\n");
+	return (1);
+}
+
 int	handle_command(t_minishell *mini, t_list *head, t_list **envp, int **pipes, int index, int cmd_num)
 {
     if (handle_builtin(mini, head, envp, pipes, index, cmd_num))
     {
         ft_printf("\nEseguito comando builtin\n");
+		g_exit_status = 0;
     }
     else
     {
-        if (handle_non_builtin(mini, head, envp, pipes, index, cmd_num) == 127)
+		g_exit_status = 130;
+        if (handle_non_builtin(mini, head, envp, pipes, index, cmd_num) == 1)
+		{
+			ft_printf("Handle non builtin fallito, resetto exit status a 1\n");
+			g_exit_status = 1;
 			return (1);
+		}
+		else
+			g_exit_status = 0;
     }
+	ft_printf("debug 2: %d\n", g_exit_status);
 	return (0);
 }
 
@@ -94,14 +121,19 @@ int ft_start_executing(t_minishell **minip, t_list	**cmd_list, t_list **envp)
 	int			i;
 	int 		**pipes;
 
+	int			tmp_exitstatus;
+
+	
 	mini = *minip;
 	head = mini->cmd_list;
+
+	if (ft_check_path(envp))
+		return (1);
 
 	pid = (int*) malloc (sizeof(int) * mini->cmd_num);
 	pipes = (int**) malloc (sizeof(int*) * (mini->cmd_num + 1));
 
 	open_pipes(pipes, mini->cmd_num);
-
 	while(head)
 	{
 		//se == 0 é il primo argomento della pipeline, se == 1 é subito dopo una pipe, in entrambi i casi deve essere eseguito un comando
@@ -110,15 +142,28 @@ int ft_start_executing(t_minishell **minip, t_list	**cmd_list, t_list **envp)
 			//nel caso > e >> l output va comunque scritto sulle pipes e poi letto da quelle pipes, quindi non cambia rispetto a |, rimangono il caso final == 3 e final == 5
 			if (head->final_red == 3)
 			{
-				ft_heredoc(mini, pipes);
+				if (ft_heredoc(mini, pipes) == 1)
+				{
+					ft_printf("Heredoc fallito, exit status pre = %d\n", g_exit_status);
+					g_exit_status = 1;
+					ft_printf("Heredoc fallito, exit status = %d\n", g_exit_status);
+					return (1);
+				}
 			}
 			else if (head->final_red == 5)
 			{
-				ft_redirect_input(mini, head, pipes, mini->index);
+				if (ft_redirect_input(mini, head, pipes, mini->index) == 1)
+					g_exit_status = 1;
 				mini->index++;
 			}
+			ft_printf("debug 1: %d\n", g_exit_status);
 			if (handle_command(mini, head, envp, pipes, mini->index, mini->cmd_num) == 1)
+			{
+				ft_printf("Handle command fallito, exit status pre = %d\n", g_exit_status);
+				g_exit_status = 1;
+				ft_printf("Handle command fallito, exit status = %d\n", g_exit_status);
 				return (1);
+			}
 		}
 
 		else if (head->start_red == 2)
@@ -134,7 +179,8 @@ int ft_start_executing(t_minishell **minip, t_list	**cmd_list, t_list **envp)
 		head = head->next;
 	}
 	close_pipes(pipes, mini->cmd_num);
-	g_exit_status = wait_for_execution(mini->cmd_num, mini->built_in_counter);
-	// wait_for_execution(mini->cmd_num, mini->built_in_counter);
-	return (0);
+	ft_printf("debug 3: %d\n", g_exit_status);
+	wait_for_execution(mini->cmd_num, mini->built_in_counter);
+	ft_printf("debug 4 final in execute: %d\n", g_exit_status);
+	return (g_exit_status);
 }

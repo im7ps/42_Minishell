@@ -2,6 +2,11 @@ exit status X
 dollar exp: espandere il valore $? (exit status) X
 cancella le virgolette male X
 solo spazi o tab come input X
+cd non entra in path solo alfanumerico, cd da solo va in $HOME X
+shell level X
+exit X
+unset PATH X
 
-cd non entra in path solo alfanumerico, cd da solo va in $HOME 
-unset PATH
+
+redirection da correggere (forse il secondo comando della pipeline viene visto come il primo)
+finito?
