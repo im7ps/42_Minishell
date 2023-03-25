@@ -1,31 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/27 17:40:54 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/25 14:34:53 by sgerace          ###   ########.fr       */
+/*   Created: 2023/01/16 22:10:59 by dgioia            #+#    #+#             */
+/*   Updated: 2023/03/24 19:00:34 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/libft.h"
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
-char	*ft_strdup_m(t_garbage **garbage, const char *s1)
+int	g_exit_status;
+
+int	ft_perror(int err, char *cmd)
 {
-	size_t	dim;
-	char	*stack;
-
-	if (s1 == NULL)
-		return (NULL);
-	dim = ft_strlen(s1) + 1;
-	//stack = (char *) malloc(sizeof(char) * dim);
-	stack = gc_alloc(garbage, (sizeof(char) * dim), dim);
-	if (s1 == NULL)
-		return (NULL);
-	else
-		ft_memcpy(stack, s1, dim);
-	return (stack);
+	if (err == ERR_NCMD)
+	{
+		ft_printf("%s: Command not found!\n", cmd);
+		//g_exit_status = 127;
+	}
+	if (err == ERR_QUOTE)
+	{
+		ft_printf("Double quotes not closed properly!\n");
+		// g_exit_status = 127;
+	}
+	if (err == ERR_INPUT)
+	{
+		ft_printf("Character not valid!\n");
+		// g_exit_status = 127;
+	}
+	return (1);
 }

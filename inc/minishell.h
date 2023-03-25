@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/23 17:48:01 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/25 18:29:51 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,45 +40,62 @@
 
 extern int g_exit_status;
 
-typedef struct s_miniflags
+typedef struct s_xfillmv
 {
-	bool	pipe;
-	bool	red_i;
-	bool	red_o;
-	bool	read_i;
-	bool	append_o;
-	bool	s_quote;
-	bool	d_quote;
-}	t_miniflags;
+	int	i;
+	int	j;
+	int	len;
+	int	quotes;
+	int	qcount;
+	int	num_w;
+	char c;
+}	t_xfillmv;
+
+typedef struct s_xsubstr
+{
+	int	i;
+	int	len;
+}	t_xsubstr;
+
+// Struttura per il nodo della lista
+typedef struct s_garbage 
+{
+    void* ptr; // Indirizzo della variabile allocata
+    struct s_garbage* next; // Puntatore al prossimo nodo
+} t_garbage;
 
 typedef struct s_minishell
 {
-	int		path_flag;
-	int		built_in_counter;	//tiene conto di quante built in sono state eseguite dal programma
-	int		cmd_num;			//numero dei comandi
-	int		index;				//indice del comando
-	int		flush;				// == 1 se il contenuto é da scrivere sullo STDOUT
-	char	*input; 			// qui viene storato l'input originale dell'utente
-	char	**full_cmd; 		// qui l'input viene splittato in un array per essere gestito
-	t_list	*envp_list;
-	t_list	*cmd_list;
+	int			path_flag;
+	int			built_in_counter;	//tiene conto di quante built in sono state eseguite dal programma
+	int			cmd_num;			//numero dei comandi
+	int			index;				//indice del comando
+	int			flush;				// == 1 se il contenuto é da scrivere sullo STDOUT
+	char		*input; 			// qui viene storato l'input originale dell'utente
+	char		**full_cmd; 		// qui l'input viene splittato in un array per essere gestito
+	t_list		*envp_list;
+	t_list		*cmd_list;
+	t_garbage	*garbage;
 }	t_minishell;
 
-int	ft_cd(t_list *head, t_list **envp);
+bool	ft_char_red(char c);
+
+int		ft_cd(t_list *head, t_list **envp);
 
 //char *final_exp(char *args, t_list *env);
-char *ft_dollar_expander(char *args, t_list *env);
+//char *ft_dollar_expander(char *args, t_list *env);
 
 //function to check and manipulate the input read from readline
-int		ft_parser(t_minishell **minip, t_miniflags **minif);
-int		ft_input_checker(char	*input);
+int		ft_parser(t_minishell **minip);
+int		ft_input_checker(char	*input, int quotes, int qcount, bool onlytab);
 int		ft_is_escaped(char	c, int flag);
-t_list	*ft_create_list(t_list **cmd_list, char **full_cmd);
+t_list *ft_create_list(t_minishell **minip, t_list **cmd_list, char	**full_cmd);
+int		ft_double_red_checker(char *input, int redcount, bool redtoggle);
 
 //building functions
 t_minishell *ft_get_mini(t_minishell *mini);
 t_minishell *ft_load_envp(t_minishell **minip, char **envp);
-t_minishell *ft_mini_constructor(t_minishell **mini, t_miniflags **miniflags, char **envp);
+t_minishell *ft_mini_initializer(t_minishell **mini, char **envp);
 
 //error
 int	ft_perror(int err, char *cmd);
@@ -88,7 +105,7 @@ int 	handle_command(t_minishell *mini, t_list *head, t_list **envp, int **pipes,
 int		handle_builtin(t_minishell *mini, t_list *head, t_list **envp, int **pipes, int index, int cmd_num);
 int		ft_echo(t_minishell *mini, t_list *head, int **pipes, int index, int cmd_num);
 //char	*ft_cd(t_list *head, t_list **envp, int cmd_num);
-int		ft_pwd(char **cmd_m, int **pipes, int index);
+int		ft_pwd(t_list *head, char **cmd_m, int **pipes, int index);
 int		ft_export(t_list *head, t_list **envp, int **pipes, int index);
 int		ft_unset(t_list *head, t_list **envp, char *var);
 void 	ft_delete_node(t_list **head, t_list *node_to_delete);
@@ -132,19 +149,24 @@ void	ft_sig_handler(int signum, siginfo_t *info, void *ucontext);
 //char	*ft_dollar_expander(t_list **envp, char *str);
 char    *ft_expander_helper(t_minishell **mini, char *input);
 char    *ft_expander_finder(t_minishell **minip, int i, char *input);
-char	*ft_dollar_starter(t_list **envp, char  *str);
+//char	*ft_dollar_starter(t_list **envp, char  *str);
+char 	*ft_dollar_expander(t_garbage **garbage, char *args, t_list *env);
 
 //utils
-void		ft_execute_mini(t_minishell **mini, t_miniflags **minif);
+void		ft_execute_mini(t_minishell **minip, char **envp);
 int			ft_strerr(char *str);
 size_t 		ft_smaller_string(char *str1, char *str2);
-char		**ft_split_variant(char *s);
-char		**ft_old_split(char const *s, char c);
+//char		**ft_split_variant(char *s);
+char		**ft_split_variant(t_minishell *mini, char *s);
+char		**ft_old_split(t_minishell **minip, char const *s, char c);
+//char		**ft_old_split(char const *s, char c);
 int			old_count_w(char *str, char c);
-char		**old_fill_m(const char *s, char c, char	**matrix, int num_w);
+char		**old_fill_m(t_minishell **minip, const char *s, char c, char	**matrix, int num_w);
+//char		**old_fill_m(const char *s, char c, char	**matrix, int num_w);
 int			ft_count_commands(t_list **cmd_list);
-char		*ft_trypath(char	*cmd, t_list **envp);
+char		*ft_trypath(t_minishell **minip, char	*cmd, t_list **envp);
 int			ft_count_rows(char **cmd_m);
+int			ft_update_quotes(char c);
 
 //pipes
 void		open_pipes(int **pipes, int cmd_num);
@@ -152,9 +174,20 @@ void		close_pipes(int **pipes, int cmd_num);
 
 //free
 void		ft_lst_delete(t_list **stack);
-int			free_stuff(t_list *node, char **matrix, t_list **stack, t_miniflags *flags);
+int			free_stuff(t_list *node, char **matrix, t_list **stack);
 
 //attributes management
-void		ft_set_attributes(t_minishell **minip, t_miniflags **minif);
+void		ft_set_attributes(t_minishell **minip);
 
+//garbage collector
+void* 	gc_alloc(t_garbage** head, int size, int count);
+void 	ft_garbage_collector(t_garbage* head);
+void 	add_node(t_garbage** head, void* ptr);
+
+//modified libft
+char	*ft_substr_m(t_garbage **garbage, char const *s, t_xsubstr sub);
+char	*ft_strdup_m(t_garbage **garbage, const char *s1);
+char	*ftm_itoa(t_garbage **garbage, int n);
+char	**ftm_split(t_garbage **garbage, char const *s, char c);
+void 	ft_init_fmv(t_xfillmv *fmv);
 #endif

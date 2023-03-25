@@ -1,5 +1,0 @@
-CONSIDERAZIONI E BUG TROVATI
-- quando nella shell si preme invio senza alcun comando va in seg fault
-- se passiamo char *args[] = {"echo", "-n", "test\n", NULL}; ad execve lui printerá test\n
-    anche se é presente la flag -n, quindi bisogna lavorarci prima di eseguire execve e fare togliere da test\n lo \n manualmente
-    prima di eseguire execve

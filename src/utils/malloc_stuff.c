@@ -1,31 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   malloc_stuff.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/27 17:40:54 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/25 14:34:53 by sgerace          ###   ########.fr       */
+/*   Created: 2023/01/23 17:32:53 by sgerace           #+#    #+#             */
+/*   Updated: 2023/03/24 19:00:40 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/libft.h"
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
-char	*ft_strdup_m(t_garbage **garbage, const char *s1)
+void    *ft_malloc_stuff(int n)
 {
-	size_t	dim;
-	char	*stack;
-
-	if (s1 == NULL)
-		return (NULL);
-	dim = ft_strlen(s1) + 1;
-	//stack = (char *) malloc(sizeof(char) * dim);
-	stack = gc_alloc(garbage, (sizeof(char) * dim), dim);
-	if (s1 == NULL)
-		return (NULL);
-	else
-		ft_memcpy(stack, s1, dim);
-	return (stack);
+    t_list *node;
+    if (n == NODE_NUM)
+    {
+        node = (t_list *)malloc(sizeof(t_list));
+        return (node);
+    }
+    return (NULL);
 }

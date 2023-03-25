@@ -1,31 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/27 17:40:54 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/25 14:34:53 by sgerace          ###   ########.fr       */
+/*   Created: 2023/02/02 18:25:32 by sgerace           #+#    #+#             */
+/*   Updated: 2023/03/24 19:09:29 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/libft.h"
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
-char	*ft_strdup_m(t_garbage **garbage, const char *s1)
+int	g_exit_status;
+
+void	ft_CTRL_C_handler(int signum)
 {
-	size_t	dim;
-	char	*stack;
+	if (g_exit_status != 130)
+	{
+		g_exit_status = 1;
+	}
+	write(1, "\n", 1);
+    rl_replace_line("", 0);
+    rl_on_new_line();
+    rl_redisplay();
+}
 
-	if (s1 == NULL)
-		return (NULL);
-	dim = ft_strlen(s1) + 1;
-	//stack = (char *) malloc(sizeof(char) * dim);
-	stack = gc_alloc(garbage, (sizeof(char) * dim), dim);
-	if (s1 == NULL)
-		return (NULL);
-	else
-		ft_memcpy(stack, s1, dim);
-	return (stack);
+void	ft_CTRL_D_handler(int signum)
+{
+	// printf("\r");
+	// rl_on_new_line();
+	// rl_redisplay();
+	exit(0);
+}
+
+void	ft_CTRL_S_handler(int signum)
+{
+	return ;
 }

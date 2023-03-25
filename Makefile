@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+         #
+#    By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 21:39:43 by dgioia            #+#    #+#              #
-#    Updated: 2023/03/23 00:02:28 by sgerace          ###   ########.fr        #
+#    Updated: 2023/03/24 23:45:47 by sgerace          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,29 +28,32 @@ READLINE_MACOS = -lreadline -L /Users/$(USER)/.brew/opt/readline/lib -I /Users/$
 
 RM		=	rm -rf
 
-SRC	=	./src/main.c \
-		./src/input_checker.c \
-		./src/split_variant.c \
-		./src/malloc_stuff.c \
-		./src/parser.c \
-		./src/built_in.c \
-		./src/ft_echo.c \
-		./src/ft_cd.c \
-		./src/ft_env.c \
-		./src/ft_export.c \
-		./src/ft_pwd.c \
-		./src/ft_unset.c \
-		./src/error.c \
-		./src/execute.c \
-		./src/signals.c \
-		./src/constructor.c \
-		./src/dollar_exp.c \
-		./src/old_split.c \
-		./src/exec_cmd.c \
-		./src/ft_redirection.c \
-		./src/redirection_utils.c \
-		./src/ft_pipes.c \
-		./src/utils.c \
+SRC	=	./src/init/main.c \
+		./src/parser/input_checker.c \
+		./src/utils/split_variant.c \
+		./src/utils/malloc_stuff.c \
+		./src/parser/parser.c \
+		./src/bin/built_in.c \
+		./src/bin/ft_echo.c \
+		./src/bin/ft_cd.c \
+		./src/bin/ft_env.c \
+		./src/bin/ft_export.c \
+		./src/bin/ft_pwd.c \
+		./src/bin/ft_unset.c \
+		./src/utils/error.c \
+		./src/exec/execute.c \
+		./src/signals/signals.c \
+		./src/init/constructor.c \
+		./src/parser/dollar_exp.c \
+		./src/utils/old_split.c \
+		./src/exec/exec_cmd.c \
+		./src/redirection/ft_redirection.c \
+		./src/redirection/redirection_utils.c \
+		./src/pipes/ft_pipes.c \
+		./src/utils/utils.c \
+		./src/gc/garbage.c \
+		./src/m_libft/ftm_itoa.c \
+		./src/m_libft/ftm_split.c \
 
 OBJ	=	$(SRC:.c=.o)
 

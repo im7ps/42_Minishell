@@ -1,0 +1,140 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_redirection.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/18 20:07:45 by sgerace           #+#    #+#             */
+/*   Updated: 2023/03/24 19:11:28 by sgerace          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../inc/minishell.h"
+
+//red = 5 "<"
+int	ft_redirect_input(t_minishell *mini, t_list *head, int **pipes, int i)
+{
+	int		fd;
+	int		buffer_size;
+	char	*file_content;
+	struct 	stat st;
+
+	if (head->next != NULL)
+	{
+		while (head->next != NULL && head->next->final_red == 5)
+		{
+			head = head->next;
+		}
+		fd = open(head->next->cmd_m[0], O_RDONLY);
+		if (fd < 0)
+		{
+			g_exit_status = 1;
+			return (1);
+		}
+		if (fstat(fd, &st) == -1)
+		{
+			return (1);
+		}
+		buffer_size = st.st_size;
+
+		file_content = (char *) malloc (sizeof(char) * (buffer_size + 1));
+		read(fd, file_content, buffer_size);
+		write(pipes[i + 1][1], file_content, buffer_size);
+		close(fd);
+		head = head->next;
+	}
+	if (head->final_red == 0)
+	{
+		mini->flush = 1;
+	}
+	return (0);	
+}
+
+//red = 2 ">>"
+int	ft_append_output(int **pipes, t_list *head, int i)
+{
+	int			buffer_size;
+	int			fd;
+	char		*file_content;
+	struct 		stat st;
+	int			j;
+	
+	if (head->next != NULL)
+	if (fstat(pipes[i][0], &st) == -1)
+	{
+		return (1);
+	}
+	buffer_size = st.st_size;
+
+	file_content = (char *) malloc (sizeof(char) * (buffer_size + 1));
+	read(pipes[i][0], file_content, buffer_size);
+	file_content[buffer_size] = '\0';
+	fd = open(head->cmd_m[0], O_WRONLY | O_CREAT | O_APPEND, 0644); // apre il file specificato per la scrittura
+	if (fd < 0)
+	{
+		g_exit_status = 1;
+		ft_printf("Problems with file opening\n");
+		return (1);
+	}
+	write(fd, file_content, buffer_size);
+	write(pipes[i + 1][1], file_content, buffer_size);
+	j = 1;
+	while (head->cmd_m[j])
+	{
+		if (ft_is_redirection(head->cmd_m[j]) == 0)
+		{
+			write(fd, head->cmd_m[j], ft_strlen(head->cmd_m[j]));
+			write(pipes[i + 1][1], head->cmd_m[j], ft_strlen(head->cmd_m[j]));
+		}
+		j++;
+	}
+	close(fd);
+	return (0);
+}
+
+//red = 4 ">"
+int	ft_redirect_output(int **pipes, t_list *head, int i)
+{
+	int			buffer_size;
+	int			fd;
+	char		*file_content;
+	struct 		stat st;
+	
+	int			len;
+	int			j;
+
+	if (fstat(pipes[i][0], &st) == -1)
+	{
+		perror("fstat");
+		exit(EXIT_FAILURE);
+	}
+	buffer_size = st.st_size;
+	
+	file_content = (char *) malloc (sizeof(char) * (buffer_size + 1));
+	read(pipes[i][0], file_content, buffer_size);
+	file_content[buffer_size] = '\0';
+
+	fd = open(head->cmd_m[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
+	{
+		g_exit_status = 1;
+		ft_printf("Problems with file opening\n");
+		return (1);
+	}
+	write(fd, file_content, buffer_size);
+	write(pipes[i + 1][1], file_content, buffer_size);
+
+	j = 1;
+	while (head->cmd_m[j])
+	{
+		if (ft_is_redirection(head->cmd_m[j]) == 0)
+		{
+			write(fd, head->cmd_m[j], ft_strlen(head->cmd_m[j]));
+			write(pipes[i + 1][1], head->cmd_m[j], ft_strlen(head->cmd_m[j]));
+		}
+		j++;
+	}
+	close(fd);
+	return (0);
+}
