@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 18:25:32 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/24 19:09:29 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/26 18:07:11 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,6 @@ int	g_exit_status;
 
 void	ft_CTRL_C_handler(int signum)
 {
-	if (g_exit_status != 130)
-	{
-		g_exit_status = 1;
-	}
 	write(1, "\n", 1);
     rl_replace_line("", 0);
     rl_on_new_line();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 19:31:05 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/26 16:22:55 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/26 18:48:27 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,10 @@ int	handle_command(t_minishell *mini, t_list *head, t_list **envp, int **pipes, 
 	return (0);
 }
 
-//heredoc
-int	ft_heredoc(t_minishell *mini, int **pipes)
+int ft_init_file()
 {
-	int			buffer_size;
-	int			fd2;
-	int			fd;
-	char		*file_content;
-	struct 		stat st;
-	
-	file_content = NULL;
+	int	fd;
+
 	fd = open("heredoc_tmp.txt", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (!fd)
 	{
@@ -65,40 +59,64 @@ int	ft_heredoc(t_minishell *mini, int **pipes)
 	}
 	write(fd, NULL, 1);
 	close(fd);
+	return (0);
+}
+
+//heredoc
+int	ft_heredoc(t_minishell *mini, int **pipes, char *str)
+{
+	int			buffer_size;
+	int			fd;
+	char		*file_content;
+	struct 		stat st;
+
+	if (ft_init_file())
+		return (1);
 	while (1)
 	{
-		//salva la stringa scritta dall utente
 		file_content = readline("heredoc > ");
-		if (!ft_strncmp(file_content, mini->cmd_list->next->cmd_m[0], 3))
+		if (!ft_strncmp(file_content, str, ft_strlen(file_content)))
 		{
-			/*parte del programma che legge il contenuto del file, lo salva in una matrice con prima stringa == nome_comando e lo manda in esecuzione*/
-			// int i;
-			// i = 0;
-			// while (mini->cmd_list->cmd_m[i])
-			// {
-			// 	ft_printf("debug: %s\n", mini->cmd_list->cmd_m[i]);
-			// 	i++;
-			// }
-			//handle_command(mini->cmd_list, &mini->envp_list, pipes, mini->index, mini->cmd_num);
-			free(file_content);
-			file_content = NULL;
-			close(fd2);
 			break ;
 		}
-
-		fd2 = open("heredoc_tmp.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
-		if (!fd2)
+		fd = open("heredoc_tmp.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
+		if (!fd)
 		{
 			ft_printf("Error opening the tmp file\n");
 			return (1);
 		}
-		write(fd2, file_content, ft_strlen(file_content));
-		write(fd2, "\n", 1);
-
-		free(file_content);
-		file_content = NULL;
-		close(fd2);
+		write(fd, file_content, ft_strlen(file_content));
+		write(pipes[mini->index + 1][1], file_content, ft_strlen(file_content));
+		write(fd, "\n", 1);
+		write(pipes[mini->index + 1][1], "\n", 1);
+		close(fd);
 	}
+	// free(file_content);
+	return (0);
+}
+
+int	ft_red_router(t_minishell	*mini, t_list *head, int **pipes, t_list **envp)
+{
+	if (head->start_red == 0 || head->start_red == 1)
+	{
+		if (head->final_red == 3)
+		{
+			if (ft_heredoc(mini, pipes, head->next->cmd_m[0]) == 1)
+				return (1);
+		}
+		else if (head->final_red == 5)
+		{
+			if (ft_redirect_input(mini, head, pipes, mini->index) == 1)
+				return (1);
+			mini->index++;
+		}
+		if (handle_command(mini, head, envp, pipes, mini->index, mini->cmd_num) == 1)
+			return (1);
+	}
+	else if (head->start_red == 2)
+		ft_append_output(pipes, head, mini->index);
+	else if (head->start_red == 4)
+		ft_redirect_output(pipes, head, mini->index);
 	return (0);
 }
 
@@ -106,57 +124,19 @@ int ft_start_executing(t_minishell **minip, t_list	**cmd_list, t_list **envp)
 {
 	t_minishell	*mini;
 	t_list		*head;
-	int			*pid;
 	int			i;
 	int 		**pipes;
-	int			tmp_exitstatus;
 
 	mini = *minip;
 	head = mini->cmd_list;
 	if (ft_check_path(envp))
 		return (1);
-
-	pid = (int*) malloc (sizeof(int) * mini->cmd_num);
 	pipes = (int**) malloc (sizeof(int*) * (mini->cmd_num + 1));
-
 	open_pipes(pipes, mini->cmd_num);
 	while(head)
 	{
-		//handle_command(mini, head, envp, pipes, mini->index, mini->cmd_num);
-		if (head->start_red == 0 || head->start_red == 1)
-		{
-			if (head->final_red == 3)
-			{
-				if (ft_heredoc(mini, pipes) == 1)
-				{
-					g_exit_status = 1;
-					return (1);
-				}
-			}
-			else if (head->final_red == 5)
-			{
-				if (ft_redirect_input(mini, head, pipes, mini->index) == 1)
-					g_exit_status = 1;
-				mini->index++;
-			}
-			ft_printf("index at command: %d\n", mini->index);
-			if (handle_command(mini, head, envp, pipes, mini->index, mini->cmd_num) == 1)
-			{
-				g_exit_status = 1;
-				return (1);
-			}
-		}
-		else if (head->start_red == 2)
-		{
-			ft_append_output(pipes, head, mini->index);
-		}
-		else if (head->start_red == 4) //head->start_red == 4 vuol dire esegui una redirection di tipo ">"
-		{
-			ft_printf("index at redirect output: %d\n", mini->index);
-			ft_printf("pipe address: %p\n", pipes[mini->index][0]);
-			ft_printf("pipes address: %p\n", pipes);
-			ft_redirect_output(pipes, head, mini->index);
-		}
+		if (ft_red_router(mini, head, pipes, envp))
+			return (1);
 		mini->index++;
 		head = head->next;
 	}

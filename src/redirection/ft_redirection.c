@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirection.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 20:07:45 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/26 16:24:30 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/26 17:56:16 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,22 +103,16 @@ int	ft_redirect_output(int **pipes, t_list *head, int i)
 	int			len;
 	int			j;
 
-	ft_printf("i: %d\n", i);
-	ft_printf("pipe address inside: %p\n", pipes[i][0]);
-	ft_printf("pipes address: %p\n", pipes);
-
 	if (fstat(pipes[i][0], &st) == -1)
 	{
 		perror("fstat");
 		exit(EXIT_FAILURE);
 	}
 	buffer_size = st.st_size;
-	ft_printf("size: %d\n", buffer_size);
 
 	file_content = (char *) malloc (sizeof(char) * (buffer_size + 1));
 	read(pipes[i][0], file_content, buffer_size);
 	file_content[buffer_size] = '\0';
-	ft_printf("content: %s\n", file_content);
 
 	fd = open(head->cmd_m[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)

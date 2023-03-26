@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 17:52:56 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/26 15:52:39 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/26 18:14:53 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,6 @@ int handle_non_builtin(t_minishell *mini, t_list *head, t_list **envp, int **pip
 {
     pid_t pid;
 
-	//ft_printf("Il comando non builtin testato é: %s\n", head->cmd_m[0]);
 	if (head->cmd_m[0][0] != '/')
 	{
 		head->cmd_m[0] = ft_trypath(&mini, head->cmd_m[0], envp);

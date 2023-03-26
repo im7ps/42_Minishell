@@ -9,10 +9,10 @@
             "name": "(lldb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/Users/sgerace/Desktop/2403mini/minishell",
+            "program": "/Users/sgerace/Desktop/2603mini/minishell",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "/Users/sgerace/Desktop/2403mini",
+            "cwd": "/Users/sgerace/Desktop/2603mini",
             "environment": [],
             "externalConsole": true,
             "MIMode": "lldb"

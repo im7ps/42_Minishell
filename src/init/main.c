@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/03/26 15:41:50 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/26 18:40:11 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	ft_update_shellv(t_garbage **garbage, t_list **envp, int flag)
 				n = ft_atoi(env->value) - 1;
 			}
 			env->value = ftm_itoa(garbage, n);
-			return (ft_atoi(env->value));
+			return (n);
 		}
 		env = env->next;
 	}
@@ -172,8 +172,8 @@ int	ft_handle_shllv(t_minishell **minip)
 	mini = *minip;
 	if (ft_is_exit(mini->input))
 	{
-		//ft_printf("Input: %s\n", mini->input);
-		if (ft_update_shellv(&mini->garbage, &mini->envp_list, -1) == 1)	//al posto dello 1 ci andrebbe il valore di SHLLV quando parte il programma
+		ft_printf("Input: |%s|\n", mini->input);
+		if (ft_update_shellv(&mini->garbage, &mini->envp_list, -1))
 		{
 			ft_printf("Caricamento procedura d'uscita in corso, non spegnere il computer\n");
 			return (0);
@@ -199,7 +199,6 @@ int ft_input_checklist(t_minishell **minip)
 	}
 	else if (!ft_handle_shllv(minip))
 	{
-		//ft_printf("Shell level??\n");
 		return (1);
 	}
 	if (ft_input_checker(mini->input, 0, 0, true) != 0)
@@ -250,8 +249,8 @@ int	main(int argc, char **argv, char **envp)
 	mini = ft_mini_initializer(&mini, envp, 1);
 	g_exit_status = 0;
 	ft_execute_mini(&mini, envp);
+	ft_printf("Fine programma\n");
 	ft_garbage_collector(mini->garbage);
 	free(mini);
-	ft_printf("Fine programma\n");
 	return (0);
 }

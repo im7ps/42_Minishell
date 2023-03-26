@@ -33,5 +33,5 @@ void* gc_alloc(t_garbage** head, int size, int count)
 		ft_bzero(ptr, count);
 	}
     add_node(head, ptr);
-    return ptr;
+    return (ptr);
 }
