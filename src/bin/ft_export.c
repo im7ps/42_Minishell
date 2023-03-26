@@ -6,139 +6,129 @@
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:36:24 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/24 18:59:43 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/26 13:18:29 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-char	*ft_delete_quotes(char *value)
+int	ft_export_alone(t_list **head, char **str)
 {
-	int		i;
-	int		counter;
-	char	*newvalue;
-	int		k;
+	t_list *exp;
+
+	exp = *head;
+	if ((ft_strlen(str[0]) == 6 && ft_count_rows(str) == 1) && !(ft_strncmp(str[0], "export", 6)))
+	{
+		while (exp)
+		{
+			if (exp->value != NULL)
+				ft_printf("declare -x %s=\"%s\"\n", exp->key, exp->value);
+			else
+				ft_printf("declare -x %s\n", exp->key);
+			exp = exp->next;
+		}
+		return (1);
+	}
+	return (0);
+}
+
+int	ft_whereis_equal(char *str)
+{
+	int i;
 
 	i = 0;
-	counter = 0;
-	while (value[i])
+	while (str[i])
 	{
-		if (ft_is_escaped(value[i], 0) == 0)
-		{
-			counter++;
-		}
+		if (str[i] == '=')
+			break;
 		i++;
 	}
-	if (counter > 0)
-	{
-		newvalue = (char *) malloc (sizeof(char) * (counter + 1));
-		if (!newvalue)
-			return (NULL);
-		k = 0;
-		i = 0;
-		while (value[i])
-		{
-			if (ft_is_escaped(value[i], 0) == 0)
-			{
-				newvalue[k] = value[i];
-				k++;
-			}
-			i++;
-		}
-		newvalue[k] = '\0';
-		free(value);
-		return (newvalue);
-	}
-	return (value);	
+	return (i);
 }
 
-void	ft_export_alone(t_list **envp)
+int	ft_var_isnew(t_list **head, int j, char *str)
 {
-	t_list *env;
+	t_list *node;
 
-	env = *envp;
-	while (env)
+	node = *head;
+	while (node)
 	{
-		ft_printf("declare -x %s=\"%s\"\n", env->key, env->value);
-		env = env->next;
+		if (!ft_strncmp(node->key, str, j))
+			return (1);
+		node = node->next;
 	}
+	return (0);
 }
 
-int	ft_export(t_list *head, t_list **envp, int **pipes, int index)
+void ft_addnode(t_minishell *mini, t_list **head, char *str, int j)
+{
+	t_list *newnode;
+
+	newnode = NULL;
+	newnode = gc_alloc(&mini->garbage, sizeof(t_list), 0);
+	newnode->key = gc_alloc(&mini->garbage, (sizeof(char) * ft_strlen(str)), 0);
+	ft_strlcpy(newnode->key, str, j + 1);
+	if (ft_strchr(str, '='))
+	{
+		newnode->value = gc_alloc(&mini->garbage, (sizeof(char) * ft_strlen(str)), 0);
+		ft_strlcpy(newnode->value, str + j + 1, ft_strlen(str) - j + 1);	
+	}
+	ft_envp_initialize(newnode);
+	ft_lstadd_back(head, newnode);
+}
+
+void ft_delete_replace(t_minishell *mini, t_list **head, char *str, int j)
+{
+	t_list 	*node;
+	char	*tmp;
+
+	node = *head;
+	tmp = gc_alloc(&mini->garbage, (sizeof(char) * ft_strlen(str)), 1);
+	while (node)
+	{
+		if (!ft_strncmp(node->key, str, j))
+		{
+			ft_strlcpy(tmp, str, j + 1);
+			ft_unset(NULL, head, tmp);
+		}
+		node = node->next;
+	}
+	ft_addnode(mini, head, str, j);
+}
+
+t_list **ft_whichlist(t_list ** export, t_list ** env, char *str)
+{
+	if (ft_strchr(str, '='))
+	{
+		return (env);
+	}
+	return (export);
+}
+
+int	ft_export(t_minishell *mini, t_list *head, t_list **envp, int **pipes, int index)
 {
 	int		i;
 	int		j;
-	int		k;
-	t_list 	*new_node;
-	t_list	*env;
+	t_list **heade;
 
-	i = 0;
-	if ((ft_strlen(head->cmd_m[0]) == 6 && ft_count_rows(head->cmd_m) == 1) && !(ft_strncmp(head->cmd_m[0], "export", 6)))
-	{
-		ft_export_alone(envp);
+	if (ft_export_alone(&mini->export_list, head->cmd_m))
 		return (0);
-	}
 	i = 1;
 	while (head->cmd_m[i])
 	{
-		if (!(ft_strncmp(head->cmd_m[i], "|", 1)) || !(ft_strncmp(head->cmd_m[i], ">", 1)) || !(ft_strncmp(head->cmd_m[i], "<", 1)) || !(ft_strncmp(head->cmd_m[i], ">>", 2)) || !(ft_strncmp(head->cmd_m[i], "<<", 2)))
+		heade = ft_whichlist(&mini->export_list, &mini->envp_list, head->cmd_m[i]);
+		if ((!(ft_isalpha(head->cmd_m[i][0]))) || head->cmd_m[i][0] == '_')
+			return (1);
+		j = ft_whereis_equal(head->cmd_m[i]);
+		if (!ft_var_isnew(heade, j, head->cmd_m[i]))
 		{
-			ft_printf("Ending with redirection\n");
-			i++;
+			ft_addnode(mini, heade, head->cmd_m[i], j);
 		}
 		else
 		{
-			//controlla se il primo carattere è alfabetico o è un underscore, in tutti gli altri casi error
-			j = 0;
-			if ((!(ft_isalpha(head->cmd_m[i][j]))) || head->cmd_m[i][j] == '_')
-			{
-				ft_printf("error\n");
-				return (1);
-			}
-			while (head->cmd_m[i][j])
-			{
-				if (head->cmd_m[i][j] == '=')
-					break;
-				j++;
-			}
-			//check se hanno inserito solo il nome della variabile, in tal caso stampa l env e poi il nome di tutte le variabili
-			if (j >= ft_strlen(head->cmd_m[i]))
-			{
-				j = 0;
-				env = *envp;
-				ft_env(&env, pipes, index, head->cmd_m);
-				while (head->cmd_m[i])
-				{
-					ft_printf("declare -x %s\n", head->cmd_m[i]);
-					i++;
-				}
-				return (0);
-			}
-			//se la variabile non esiste, alloca un nuovo nodo alla lista envp con il relativo contenuto
-			new_node = (t_list *) malloc (sizeof(t_list));
-			if (new_node == NULL)
-				return (1);
-
-			new_node->key = ft_substr_old(head->cmd_m[i], 0, j);
-			
-			//check se la variabile nell env esiste giá, in tal caso il programma elimina il nodo relativo a quella variabile e ne alloca un'altra con il nuovo content
-			ft_unset(NULL, envp, new_node->key);
-			k = 0;
-			while (head->cmd_m[i][j + k] != '\0')
-			{
-				k++;
-			}
-			new_node->value = ft_strndup((head->cmd_m[i] + j + 1), k);
-			new_node->value = ft_delete_quotes(new_node->value);
-
-			new_node->name = NULL;
-			new_node->args = NULL;
-			new_node->flags = NULL;
-			new_node->end = NULL;
-			new_node->next = NULL;
-			ft_lstadd_back(envp, new_node);
-			i++;
+			ft_delete_replace(mini, heade, head->cmd_m[i], j);
 		}
+		i++;
 	}
 	return (0);
 }

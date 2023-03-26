@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 17:52:56 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/25 18:32:20 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/26 15:52:39 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,12 @@ int ft_execute_first(t_minishell *mini, int **pipes, t_list *head, int cmd_num, 
 {
 	int		err;
 	char	*file_content;
+	int 	i;
 
-	// if (mini->flush != 1)
-	// {		
-		err = dup2(pipes[index + 1][1], STDOUT_FILENO);
-		if (err == -1)
-		{
-			ft_printf("Error using dup2F\n");
-		}
-	// }
-		
-	int i = 0;
+	err = dup2(pipes[index + 1][1], STDOUT_FILENO);
+	if (err == -1)
+		ft_printf("Error using dup2F\n");
+	i = 0;
 	while (i < cmd_num + 1)
 	{
 		close(pipes[i][0]);
@@ -76,21 +71,13 @@ int ft_execute_first(t_minishell *mini, int **pipes, t_list *head, int cmd_num, 
 int	ft_execute_middle(t_minishell *mini, int **pipes, t_list *head, int cmd_num, int index)
 {
 	int err = 0;
-
-	// if (mini->flush != 1)
-	// {		
-		err = dup2(pipes[index + 1][1], STDOUT_FILENO);
-		if (err == -1)
-		{
+	
+	err = dup2(pipes[index + 1][1], STDOUT_FILENO);
+	if (err == -1)
 			ft_printf("Error using dup2M\n");
-		}
-	//}
-
 	err = dup2(pipes[index][0], STDIN_FILENO);
 	if (err == -1)
-	{
 		ft_printf("Error using dup2M2\n");
-	}
 
 	int i = 0;
 	while (i < cmd_num + 1)
@@ -109,15 +96,14 @@ int	ft_execute_middle(t_minishell *mini, int **pipes, t_list *head, int cmd_num,
 
 int	ft_execute_last(int **pipes, t_list *head, int cmd_num, int index)
 {
-	int err = 0;
+	int err;
+	int i;
 
+	err = 0;
 	err = dup2(pipes[index][0], STDIN_FILENO);
 	if (err == -1)
-	{
 		ft_printf("Error using dup2L\n");
-	}
-
-	int i = 0;
+	i = 0;
 	while (i < cmd_num + 1)
 	{
 		close(pipes[i][0]);
@@ -137,39 +123,23 @@ int	ft_execute_command(t_minishell *mini, int **pipes, t_list *head, int cmd_num
 		printf("failed to register interrupt\n");
 	if (head->start_red == 0 && head->final_red == 0)
 	{
-		ft_printf("Only command: %s\n", head->cmd_m[0]);
 		if(ft_execute_single(pipes, head, cmd_num))
-		{
-			// g_exit_status = 0;
 			return (0);
-		}
 	}
 	else if (head->start_red == 0)
 	{
-		ft_printf("First command: %s\n", head->cmd_m[0]);
 		if (ft_execute_first(mini, pipes, head, cmd_num, index))
-		{
-			// g_exit_status = 0;
 			return (0);
-		}
 	}
 	else if (head->start_red != 0 && head->final_red != 0)
 	{
-		ft_printf("Middle command: %s\n", head->cmd_m[0]);
 		if (ft_execute_middle(mini, pipes, head, cmd_num, index))
-		{
-			// g_exit_status = 0;
 			return (0);
-		}
 	}
 	else if (head->final_red == 0)
 	{
-		ft_printf("Final command: %s\n", head->cmd_m[0]);
 		if (ft_execute_last(pipes, head, cmd_num, index))
-		{
-			// g_exit_status = 0;
 			return (0);
-		}
 	}
 	return (1);
 }

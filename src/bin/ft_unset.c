@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:36:34 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/24 18:59:53 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/26 13:34:27 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,68 +16,57 @@ void ft_delete_node(t_list **list, t_list *nodeToDelete)
 {
 	t_list *prevNode;
 
-    // Se la lista è vuota o il nodo da eliminare è nullo, non fare nulla
-    if (*list == NULL || nodeToDelete == NULL) {
+    if (*list == NULL || nodeToDelete == NULL) 
         return;
-    }
-    
-    // Se il nodo da eliminare è il primo della lista, modifica il puntatore alla testa della lista
-    if (*list == nodeToDelete) {
+    if (*list == nodeToDelete) 
+	{
         *list = nodeToDelete->next;
         free(nodeToDelete);
         return;
     }
-
-    // Trova il nodo precedente a quello da eliminare
     prevNode = *list;
-    while (prevNode->next != NULL && prevNode->next != nodeToDelete) {
+    while (prevNode->next != NULL && prevNode->next != nodeToDelete) 
+	{
         prevNode = prevNode->next;
     }
-    
-    // Se il nodo da eliminare non è presente nella lista, non fare nulla
-    if (prevNode->next == NULL) {
+    if (prevNode->next == NULL) 
         return;
-    }
-    
-    // Modifica il puntatore "next" del nodo precedente in modo che punti al nodo successivo
     prevNode->next = nodeToDelete->next;
     free(nodeToDelete);
 	nodeToDelete = NULL;
 }
 
+void	ft_find_node(t_list *head, t_list **envp, char  *str)
+{
+	t_list *env;
+	
+	env = *envp;
+	while (env)
+	{
+		if (!(strncmp(str, env->key, ft_strlen(str))))
+		{
+			ft_delete_node(envp, env);
+			break ;
+		}
+		env = env->next;
+	}
+}
+
 int	ft_unset(t_list *head, t_list **envp, char  *var)
 {
 	int		i;
-	t_list	*env;
 
 	i = 0;
-    if (var != NULL)
-    {
-        env = *envp;
-        while (env)
-        {
-            if (!(strncmp(var, env->key, ft_strlen(var))))
-            {
-                ft_delete_node(envp, env);
-            }
-            env = env->next;
-        }
-    }
+	if (var != NULL)
+	{
+		ft_find_node(head, envp, var);
+	}
     else if (head != NULL)
     {
         while (head->cmd_m[i])
         {
-            env = *envp;
-            while (env)
-            {
-                if (!(strncmp(head->cmd_m[i], env->key, ft_strlen(head->cmd_m[i]))))
-                {
-                    ft_delete_node(envp, env);
-					break;
-                }
-                env = env->next;
-            }
-            i++;
+			ft_find_node(head, envp, head->cmd_m[i]);
+			i++;
         }
     }
 	return (0);

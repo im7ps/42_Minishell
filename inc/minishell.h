@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/25 18:29:51 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/26 11:04:36 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,13 @@
 # define NODE_NUM 90
 
 extern int g_exit_status;
+
+typedef struct s_echo
+{
+	int	i;
+	int flag_index;
+	int len;
+}	t_echo;
 
 typedef struct s_xfillmv
 {
@@ -75,13 +82,15 @@ typedef struct s_minishell
 	char		**full_cmd; 		// qui l'input viene splittato in un array per essere gestito
 	t_list		*envp_list;
 	t_list		*cmd_list;
+	t_list		*export_list;
+	int			export_flag;		//se 1 deve il comando env printare l export env, se 0 deve printare l env
 	t_garbage	*garbage;
 }	t_minishell;
 
 bool	ft_char_red(char c);
-
+void 	ft_envp_initialize(t_list *new_node);
 int		ft_cd(t_list *head, t_list **envp);
-
+t_minishell	*ft_load_export(t_minishell **minip, char **envp);
 //char *final_exp(char *args, t_list *env);
 //char *ft_dollar_expander(char *args, t_list *env);
 
@@ -95,7 +104,7 @@ int		ft_double_red_checker(char *input, int redcount, bool redtoggle);
 //building functions
 t_minishell *ft_get_mini(t_minishell *mini);
 t_minishell *ft_load_envp(t_minishell **minip, char **envp);
-t_minishell *ft_mini_initializer(t_minishell **mini, char **envp);
+t_minishell *ft_mini_initializer(t_minishell **mini, char **envp, int flag);
 
 //error
 int	ft_perror(int err, char *cmd);
@@ -106,7 +115,7 @@ int		handle_builtin(t_minishell *mini, t_list *head, t_list **envp, int **pipes,
 int		ft_echo(t_minishell *mini, t_list *head, int **pipes, int index, int cmd_num);
 //char	*ft_cd(t_list *head, t_list **envp, int cmd_num);
 int		ft_pwd(t_list *head, char **cmd_m, int **pipes, int index);
-int		ft_export(t_list *head, t_list **envp, int **pipes, int index);
+int		ft_export(t_minishell *mini, t_list *head, t_list **envp, int **pipes, int index);
 int		ft_unset(t_list *head, t_list **envp, char *var);
 void 	ft_delete_node(t_list **head, t_list *node_to_delete);
 int		ft_env(t_list **envp, int **pipes, int index, char **cmd_m);

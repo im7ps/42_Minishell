@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/03/25 18:38:38 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/26 15:41:50 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,7 +223,6 @@ void	ft_execute_mini(t_minishell **minip, char **envp)
 		add_history(mini->input);
 		if (ft_input_checklist(minip) == 1)
 		{
-			//ft_printf("Input errato figa\n");
 			return ;
 		}
 		if (ft_parser(minip))
@@ -232,9 +231,8 @@ void	ft_execute_mini(t_minishell **minip, char **envp)
 			return ;
 		}
 		g_exit_status = ft_start_executing(&mini, &mini->cmd_list, &mini->envp_list);
-		mini = ft_mini_initializer(&mini, envp);
+		mini = ft_mini_initializer(&mini, envp, 0);
 		ft_lst_delete(&mini->cmd_list);
-		ft_printf("Meglio che non ci arrivi!\n");
 	}
 	return ;
 }
@@ -249,7 +247,7 @@ int	main(int argc, char **argv, char **envp)
 		ft_printf("failed to register quit\n");
 
 	mini = (t_minishell *) malloc (sizeof(t_minishell));
-	mini = ft_mini_initializer(&mini, envp);
+	mini = ft_mini_initializer(&mini, envp, 1);
 	g_exit_status = 0;
 	ft_execute_mini(&mini, envp);
 	ft_garbage_collector(mini->garbage);

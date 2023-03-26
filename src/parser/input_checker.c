@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 20:47:30 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/24 21:37:34 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/26 13:28:31 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	ft_is_onlytab(char	*input, bool onlytab)
 	i = 0;
 	while (input[i])
 	{
-		if (input[i] != ' ')
+		if (input[i] != ' ' && input[i] != '\'')
 			onlytab = false;
 		i++;
 	}
