@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 19:31:05 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/26 18:48:27 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/27 18:25:19 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,12 @@ int	ft_heredoc(t_minishell *mini, int **pipes, char *str)
 			return (1);
 		}
 		write(fd, file_content, ft_strlen(file_content));
-		write(pipes[mini->index + 1][1], file_content, ft_strlen(file_content));
 		write(fd, "\n", 1);
-		write(pipes[mini->index + 1][1], "\n", 1);
+		//write(pipes[mini->index][1], file_content, ft_strlen(file_content));
+		//write(pipes[mini->index][1], "\n", 1);
+		free(file_content);
 		close(fd);
 	}
-	// free(file_content);
 	return (0);
 }
 
@@ -110,8 +110,13 @@ int	ft_red_router(t_minishell	*mini, t_list *head, int **pipes, t_list **envp)
 				return (1);
 			mini->index++;
 		}
+		//ft_printf("Here!\n");
 		if (handle_command(mini, head, envp, pipes, mini->index, mini->cmd_num) == 1)
+		{
+			ft_printf("Here2!\n");
 			return (1);
+		}
+		//ft_printf("Here3!\n");
 	}
 	else if (head->start_red == 2)
 		ft_append_output(pipes, head, mini->index);
@@ -135,8 +140,10 @@ int ft_start_executing(t_minishell **minip, t_list	**cmd_list, t_list **envp)
 	open_pipes(pipes, mini->cmd_num);
 	while(head)
 	{
+		//ft_printf("Index out: %d\n", mini->index);
 		if (ft_red_router(mini, head, pipes, envp))
 			return (1);
+		//ft_printf("here4\n");
 		mini->index++;
 		head = head->next;
 	}

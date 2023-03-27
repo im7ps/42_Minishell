@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/26 11:04:36 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/27 18:11:29 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef struct s_minishell
 	t_list		*export_list;
 	int			export_flag;		//se 1 deve il comando env printare l export env, se 0 deve printare l env
 	t_garbage	*garbage;
+	int			fd;
 }	t_minishell;
 
 bool	ft_char_red(char c);

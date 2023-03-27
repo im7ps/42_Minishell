@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:51:10 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/26 18:57:03 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/27 15:20:52 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,13 +103,15 @@ int do_dollar(char *tmp, char *args, t_list *env, int i)
 bool ft_define_squotes(char c)
 {
 	int		qtoggle;
+	bool	res;
 
 	ft_is_escaped('r', 1);
 	qtoggle = ft_is_escaped(c, 0);
 	if (qtoggle == 2)
-		return (true);
+		res = true;
 	else if (qtoggle == -2)
-		return (false);
+		res = false;
+	return (res);
 }
 
 char *ft_dollar_expander(t_garbage **garbage, char *args, t_list *env)

@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/03/26 18:40:11 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/27 15:38:10 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,6 @@ int	ft_handle_shllv(t_minishell **minip)
 	mini = *minip;
 	if (ft_is_exit(mini->input))
 	{
-		ft_printf("Input: |%s|\n", mini->input);
 		if (ft_update_shellv(&mini->garbage, &mini->envp_list, -1))
 		{
 			ft_printf("Caricamento procedura d'uscita in corso, non spegnere il computer\n");
@@ -219,11 +218,11 @@ void	ft_execute_mini(t_minishell **minip, char **envp)
 	while (1)
 	{
 		mini->input = readline("minishell> ");
-		add_history(mini->input);
 		if (ft_input_checklist(minip) == 1)
 		{
 			return ;
 		}
+		add_history(mini->input);
 		if (ft_parser(minip))
 		{
 			ft_printf("Parser errato figa\n");

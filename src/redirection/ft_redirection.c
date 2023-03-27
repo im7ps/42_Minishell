@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 20:07:45 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/26 17:56:16 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/27 18:26:38 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,6 @@ int	ft_redirect_input(t_minishell *mini, t_list *head, int **pipes, int i)
 		write(pipes[i + 1][1], file_content, buffer_size);
 		close(fd);
 		head = head->next;
-	}
-	if (head->final_red == 0)
-	{
-		mini->flush = 1;
 	}
 	return (0);	
 }

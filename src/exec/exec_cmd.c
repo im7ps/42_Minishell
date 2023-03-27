@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 17:52:56 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/26 18:14:53 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/27 18:32:29 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,44 @@ int ft_execute_first(t_minishell *mini, int **pipes, t_list *head, int cmd_num, 
 	int		err;
 	char	*file_content;
 	int 	i;
+	
+	int	fd;
 
-	err = dup2(pipes[index + 1][1], STDOUT_FILENO);
-	if (err == -1)
-		ft_printf("Error using dup2F\n");
+	if (head->final_red == 5)
+	{
+		fd = open(head->next->cmd_m[0], O_RDONLY);
+		if (!fd)
+		{
+			ft_printf("Error opening file\n");
+		}
+		err = dup2(fd, STDIN_FILENO);
+		if (err == -1)
+			ft_printf("Error using dup2F2\n");
+		close(fd);
+	}
+	else if (head->final_red == 3)
+	{
+		fd = open("heredoc_tmp.txt", O_RDONLY);
+		if (!fd)
+		{
+			ft_printf("Error opening file\n");
+		}
+		err = dup2(fd, STDIN_FILENO);
+		if (err == -1)
+			ft_printf("Error using dup2F2\n");
+		close(fd);
+	}
+	else
+	{
+		ft_printf("Opening this file: %s\n", head->next->cmd_m[0]);
+		fd = open(head->next->cmd_m[0], O_RDWR);
+		err = dup2(fd, STDOUT_FILENO);
+		if (err == -1)
+		{
+			ft_printf("Error using dup2F\n");
+		}
+		close(fd);
+	}
 	i = 0;
 	while (i < cmd_num + 1)
 	{
@@ -119,8 +153,6 @@ int	ft_execute_last(int **pipes, t_list *head, int cmd_num, int index)
 
 int	ft_execute_command(t_minishell *mini, int **pipes, t_list *head, int cmd_num, int index)
 {
-	if (signal(SIGINT, &ft_CTRL_C_handler) == SIG_ERR)
-		printf("failed to register interrupt\n");
 	if (head->start_red == 0 && head->final_red == 0)
 	{
 		if(ft_execute_single(pipes, head, cmd_num))
@@ -149,6 +181,8 @@ int	ft_execute_command(t_minishell *mini, int **pipes, t_list *head, int cmd_num
 int handle_non_builtin(t_minishell *mini, t_list *head, t_list **envp, int **pipes, int index, int cmd_num)
 {
     pid_t pid;
+
+	ft_printf("index non builtin: %d del comando num: %d\n", index, cmd_num);
 
 	if (head->cmd_m[0][0] != '/')
 	{

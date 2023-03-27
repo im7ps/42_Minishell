@@ -1,1 +1,12 @@
-s
+Makefile
+da_debugg
+discarded.txt
+en.subject.pdf
+file.txt
+flowchart
+ft_printf
+heredoc_tmp.txt
+inc
+libft
+minishell
+src
