@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 17:52:56 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/28 23:47:48 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/29 00:06:59 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	ft_exec_redinput(int fd, t_list *head, int **pipes, int i)
 {
 	int err;
 
-	ft_printf("Il comando |%s| legge da |%s|\n", head->cmd_m[0], head->next->cmd_m[0]);
+	//ft_printf("Il comando |%s| legge da |%s|\n", head->cmd_m[0], head->next->cmd_m[0]);
 	fd = open(head->next->cmd_m[0], O_RDONLY);
 	if (!fd)
 	{
@@ -97,7 +97,7 @@ void	ft_exec_redout(int fd, t_list *head)
 {
 	int	err;
 
-	ft_printf("Opening this file: %s\n", head->next->cmd_m[0]);
+	//ft_printf("Opening this file: %s\n", head->next->cmd_m[0]);
 	fd = open(head->next->cmd_m[0], O_RDWR);
 	err = dup2(fd, STDOUT_FILENO);
 	if (err == -1)
@@ -111,7 +111,7 @@ void	ft_exec_redout_v(int fd, t_list *head, int **pipes, int i)
 {
 	int	err;
 
-	ft_printf("Final red: %d\n", head->next->final_red);
+	//ft_printf("Final red: %d\n", head->next->final_red);
 	if (head->next->final_red == 2 || head->next->final_red == 4 || head->next->final_red == 1)
 	{
 		err = dup2(pipes[i + 1][1], STDOUT_FILENO);
@@ -182,7 +182,7 @@ int	ft_execute_middle(t_minishell *mini, int **pipes, t_list *head, int cmd_num,
 	int err = 0;
 	int	fd;
 
-	ft_printf("Final red middle: %d\n", head->final_red);
+	//ft_printf("Final red middle: %d\n", head->final_red);
 	if (head->final_red == 3 || head->final_red == 5)
 	{
 		//ft_printf("Sto cambiando stdin e stdout\n");
@@ -271,19 +271,19 @@ int	ft_execute_command(t_minishell *mini, int **pipes, t_list *head, int cmd_num
 	}
 	else if (head->start_red == 0)
 	{
-		ft_printf("First command: %s\n", head->cmd_m[0]);
+		//ft_printf("First command: %s\n", head->cmd_m[0]);
 		if (ft_execute_first(mini, pipes, head, cmd_num, index))
 			return (0);
 	}
 	else if (head->start_red != 0 && head->final_red != 0)
 	{
-		ft_printf("Middle command: %s\n", head->cmd_m[0]);
+		//ft_printf("Middle command: %s\n", head->cmd_m[0]);
 		if (ft_execute_middle(mini, pipes, head, cmd_num, index))
 			return (0);
 	}
 	else if (head->final_red == 0)
 	{
-		ft_printf("Last command: %s\n", head->cmd_m[0]);
+		//ft_printf("Last command: %s\n", head->cmd_m[0]);
 		if (ft_execute_last(pipes, head, cmd_num, index))
 			return (0);
 	}
@@ -296,7 +296,7 @@ int handle_non_builtin(t_minishell *mini, t_list *head, t_list **envp, int **pip
 {
     pid_t pid;
 
-	ft_printf("index non builtin: %d del comando num: %s\n", index, head->cmd_m[0]);
+	//ft_printf("index non builtin: %d del comando num: %s\n", index, head->cmd_m[0]);
 
 	if (head->cmd_m[0][0] != '/')
 	{

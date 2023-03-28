@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 20:07:45 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/28 23:44:59 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/29 00:16:55 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	ft_redirect_input(t_minishell *mini, t_list *head, int **pipes, int i)
 		ft_printf("Len: %d\n", buffer_size);
 		file_content = (char *) malloc (sizeof(char) * (buffer_size + 1));
 		read(fd, file_content, buffer_size);
-		write(pipes[i + 1][1], file_content, buffer_size);
+		write(pipes[i + 2][1], file_content, buffer_size);
 		close(fd);
 		//head = head->next;
 	}
@@ -102,6 +102,7 @@ int	ft_redirect_output(int **pipes, t_list *head, int i)
 	int			len;
 	int			j;
 
+	//legge 0 da questa pipe
 	if (fstat(pipes[i][0], &st) == -1)
 	{
 		perror("fstat");
@@ -120,7 +121,7 @@ int	ft_redirect_output(int **pipes, t_list *head, int i)
 		ft_printf("Problems with file opening\n");
 		return (1);
 	}
-	ft_printf("Scrivo %s nel file e nella pipe.index: %d\n", file_content, i);
+	//ft_printf("Scrivo %s nel file e nella pipe.index: %d\n", file_content, i);
 	write(fd, file_content, buffer_size);
 	write(pipes[i + 1][1], file_content, buffer_size);
 

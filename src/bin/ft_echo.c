@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:36:13 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/26 16:12:39 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/29 00:06:27 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void ft_echo_write(int fd, t_echo echo, char *str)
 	{
 		if (echo.i != echo.len)
 		{
-			ft_printf("im writing into fd: |%s|\n", str);
+			//ft_printf("im writing into fd: |%s|\n", str);
 			write(fd, str, ((ft_strlen(str)) * sizeof(char)));
 			if (echo.i != echo.len - 1)
 			{
@@ -81,7 +81,7 @@ int	ft_echo(t_minishell *mini, t_list *head, int **pipes, int index, int cmd_num
 	{
 		if (head->final_red != 0)
 		{
-			ft_printf("Scrivo dentro la pipes con index %d\n", index+1);
+			//ft_printf("Scrivo dentro la pipes con index %d\n", index+1);
 			fd = pipes[index + 1][1];
 		}
 		else if (head->final_red == 0)

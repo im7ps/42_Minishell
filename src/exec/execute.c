@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 19:31:05 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/28 21:50:20 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/29 00:15:09 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int	ft_heredoc(t_minishell *mini, t_list *head, int **pipes, char *str)
 
 int	ft_red_router(t_minishell	*mini, t_list *head, int **pipes, t_list **envp)
 {
+	//ft_printf("Il comando %s ha la prima red = %d\n", head->cmd_m[0], head->start_red);
 	if (head->start_red == 0 || head->start_red == 1)
 	{
 		if (head->final_red == 3)
@@ -111,6 +112,7 @@ int	ft_red_router(t_minishell	*mini, t_list *head, int **pipes, t_list **envp)
 				return (1);
 			//mini->index++;
 		}
+		//esegui ls, scrivi il suo contenuto sulla pipe anziché lo STDOUT
 		if (handle_command(mini, head, envp, pipes, mini->index, mini->cmd_num) == 1)
 		{
 			ft_printf("Here2!\n");
@@ -119,9 +121,18 @@ int	ft_red_router(t_minishell	*mini, t_list *head, int **pipes, t_list **envp)
 		//ft_printf("Here3!\n");
 	}
 	else if (head->start_red == 2)
+	{
+		// waitpid(0, &g_exit_status, 0);
+		// mini->built_in_counter++;
 		ft_append_output(pipes, head, mini->index);
+	}
+	//leggi il contenuto della pipe scritta da ls e scrivilo sul file
 	else if (head->start_red == 4)
+	{
+		// waitpid(0, &g_exit_status, 0);
+		// mini->built_in_counter++;
 		ft_redirect_output(pipes, head, mini->index);
+	}
 	return (0);
 }
 
@@ -140,10 +151,8 @@ int ft_start_executing(t_minishell **minip, t_list	**cmd_list, t_list **envp)
 	open_pipes(pipes, mini->cmd_num);
 	while(head)
 	{
-		//ft_printf("Index out: %d\n", mini->index);
 		if (ft_red_router(mini, head, pipes, envp))
 			return (1);
-		//ft_printf("here4\n");
 		mini->index++;
 		head = head->next;
 	}
