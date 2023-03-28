@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 17:52:56 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/28 22:29:36 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/28 23:47:48 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,9 +198,12 @@ int	ft_execute_middle(t_minishell *mini, int **pipes, t_list *head, int cmd_num,
 		err = dup2(pipes[index][0], STDIN_FILENO);
 		if (err == -1)
 			ft_printf("Error using dup2M2\n");
-		err = dup2(pipes[index + 2][1], STDOUT_FILENO);
-		if (err == -1)
-			ft_printf("Error using dup2M\n");
+		if (head->next && head->next->final_red != 0)
+		{
+			err = dup2(pipes[index + 2][1], STDOUT_FILENO);
+			if (err == -1)
+				ft_printf("Error using dup2M\n");
+		}
 	}
 	else
 	{

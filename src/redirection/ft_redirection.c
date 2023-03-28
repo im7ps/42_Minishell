@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 20:07:45 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/28 18:29:19 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/28 23:44:59 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ int	ft_redirect_input(t_minishell *mini, t_list *head, int **pipes, int i)
 
 	if (head->next != NULL)
 	{
-		while (head->next != NULL && head->next->final_red == 5)
-		{
-			head = head->next;
-		}
+		// while (head->next != NULL && head->next->final_red == 5)
+		// {
+		// 	head = head->next;
+		// }
 		ft_printf("Sto aprendo: |%s|\n", head->next->cmd_m[0]);
 		fd = open(head->next->cmd_m[0], O_RDONLY);
 		if (fd < 0)
@@ -43,9 +43,9 @@ int	ft_redirect_input(t_minishell *mini, t_list *head, int **pipes, int i)
 		ft_printf("Len: %d\n", buffer_size);
 		file_content = (char *) malloc (sizeof(char) * (buffer_size + 1));
 		read(fd, file_content, buffer_size);
-		write(pipes[i][1], file_content, buffer_size);
+		write(pipes[i + 1][1], file_content, buffer_size);
 		close(fd);
-		head = head->next;
+		//head = head->next;
 	}
 	return (0);	
 }
