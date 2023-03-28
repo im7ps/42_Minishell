@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 19:31:05 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/29 00:15:09 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/29 00:40:18 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,15 +122,15 @@ int	ft_red_router(t_minishell	*mini, t_list *head, int **pipes, t_list **envp)
 	}
 	else if (head->start_red == 2)
 	{
-		// waitpid(0, &g_exit_status, 0);
-		// mini->built_in_counter++;
+		waitpid(0, &g_exit_status, 0);
+		mini->built_in_counter++;
 		ft_append_output(pipes, head, mini->index);
 	}
 	//leggi il contenuto della pipe scritta da ls e scrivilo sul file
 	else if (head->start_red == 4)
 	{
-		// waitpid(0, &g_exit_status, 0);
-		// mini->built_in_counter++;
+		waitpid(0, &g_exit_status, 0);
+		mini->built_in_counter++;
 		ft_redirect_output(pipes, head, mini->index);
 	}
 	return (0);

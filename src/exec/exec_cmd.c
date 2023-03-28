@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 17:52:56 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/29 00:06:59 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/29 00:45:07 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,7 +277,7 @@ int	ft_execute_command(t_minishell *mini, int **pipes, t_list *head, int cmd_num
 	}
 	else if (head->start_red != 0 && head->final_red != 0)
 	{
-		//ft_printf("Middle command: %s\n", head->cmd_m[0]);
+		ft_printf("Middle command: %s\n", head->cmd_m[0]);
 		if (ft_execute_middle(mini, pipes, head, cmd_num, index))
 			return (0);
 	}

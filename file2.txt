@@ -1,5 +1,1 @@
-aaaa
-bbbb
-test
-test
-test
+Makefile
