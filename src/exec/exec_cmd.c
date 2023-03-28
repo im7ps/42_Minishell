@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 17:52:56 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/28 22:13:08 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/28 22:29:36 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ int ft_execute_first(t_minishell *mini, int **pipes, t_list *head, int cmd_num, 
 
 	if (head->final_red == 1)
 	{
+		//ft_exec_redout_v(fd, head, pipes, index);
 		ft_exec_basered(pipes, index);
 	}
 	else if (head->final_red == 5)
@@ -182,18 +183,30 @@ int	ft_execute_middle(t_minishell *mini, int **pipes, t_list *head, int cmd_num,
 	int	fd;
 
 	ft_printf("Final red middle: %d\n", head->final_red);
-	err = dup2(pipes[index][0], STDIN_FILENO);
-	if (err == -1)
-		ft_printf("Error using dup2M2\n");
 	if (head->final_red == 3 || head->final_red == 5)
 	{
-		
+		//ft_printf("Sto cambiando stdin e stdout\n");
+		struct 		stat st;
+		int			buffer_size;
+
+		if (fstat(pipes[index][0], &st) == -1)
+		{
+			ft_printf("Error calculating size\n");
+		}
+		buffer_size = st.st_size;
+		ft_printf("Size: %d\n", buffer_size);
+		err = dup2(pipes[index][0], STDIN_FILENO);
+		if (err == -1)
+			ft_printf("Error using dup2M2\n");
 		err = dup2(pipes[index + 2][1], STDOUT_FILENO);
 		if (err == -1)
 			ft_printf("Error using dup2M\n");
 	}
 	else
 	{
+		err = dup2(pipes[index][0], STDIN_FILENO);
+		if (err == -1)
+			ft_printf("Error using dup2M2\n");
 		err = dup2(pipes[index + 1][1], STDOUT_FILENO);
 		if (err == -1)
 			ft_printf("Error using dup2M\n");
@@ -255,16 +268,19 @@ int	ft_execute_command(t_minishell *mini, int **pipes, t_list *head, int cmd_num
 	}
 	else if (head->start_red == 0)
 	{
+		ft_printf("First command: %s\n", head->cmd_m[0]);
 		if (ft_execute_first(mini, pipes, head, cmd_num, index))
 			return (0);
 	}
 	else if (head->start_red != 0 && head->final_red != 0)
 	{
+		ft_printf("Middle command: %s\n", head->cmd_m[0]);
 		if (ft_execute_middle(mini, pipes, head, cmd_num, index))
 			return (0);
 	}
 	else if (head->final_red == 0)
 	{
+		ft_printf("Last command: %s\n", head->cmd_m[0]);
 		if (ft_execute_last(pipes, head, cmd_num, index))
 			return (0);
 	}
