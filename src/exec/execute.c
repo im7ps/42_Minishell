@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 19:31:05 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/27 18:25:19 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/28 21:50:20 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int ft_init_file()
 }
 
 //heredoc
-int	ft_heredoc(t_minishell *mini, int **pipes, char *str)
+int	ft_heredoc(t_minishell *mini, t_list *head, int **pipes, char *str)
 {
 	int			buffer_size;
 	int			fd;
@@ -87,11 +87,12 @@ int	ft_heredoc(t_minishell *mini, int **pipes, char *str)
 		}
 		write(fd, file_content, ft_strlen(file_content));
 		write(fd, "\n", 1);
-		//write(pipes[mini->index][1], file_content, ft_strlen(file_content));
-		//write(pipes[mini->index][1], "\n", 1);
+		write(pipes[mini->index][1], file_content, ft_strlen(file_content));
+		write(pipes[mini->index][1], "\n", 1);
 		free(file_content);
 		close(fd);
 	}
+	//head->final_red = 6;
 	return (0);
 }
 
@@ -101,16 +102,15 @@ int	ft_red_router(t_minishell	*mini, t_list *head, int **pipes, t_list **envp)
 	{
 		if (head->final_red == 3)
 		{
-			if (ft_heredoc(mini, pipes, head->next->cmd_m[0]) == 1)
+			if (ft_heredoc(mini, head, pipes, head->next->cmd_m[0]) == 1)
 				return (1);
 		}
 		else if (head->final_red == 5)
 		{
 			if (ft_redirect_input(mini, head, pipes, mini->index) == 1)
 				return (1);
-			mini->index++;
+			//mini->index++;
 		}
-		//ft_printf("Here!\n");
 		if (handle_command(mini, head, envp, pipes, mini->index, mini->cmd_num) == 1)
 		{
 			ft_printf("Here2!\n");

@@ -1,0 +1,17 @@
+Makefile
+da_debugg
+discarded.txt
+en.subject.pdf
+file
+file.txt
+file2.txt
+filetto
+flowchart
+ft_printf
+heredoc_tmp.txt
+inc
+libft
+minishell
+src
+tmp
+tmp.txt

@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 17:52:56 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/27 18:32:29 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/28 22:13:08 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,95 @@ int	ft_execute_single(int **pipes, t_list *head, int cmd_num)
 	return 0;
 }
 
+int	ft_exec_redinput(int fd, t_list *head, int **pipes, int i)
+{
+	int err;
+
+	ft_printf("Il comando |%s| legge da |%s|\n", head->cmd_m[0], head->next->cmd_m[0]);
+	fd = open(head->next->cmd_m[0], O_RDONLY);
+	if (!fd)
+	{
+		ft_printf("Error opening file\n");
+	}
+	err = dup2(fd, STDIN_FILENO);
+	if (err == -1)
+		ft_printf("Error using dup2F2\n");
+	if (head->next->final_red == 2 || head->next->final_red == 4 || head->next->final_red == 1)
+	{
+		err = dup2(pipes[i + 1][1], STDOUT_FILENO);
+		if (err == -1)
+		{
+			ft_printf("Error using dup2F\n");
+			return (1);
+		}
+	}
+	close(fd);
+	return (0);
+}
+
+void	ft_exec_redheredoc(int fd, t_list *head, int **pipes, int i)
+{
+	int	err;
+
+	fd = open("heredoc_tmp.txt", O_RDONLY);
+	if (!fd)
+	{
+		ft_printf("Error opening file\n");
+	}
+	err = dup2(fd, STDIN_FILENO);
+	if (err == -1)
+		ft_printf("Error using dup2F2\n");
+	if (head->next->final_red == 2 || head->next->final_red == 4 || head->next->final_red == 1)
+	{
+		err = dup2(pipes[i + 1][1], STDOUT_FILENO);
+		if (err == -1)
+		{
+			ft_printf("Error using dup2F\n");
+		}
+	}
+	close(fd);
+}
+
+void	ft_exec_redout(int fd, t_list *head)
+{
+	int	err;
+
+	ft_printf("Opening this file: %s\n", head->next->cmd_m[0]);
+	fd = open(head->next->cmd_m[0], O_RDWR);
+	err = dup2(fd, STDOUT_FILENO);
+	if (err == -1)
+	{
+		ft_printf("Error using dup2F\n");
+	}
+	close(fd);
+}
+
+void	ft_exec_redout_v(int fd, t_list *head, int **pipes, int i)
+{
+	int	err;
+
+	ft_printf("Final red: %d\n", head->next->final_red);
+	if (head->next->final_red == 2 || head->next->final_red == 4 || head->next->final_red == 1)
+	{
+		err = dup2(pipes[i + 1][1], STDOUT_FILENO);
+		if (err == -1)
+		{
+			ft_printf("Error using dup2F\n");
+		}
+	}
+}
+
+void ft_exec_basered(int **pipes, int i)
+{
+	int err;
+
+	err = dup2(pipes[i + 1][1], STDOUT_FILENO);
+	if (err == -1)
+	{
+		ft_printf("Error using dup2F\n");
+	}
+}
+
 //esegue il primo comando, pipes sono le pipe in cui scrivere l output e scrivere l input, args non viene //utilizzato, head é il mio nodo che contiene tutte le informazioni del comando, cmd_num é il numero dei comandi, index é la posizione del comando nell elenco dei comandi, in questo caso é il primo comando quindi index = 1
 int ft_execute_first(t_minishell *mini, int **pipes, t_list *head, int cmd_num, int index)
 {
@@ -53,40 +142,25 @@ int ft_execute_first(t_minishell *mini, int **pipes, t_list *head, int cmd_num, 
 	
 	int	fd;
 
-	if (head->final_red == 5)
+	if (head->final_red == 1)
 	{
-		fd = open(head->next->cmd_m[0], O_RDONLY);
-		if (!fd)
-		{
-			ft_printf("Error opening file\n");
-		}
-		err = dup2(fd, STDIN_FILENO);
-		if (err == -1)
-			ft_printf("Error using dup2F2\n");
-		close(fd);
+		ft_exec_basered(pipes, index);
+	}
+	else if (head->final_red == 5)
+	{
+		ft_exec_redinput(fd, head, pipes, index);
 	}
 	else if (head->final_red == 3)
 	{
-		fd = open("heredoc_tmp.txt", O_RDONLY);
-		if (!fd)
-		{
-			ft_printf("Error opening file\n");
-		}
-		err = dup2(fd, STDIN_FILENO);
-		if (err == -1)
-			ft_printf("Error using dup2F2\n");
-		close(fd);
+		ft_exec_redheredoc(fd, head, pipes, index);
+	}
+	else if (head->final_red == 2 || head->final_red == 4)
+	{
+		ft_exec_redout(fd, head);
 	}
 	else
 	{
-		ft_printf("Opening this file: %s\n", head->next->cmd_m[0]);
-		fd = open(head->next->cmd_m[0], O_RDWR);
-		err = dup2(fd, STDOUT_FILENO);
-		if (err == -1)
-		{
-			ft_printf("Error using dup2F\n");
-		}
-		close(fd);
+		ft_exec_redout_v(fd, head, pipes, index);
 	}
 	i = 0;
 	while (i < cmd_num + 1)
@@ -105,25 +179,34 @@ int ft_execute_first(t_minishell *mini, int **pipes, t_list *head, int cmd_num, 
 int	ft_execute_middle(t_minishell *mini, int **pipes, t_list *head, int cmd_num, int index)
 {
 	int err = 0;
-	
-	err = dup2(pipes[index + 1][1], STDOUT_FILENO);
-	if (err == -1)
-			ft_printf("Error using dup2M\n");
+	int	fd;
+
+	ft_printf("Final red middle: %d\n", head->final_red);
 	err = dup2(pipes[index][0], STDIN_FILENO);
 	if (err == -1)
 		ft_printf("Error using dup2M2\n");
-
+	if (head->final_red == 3 || head->final_red == 5)
+	{
+		
+		err = dup2(pipes[index + 2][1], STDOUT_FILENO);
+		if (err == -1)
+			ft_printf("Error using dup2M\n");
+	}
+	else
+	{
+		err = dup2(pipes[index + 1][1], STDOUT_FILENO);
+		if (err == -1)
+			ft_printf("Error using dup2M\n");
+	}
 	int i = 0;
-	while (i < cmd_num + 1)
+	while (i < mini->cmd_num + 1)
 	{
 		close(pipes[i][0]);
 		close(pipes[i][1]);
 		i++;
 	}
-	if (execve(head->cmd_m[0], head->cmd_m, NULL) == -1)
-		g_exit_status = 1;
-	ft_printf("Problems with execveM\n");
-	g_exit_status = 127;
+	execve(head->cmd_m[0], head->cmd_m, NULL);
+	g_exit_status = 1;
 	return (1);
 }
 
@@ -132,11 +215,23 @@ int	ft_execute_last(int **pipes, t_list *head, int cmd_num, int index)
 {
 	int err;
 	int i;
+	int	fd;
 
 	err = 0;
 	err = dup2(pipes[index][0], STDIN_FILENO);
 	if (err == -1)
 		ft_printf("Error using dup2L\n");
+	if (head->final_red == 2 || head->final_red == 4)
+	{
+		ft_printf("Opening this file: %s\n", head->next->cmd_m[0]);
+		fd = open(head->next->cmd_m[0], O_RDWR);
+		err = dup2(fd, STDOUT_FILENO);
+		if (err == -1)
+		{
+			ft_printf("Error using dup2F\n");
+		}
+		close(fd);
+	}
 	i = 0;
 	while (i < cmd_num + 1)
 	{
@@ -182,7 +277,7 @@ int handle_non_builtin(t_minishell *mini, t_list *head, t_list **envp, int **pip
 {
     pid_t pid;
 
-	ft_printf("index non builtin: %d del comando num: %d\n", index, cmd_num);
+	ft_printf("index non builtin: %d del comando num: %s\n", index, head->cmd_m[0]);
 
 	if (head->cmd_m[0][0] != '/')
 	{

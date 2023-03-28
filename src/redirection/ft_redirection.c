@@ -6,11 +6,13 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 20:07:45 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/27 18:26:38 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/28 18:29:19 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+int	g_exit_status;
 
 //red = 5 "<"
 int	ft_redirect_input(t_minishell *mini, t_list *head, int **pipes, int i)
@@ -26,6 +28,7 @@ int	ft_redirect_input(t_minishell *mini, t_list *head, int **pipes, int i)
 		{
 			head = head->next;
 		}
+		ft_printf("Sto aprendo: |%s|\n", head->next->cmd_m[0]);
 		fd = open(head->next->cmd_m[0], O_RDONLY);
 		if (fd < 0)
 		{
@@ -37,10 +40,10 @@ int	ft_redirect_input(t_minishell *mini, t_list *head, int **pipes, int i)
 			return (1);
 		}
 		buffer_size = st.st_size;
-
+		ft_printf("Len: %d\n", buffer_size);
 		file_content = (char *) malloc (sizeof(char) * (buffer_size + 1));
 		read(fd, file_content, buffer_size);
-		write(pipes[i + 1][1], file_content, buffer_size);
+		write(pipes[i][1], file_content, buffer_size);
 		close(fd);
 		head = head->next;
 	}
@@ -117,6 +120,7 @@ int	ft_redirect_output(int **pipes, t_list *head, int i)
 		ft_printf("Problems with file opening\n");
 		return (1);
 	}
+	ft_printf("Scrivo %s nel file e nella pipe.index: %d\n", file_content, i);
 	write(fd, file_content, buffer_size);
 	write(pipes[i + 1][1], file_content, buffer_size);
 

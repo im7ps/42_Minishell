@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 15:22:22 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/07 18:21:43 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/28 18:07:27 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,14 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 {
 	t_list	*tmp_l;
 
-	if (*lst == NULL)			//se la lista punta a NULL e' una lista vuota, facciamola puntare a new e l'avremo aggiunto "in fondo"
+	if (*lst == NULL) {
 		*lst = new;
+		new->prev = NULL; // il nuovo nodo non ha un nodo precedente
+	}
 	else
 	{
-		tmp_l = ft_lstlast(*lst);		//tmp_l punta all ultimo elemento non nullo
-		tmp_l->next = new;			//settiamo new come il nuovo ultimo nodo modificando il nodo puntato da tmp_l
+		tmp_l = ft_lstlast(*lst);
+		tmp_l->next = new;
+		new->prev = tmp_l; // il nodo precedente del nuovo nodo è tmp_l
 	}
 }
