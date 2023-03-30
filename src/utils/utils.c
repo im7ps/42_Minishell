@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 18:29:08 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/25 18:18:08 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/30 20:37:05 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ char	*ft_trypath(t_minishell **minip, char	*cmd, t_list **envp)
 	i = 0;
 	while (trypath[i])
 	{
-		trypath[i] = ft_strjoin(trypath[i], "/", 0);
-		cmd = ft_strjoin(trypath[i], cmd, 0);
+		trypath[i] = ftm_strjoin(&(*minip)->garbage, trypath[i], "/", 0);
+		cmd = ftm_strjoin(&(*minip)->garbage, trypath[i], cmd, 0);
 		if (access(cmd, X_OK) == 0)
 		{
 			return (cmd);

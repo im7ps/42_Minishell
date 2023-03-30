@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/30 18:25:43 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/30 20:38:15 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int		ft_double_red_checker(char *input, int redcount, bool redtoggle);
 //building functions
 t_minishell *ft_get_mini(t_minishell *mini);
 t_minishell *ft_load_envp(t_minishell **minip, char **envp);
-t_minishell *ft_mini_initializer(t_minishell **mini, char **envp, int flag);
+void		ft_mini_initializer(t_minishell **mini, char **envp, int flag);
 
 //error
 int	ft_perror(int err, char *cmd);
@@ -201,5 +201,6 @@ char	*ft_substr_m(t_garbage **garbage, char const *s, t_xsubstr sub);
 char	*ft_strdup_m(t_garbage **garbage, const char *s1);
 char	*ftm_itoa(t_garbage **garbage, int n);
 char	**ftm_split(t_garbage **garbage, char const *s, char c);
+char	*ftm_strjoin(t_garbage **garbage, char const *s1, char const *s2, int flag);
 void 	ft_init_fmv(t_xfillmv *fmv);
 #endif

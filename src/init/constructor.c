@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   constructor.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 18:33:46 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/26 11:07:47 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/30 19:20:26 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_minishell	*ft_load_envp(t_minishell **minip, char **envp)
 	return (mini);
 }
 
-t_minishell *ft_mini_initializer(t_minishell **mini, char **envp, int flag)
+void	ft_mini_initializer(t_minishell **mini, char **envp, int flag)
 {
 	t_minishell *minip;
 
@@ -84,14 +84,14 @@ t_minishell *ft_mini_initializer(t_minishell **mini, char **envp, int flag)
 	minip->built_in_counter = 0;
 	minip->flush = 0;
 	minip->path_flag = 0;
-	minip->garbage = NULL;
-	if (flag)
+	if (flag != 0)
 	{
+		minip->garbage = NULL;
 		minip->envp_list = NULL;
 		minip->export_list = NULL;
 		ft_load_envp(&minip, envp);
 		ft_load_export(&minip, envp);
 	}
-	minip = ft_get_mini(minip);
-	return (minip);
+	//minip = ft_get_mini(minip);
+	return ;
 }

@@ -9,20 +9,6 @@ void add_node(t_garbage** head, void* ptr)
     *head = new_node;
 }
 
-// Funzione per liberare la memoria allocata per ogni nodo della lista
-void ft_garbage_collector(t_garbage* head) 
-{
-	t_garbage* temp;
-
-	temp = NULL;
-    while (head != NULL) 
-	{
-        free(head->ptr);
-        temp = head;
-        head = head->next;
-        free(temp);
-    }
-}
 
 // Funzione per allocare la memoria per una nuova variabile e aggiungere un nuovo nodo alla lista
 void* gc_alloc(t_garbage** head, int size, int count)
@@ -34,4 +20,18 @@ void* gc_alloc(t_garbage** head, int size, int count)
 	}
     add_node(head, ptr);
     return (ptr);
+}
+// Funzione per liberare la memoria allocata per ogni nodo della lista
+void ft_garbage_collector(t_garbage* head) 
+{
+	t_garbage* temp;
+
+	temp = NULL;
+    while (head != NULL)
+	{
+        free(head->ptr);
+        temp = head;
+        head = head->next;
+        free(temp);
+    }
 }

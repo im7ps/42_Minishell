@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 16:34:30 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/24 23:43:57 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/30 18:44:34 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,5 @@ char	**ft_split(char const *s, char c)
 		return (NULL);
 	matrix[num_w] = NULL;
 	matrix = fill_m(s, c, matrix, num_w);
-	//int i = 0;
-	// while (matrix[i])
-	// 	ft_printf("%s\n", matrix[i++]);
 	return (matrix);
 }

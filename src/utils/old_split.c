@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 15:11:37 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/30 18:30:43 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/30 18:58:22 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,9 @@ char	**ft_old_split(t_minishell **minip, char const *s, char c)
 		return (NULL);
 	matrix[fmv->num_w] = NULL;
 	matrix = old_fill_m(minip, s, fmv, matrix);
+	fmv->num_w = 0;
+	fmv->c = 0;
 	free(fmv);
+	fmv = NULL;
 	return (matrix);
 }

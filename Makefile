@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+         #
+#    By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 21:39:43 by dgioia            #+#    #+#              #
-#    Updated: 2023/03/24 23:45:47 by sgerace          ###   ########.fr        #
+#    Updated: 2023/03/30 20:38:42 by sgerace          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ SRC	=	./src/init/main.c \
 		./src/redirection/redirection_utils.c \
 		./src/pipes/ft_pipes.c \
 		./src/utils/utils.c \
+		./src/utils/ftm_strjoin.c \
 		./src/gc/garbage.c \
 		./src/m_libft/ftm_itoa.c \
 		./src/m_libft/ftm_split.c \

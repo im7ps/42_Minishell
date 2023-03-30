@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/03/30 18:39:58 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/30 19:21:59 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,7 +230,7 @@ void	ft_execute_mini(t_minishell **minip, char **envp)
 			return ;
 		}
 		g_exit_status = ft_start_executing(&mini, &mini->cmd_list, &mini->envp_list);
-		mini = ft_mini_initializer(&mini, envp, 0);
+		ft_mini_initializer(&mini, envp, 0);
 		ft_lst_delete(&mini->cmd_list);
 	}
 	return ;
@@ -246,13 +246,14 @@ int	main(int argc, char **argv, char **envp)
 		ft_printf("failed to register quit\n");
 
 	mini = (t_minishell *) malloc (sizeof(t_minishell));
-	mini = ft_mini_initializer(&mini, envp, 1);
+	ft_mini_initializer(&mini, envp, 1);
 	g_exit_status = 0;
 	ft_execute_mini(&mini, envp);
 	ft_printf("Fine programma\n");
-	ft_lst_delete(&mini->envp_list);
-	ft_lst_delete(&mini->export_list);
+	// ft_lst_delete(&mini->envp_list);
+	// ft_lst_delete(&mini->export_list);
 	ft_garbage_collector(mini->garbage);
+	//ft_lst_delete(&mini->garbage);
 	free(mini);
 	return (0);
 }
