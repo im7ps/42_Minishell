@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 19:31:05 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/30 23:21:08 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/30 23:39:56 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	handle_command(t_minishell *mini, t_list *head, t_list **envp, int **pipes, 
 {
     if (handle_builtin(mini, head, envp, pipes, index, cmd_num))
     {
-		//g_exit_status = 0;
+		g_exit_status = 0;
     }
     else
     {
@@ -157,6 +157,10 @@ int ft_start_executing(t_minishell **minip, t_list	**cmd_list, t_list **envp)
 
 	mini = *minip;
 	head = mini->cmd_list;
+	if (mini->input[0] == '\0')
+	{
+		return (1);
+	}
 	if (ft_check_path(envp))
 		return (1);
 	else if (!ft_dedicated(mini->cmd_list->cmd_m[0]))

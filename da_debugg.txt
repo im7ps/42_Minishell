@@ -3,3 +3,5 @@ Terminal › External: Linux Exec (da verificare il valore con il vscode di qual
 fare l upload dell exit status nei comandi builtin
 
 i comandi con il path devono funzionare anche se path é unsettato
+
+exitaoijsoaigjasjgao funziona come exit

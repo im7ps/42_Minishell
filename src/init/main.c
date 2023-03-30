@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/03/30 23:20:26 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/30 23:38:22 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int ft_type_router(char c)
 	if (ft_whatis(c) == 'c')
 	{
 		//g_exit_status = 255;
-		return (-1);
+		return (1);
 	}
 	else if (ft_whatis(c) == 'd')
 	{
@@ -137,7 +137,7 @@ int ft_type_router(char c)
 	else if (ft_whatis(c) == 's')
 	{
 		//g_exit_status = 0;
-		return (-1);
+		return (1);
 	}
 	return (1);
 }
@@ -230,7 +230,7 @@ void	ft_execute_mini(t_minishell **minip, char **envp)
 		add_history(mini->input);
 		if (ft_parser(minip))
 			return ;
-		//ft_start_executing(&mini, &mini->cmd_list, &mini->envp_list);
+		ft_start_executing(&mini, &mini->cmd_list, &mini->envp_list);
 		ft_mini_initializer(&mini, envp, 0);
 		ft_lst_delete(&mini->cmd_list);
 	}
@@ -248,7 +248,6 @@ int	main(int argc, char **argv, char **envp)
 
 	mini = (t_minishell *) malloc (sizeof(t_minishell));
 	ft_mini_initializer(&mini, envp, 1);
-	//g_exit_status = 0;
 	ft_execute_mini(&mini, envp);
 	ft_printf("Fine programma\n");
 	ft_garbage_collector(mini->garbage);

@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/30 23:12:05 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/30 23:29:05 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ char		**ft_split_variant(t_minishell *mini, char *s);
 char		**ft_old_split(t_minishell **minip, char const *s, char c);
 //char		**ft_old_split(char const *s, char c);
 int			old_count_w(char *str, char c);
-int			ft_set_exit_status(int value);
+int			ft_set_exit_status();
 
 //char		**old_fill_m(t_minishell **minip, const char *s, t_xfillmv *fmv, char **matrix);
 //char		**old_fill_m(t_minishell **minip, const char *s, char c, char	**matrix, int num_w);
