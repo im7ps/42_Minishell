@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   old_split.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 15:11:37 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/25 14:36:14 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/30 18:30:43 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-char	**old_fill_m(t_minishell **minip, const char *s, char c, char	**matrix, int num_w)
+char	**old_fill_m(t_minishell **minip, const char *s, t_xfillmv *fmv, char **matrix)
 {
 	t_xsubstr sub;
 	int	j;
@@ -21,11 +21,11 @@ char	**old_fill_m(t_minishell **minip, const char *s, char c, char	**matrix, int
 	sub.i = 0;
 	sub.len = 0;
 	j = 0;
-	while (j < num_w)									//il numero di volte che la stringa deve essere splittata
+	while (j < fmv->num_w)									//il numero di volte che la stringa deve essere splittata
 	{
-		while (s[sub.i] == c)								//l inizio della stringa potrebbe essere piena di caratteri che ti indicano che devi splittare...ma sei all'inizio della stringa, ignorali!
+		while (s[sub.i] == fmv->c)								//l inizio della stringa potrebbe essere piena di caratteri che ti indicano che devi splittare...ma sei all'inizio della stringa, ignorali!
 				sub.i++;
-		while (s[sub.i + sub.len] != c && s[sub.i + sub.len] != '\0')	//conta da quanti char e' composta la stringa da iniettare, info sul motivo di (i + len) in basso
+		while (s[sub.i + sub.len] != fmv->c && s[sub.i + sub.len] != '\0')	//conta da quanti char e' composta la stringa da iniettare, info sul motivo di (i + len) in basso
 			sub.len++;
 		if (sub.len != 0)									//se hai 0 char che ti indicano il punto di troncamento vuol dire che non devi troncare mai la stringa, in caso contrario...
 		{
@@ -64,18 +64,22 @@ char	**ft_old_split(t_minishell **minip, char const *s, char c)
 {
 	t_minishell *mini;
 	char		**matrix;
-	int			num_w;
 	int			str_len;
+	t_xfillmv 	*fmv;
 
+	fmv = (t_xfillmv*) malloc (sizeof(t_xfillmv));
+	ft_init_fmv(fmv);
+	fmv->c = c;
 	mini = *minip;
 	if (!s)
 		return (NULL);
 	str_len = ft_strlen(s);
-	num_w = old_count_w((char *)s, c);
-	matrix = gc_alloc(&mini->garbage, (sizeof(char *) * (num_w + 1)), num_w + 1);
+	fmv->num_w = old_count_w((char *)s, c);
+	matrix = gc_alloc(&mini->garbage, (sizeof(char *) * (fmv->num_w + 1)), fmv->num_w + 1);
 	if (!matrix)
 		return (NULL);
-	matrix[num_w] = NULL;
-	matrix = old_fill_m(minip, s, c, matrix, num_w);
+	matrix[fmv->num_w] = NULL;
+	matrix = old_fill_m(minip, s, fmv, matrix);
+	free(fmv);
 	return (matrix);
 }

@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 18:25:32 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/26 18:07:11 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/30 18:17:48 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	g_exit_status;
 
-void	ft_CTRL_C_handler(int signum)
+void	ft_ctrl_c_handler(int signum)
 {
 	write(1, "\n", 1);
     rl_replace_line("", 0);
@@ -22,7 +22,7 @@ void	ft_CTRL_C_handler(int signum)
     rl_redisplay();
 }
 
-void	ft_CTRL_D_handler(int signum)
+void	ft_ctrl_d_handler(int signum)
 {
 	// printf("\r");
 	// rl_on_new_line();
@@ -30,7 +30,7 @@ void	ft_CTRL_D_handler(int signum)
 	exit(0);
 }
 
-void	ft_CTRL_S_handler(int signum)
+void	ft_ctrl_s_handler(int signum)
 {
 	return ;
 }

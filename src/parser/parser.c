@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:44:36 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/28 18:10:39 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/30 17:17:13 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,33 +21,6 @@ void	ft_initialize_newnode(t_list *new_node)
 	new_node->value = NULL;
 	new_node->next = NULL;
 }
-
-// t_list *ft_create_list(t_minishell **minip, t_list **cmd_list, char	**full_cmd)
-// {
-// 	int		i;
-// 	int		j;
-//     t_list *new_node;
-	
-// 	i = 0;
-// 	while (full_cmd[i])
-// 	{
-// 		j = 0;
-// 		new_node = (t_list *) malloc (sizeof(t_list));
-// 		new_node->cmd_m = ftm_split(&(*minip)->garbage, full_cmd[i], ' ');
-// 		while (new_node->cmd_m[j])
-// 		{
-// 			if (new_node->cmd_m[j][ft_strlen(new_node->cmd_m[j]) - 1] == ' ')
-// 				new_node->cmd_m[j][ft_strlen(new_node->cmd_m[j]) - 1] = '\0';	//l ultimo char é uno spazio, sicuramente dovuto allo split
-// 			j++;
-// 		}
-// 		ft_initialize_newnode(new_node);
-// 		ft_lstadd_back(cmd_list, new_node);
-// 		i++;
-// 	}
-// 	(*minip)->cmd_num = ft_count_commands(&(*minip)->cmd_list);
-// 	ft_upload_redirection(&(*minip)->cmd_list);
-// 	return (*cmd_list);
-// }
 
 t_list *ft_create_list(t_minishell **minip, t_list **cmd_list, char	**full_cmd)
 {

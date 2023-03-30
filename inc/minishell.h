@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/28 19:56:53 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/30 18:25:43 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,9 +149,9 @@ int 	wait_for_execution(int cmd_num, int built_in_counter);
 int		handle_non_builtin(t_minishell *mini, t_list *head, t_list **envp, int **pipes, int index, int cmd_num);
 
 //signals
-void	ft_CTRL_C_handler(int signum);
-void	ft_CTRL_D_handler(int signum);
-void	ft_CTRL_S_handler(int signum);
+void	ft_ctrl_c_handler(int signum);
+void	ft_ctrl_d_handler(int signum);
+void	ft_ctrl_s_handler(int signum);
 void	ft_sig_handler(int signum, siginfo_t *info, void *ucontext);
 
 
@@ -171,15 +171,17 @@ char		**ft_split_variant(t_minishell *mini, char *s);
 char		**ft_old_split(t_minishell **minip, char const *s, char c);
 //char		**ft_old_split(char const *s, char c);
 int			old_count_w(char *str, char c);
-char		**old_fill_m(t_minishell **minip, const char *s, char c, char	**matrix, int num_w);
-//char		**old_fill_m(const char *s, char c, char	**matrix, int num_w);
+
+//char		**old_fill_m(t_minishell **minip, const char *s, t_xfillmv *fmv, char **matrix);
+//char		**old_fill_m(t_minishell **minip, const char *s, char c, char	**matrix, int num_w);
+
 int			ft_count_commands(t_list **cmd_list);
 char		*ft_trypath(t_minishell **minip, char	*cmd, t_list **envp);
 int			ft_count_rows(char **cmd_m);
 int			ft_update_quotes(char c);
 
 //pipes
-void		open_pipes(int **pipes, int cmd_num);
+void 		open_pipes(int **pipes, int cmd_num, t_garbage **garbage);
 void		close_pipes(int **pipes, int cmd_num);
 
 //free

@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 19:31:05 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/29 00:40:18 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/30 18:31:58 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,8 +147,9 @@ int ft_start_executing(t_minishell **minip, t_list	**cmd_list, t_list **envp)
 	head = mini->cmd_list;
 	if (ft_check_path(envp))
 		return (1);
-	pipes = (int**) malloc (sizeof(int*) * (mini->cmd_num + 1));
-	open_pipes(pipes, mini->cmd_num);
+	//pipes = (int**) malloc (sizeof(int*) * (mini->cmd_num + 1));
+	pipes = gc_alloc(&mini->garbage, (sizeof(int*) * (mini->cmd_num + 1)), 0);
+	open_pipes(pipes, mini->cmd_num, &mini->garbage);
 	while(head)
 	{
 		if (ft_red_router(mini, head, pipes, envp))

@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/03/28 18:10:47 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/30 18:39:58 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int	ft_handle_exit_digit(char *str)
 	if (ft_atoi(tmp) > 255)
 		return (-1);
 	g_exit_status = ft_atoi(tmp);
+	free(tmp);
 	return (0);
 }
 
@@ -150,12 +151,12 @@ int	ft_is_exit(char *str)
 
 int	ft_input_null(t_minishell *mini)
 {
-	if (signal(SIGQUIT, &ft_CTRL_S_handler) == SIG_ERR)
+	if (signal(SIGQUIT, &ft_ctrl_s_handler) == SIG_ERR)
 		printf("failed to register quit\n");
 	if (mini->input == NULL)
 	{
 		ft_printf("Error: l'input non può essere nullo\n");
-		ft_CTRL_D_handler(0);
+		ft_ctrl_d_handler(0);
 		return (1);
 	}
 	else if (mini->input[0] != 0)
@@ -212,7 +213,7 @@ void	ft_execute_mini(t_minishell **minip, char **envp)
 {
 	t_minishell *mini;
 
-	if (signal(SIGINT, &ft_CTRL_C_handler) == SIG_ERR)
+	if (signal(SIGINT, &ft_ctrl_c_handler) == SIG_ERR)
 		printf("failed to register interrupt\n");
 	mini = *minip;
 	while (1)
@@ -239,9 +240,9 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_minishell *mini;
 
-	if (signal(SIGINT, &ft_CTRL_C_handler) == SIG_ERR) 
+	if (signal(SIGINT, &ft_ctrl_c_handler) == SIG_ERR) 
 		ft_printf("failed to register interrupt\n");
-	if (signal(SIGQUIT, &ft_CTRL_S_handler) == SIG_ERR)
+	if (signal(SIGQUIT, &ft_ctrl_s_handler) == SIG_ERR)
 		ft_printf("failed to register quit\n");
 
 	mini = (t_minishell *) malloc (sizeof(t_minishell));
@@ -249,6 +250,8 @@ int	main(int argc, char **argv, char **envp)
 	g_exit_status = 0;
 	ft_execute_mini(&mini, envp);
 	ft_printf("Fine programma\n");
+	ft_lst_delete(&mini->envp_list);
+	ft_lst_delete(&mini->export_list);
 	ft_garbage_collector(mini->garbage);
 	free(mini);
 	return (0);
