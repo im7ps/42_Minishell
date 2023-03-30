@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:35:55 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/26 00:06:40 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/30 23:15:15 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	ft_cd(t_list *head, t_list **envp)
 		chdir(tmp);
 		cd_path(envp);
 		return (0);
+		//return (ft_set_exit_status(0));
 	}
 	else if (head->cmd_m[1] != NULL && head->cmd_m[1][0] == '~')
 	{

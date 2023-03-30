@@ -6,11 +6,14 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 19:31:05 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/30 18:31:58 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/30 23:21:08 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+#include <readline/readline.h>
+#include <readline/history.h>
+
 
 int	g_exit_status;
 
@@ -32,17 +35,17 @@ int	handle_command(t_minishell *mini, t_list *head, t_list **envp, int **pipes, 
 {
     if (handle_builtin(mini, head, envp, pipes, index, cmd_num))
     {
-		g_exit_status = 0;
+		//g_exit_status = 0;
     }
     else
     {
         if (handle_non_builtin(mini, head, envp, pipes, index, cmd_num) == 1)
 		{
-			g_exit_status = 1;
+			//g_exit_status = 1;
 			return (1);
 		}
-		else
-			g_exit_status = 0;
+		// else
+		// 	//g_exit_status = 0;
     }
 	return (0);
 }
@@ -136,6 +139,15 @@ int	ft_red_router(t_minishell	*mini, t_list *head, int **pipes, t_list **envp)
 	return (0);
 }
 
+int	ft_dedicated(char *str)
+{
+	if (!(ft_strncmp(str, "exit", 4)))
+		return (0);
+	else if (!(ft_strncmp(str, "./minishell", 11)))
+		return (0);
+	return (1);
+}
+
 int ft_start_executing(t_minishell **minip, t_list	**cmd_list, t_list **envp)
 {
 	t_minishell	*mini;
@@ -147,7 +159,8 @@ int ft_start_executing(t_minishell **minip, t_list	**cmd_list, t_list **envp)
 	head = mini->cmd_list;
 	if (ft_check_path(envp))
 		return (1);
-	//pipes = (int**) malloc (sizeof(int*) * (mini->cmd_num + 1));
+	else if (!ft_dedicated(mini->cmd_list->cmd_m[0]))
+		return (0);
 	pipes = gc_alloc(&mini->garbage, (sizeof(int*) * (mini->cmd_num + 1)), 0);
 	open_pipes(pipes, mini->cmd_num, &mini->garbage);
 	while(head)

@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 18:25:32 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/30 18:17:48 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/30 23:20:53 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ void	ft_ctrl_c_handler(int signum)
 
 void	ft_ctrl_d_handler(int signum)
 {
-	// printf("\r");
-	// rl_on_new_line();
-	// rl_redisplay();
-	exit(0);
+	printf("\r");
+	rl_on_new_line();
+	rl_redisplay();
+	return ;
 }
 
 void	ft_ctrl_s_handler(int signum)

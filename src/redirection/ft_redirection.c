@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 20:07:45 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/30 18:37:15 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/30 22:39:00 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_redirect_input(t_minishell *mini, t_list *head, int **pipes, int i)
 		fd = open(head->next->cmd_m[0], O_RDONLY);
 		if (fd < 0)
 		{
-			g_exit_status = 1;
+			//g_exit_status = 1;
 			return (1);
 		}
 		if (fstat(fd, &st) == -1)
@@ -78,7 +78,7 @@ int	ft_append_output(int **pipes, t_list *head, int i)
 	fd = open(head->cmd_m[0], O_WRONLY | O_CREAT | O_APPEND, 0644); // apre il file specificato per la scrittura
 	if (fd < 0)
 	{
-		g_exit_status = 1;
+		//g_exit_status = 1;
 		ft_printf("Problems with file opening\n");
 		return (1);
 	}
@@ -124,7 +124,7 @@ int	ft_redirect_output(int **pipes, t_list *head, int i)
 	fd = open(head->cmd_m[0], O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
-		g_exit_status = 1;
+		//g_exit_status = 1;
 		ft_printf("Problems with file opening\n");
 		return (1);
 	}

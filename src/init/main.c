@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/03/30 19:21:59 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/30 23:20:26 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,31 @@ void	free_env_keyvalue(t_list *envp)
 	}
 }
 
+int	ft_get_starting_shllv(t_list **envp)
+{
+	int				n;
+	t_list			*env;
+
+	n = 0;
+	env = *envp;
+	while (env != NULL)
+	{
+		if (!(ft_strncmp(env->key, "SHLVL", 6)))
+		{
+			n = ft_atoi(env->value);
+		}
+		env = env->next;
+	}
+	return (n);
+}
+
 int	ft_update_shellv(t_garbage **garbage, t_list **envp, int flag)
 {
-	t_list	*env;
-	int		n;
+	t_list			*env;
+	static int		n;
 
 	env = *envp;
-	n = 0;
+	n = ft_get_starting_shllv(envp);
 	while (env != NULL)
 	{
 		if (!(ft_strncmp(env->key, "SHLVL", 6)))
@@ -55,9 +73,12 @@ int	ft_update_shellv(t_garbage **garbage, t_list **envp, int flag)
 				n = ft_atoi(env->value) - 1;
 			}
 			env->value = ftm_itoa(garbage, n);
-			return (n);
 		}
 		env = env->next;
+	}
+	if (n == 0)
+	{
+		return (1);
 	}
 	return (0);
 }
@@ -97,7 +118,7 @@ int	ft_handle_exit_digit(char *str)
 	ft_strlcpy(tmp, str, i + 1);
 	if (ft_atoi(tmp) > 255)
 		return (-1);
-	g_exit_status = ft_atoi(tmp);
+	//g_exit_status = ft_atoi(tmp);
 	free(tmp);
 	return (0);
 }
@@ -106,7 +127,7 @@ int ft_type_router(char c)
 {
 	if (ft_whatis(c) == 'c')
 	{
-		g_exit_status = 255;
+		//g_exit_status = 255;
 		return (-1);
 	}
 	else if (ft_whatis(c) == 'd')
@@ -115,7 +136,7 @@ int ft_type_router(char c)
 	}
 	else if (ft_whatis(c) == 's')
 	{
-		g_exit_status = 0;
+		//g_exit_status = 0;
 		return (-1);
 	}
 	return (1);
@@ -149,23 +170,6 @@ int	ft_is_exit(char *str)
 	return (1);
 }
 
-int	ft_input_null(t_minishell *mini)
-{
-	if (signal(SIGQUIT, &ft_ctrl_s_handler) == SIG_ERR)
-		printf("failed to register quit\n");
-	if (mini->input == NULL)
-	{
-		ft_printf("Error: l'input non può essere nullo\n");
-		ft_ctrl_d_handler(0);
-		return (1);
-	}
-	else if (mini->input[0] != 0)
-	{
-		return (0);
-	}
-	return (1);
-}
-
 int	ft_handle_shllv(t_minishell **minip)
 {
 	t_minishell *mini;
@@ -192,12 +196,7 @@ int ft_input_checklist(t_minishell **minip)
 	t_minishell *mini;
 
 	mini = *minip;
-	if (ft_input_null(mini))
-	{
-		ft_printf("Input nullo\n");
-		return (1);
-	}
-	else if (!ft_handle_shllv(minip))
+	if (!ft_handle_shllv(minip))
 	{
 		return (1);
 	}
@@ -213,23 +212,25 @@ void	ft_execute_mini(t_minishell **minip, char **envp)
 {
 	t_minishell *mini;
 
+	if (signal(SIGQUIT, &ft_ctrl_d_handler) == SIG_ERR)
+		printf("failed to register quit\n");
 	if (signal(SIGINT, &ft_ctrl_c_handler) == SIG_ERR)
 		printf("failed to register interrupt\n");
 	mini = *minip;
 	while (1)
 	{
 		mini->input = readline("minishell> ");
-		if (ft_input_checklist(minip) == 1)
+		if (mini->input == NULL)
 		{
+			ft_ctrl_d_handler(0);
 			return ;
 		}
+		if (ft_input_checklist(minip) == 1)
+			return ;
 		add_history(mini->input);
 		if (ft_parser(minip))
-		{
-			ft_printf("Parser errato figa\n");
 			return ;
-		}
-		g_exit_status = ft_start_executing(&mini, &mini->cmd_list, &mini->envp_list);
+		//ft_start_executing(&mini, &mini->cmd_list, &mini->envp_list);
 		ft_mini_initializer(&mini, envp, 0);
 		ft_lst_delete(&mini->cmd_list);
 	}
@@ -247,13 +248,10 @@ int	main(int argc, char **argv, char **envp)
 
 	mini = (t_minishell *) malloc (sizeof(t_minishell));
 	ft_mini_initializer(&mini, envp, 1);
-	g_exit_status = 0;
+	//g_exit_status = 0;
 	ft_execute_mini(&mini, envp);
 	ft_printf("Fine programma\n");
-	// ft_lst_delete(&mini->envp_list);
-	// ft_lst_delete(&mini->export_list);
 	ft_garbage_collector(mini->garbage);
-	//ft_lst_delete(&mini->garbage);
 	free(mini);
 	return (0);
 }

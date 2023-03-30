@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 17:52:56 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/30 17:03:34 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/30 23:10:00 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	wait_for_execution(int cmd_num, int built_in_counter)
 		waitpid(-1, &g_exit_status, 0);
 		if (WIFEXITED(g_exit_status))
 		{
-			//printf("Exit status del processo figlio: %d\n", WEXITSTATUS(g_exit_status));
-			WEXITSTATUS(g_exit_status);
+			printf("Exit status del processo figlio: %d\n", WEXITSTATUS(g_exit_status));
+			//WEXITSTATUS(g_exit_status);
 		}
         i++;
     }
@@ -32,15 +32,14 @@ int	wait_for_execution(int cmd_num, int built_in_counter)
 
 int	ft_execute_single(int **pipes, t_list *head, int cmd_num)
 {
-	ft_printf("Single command: %s\n", head->cmd_m[0]);
+	//ft_printf("Single command: %s\n", head->cmd_m[0]);
 	close(pipes[0][0]);
 	close(pipes[0][1]);
 	close(pipes[1][0]);
 	close(pipes[1][1]);
 	if (execve(head->cmd_m[0], head->cmd_m, NULL) == -1)
-		g_exit_status = 1;
-	ft_printf("Problems with execveS\n");
-	g_exit_status = 127;
+		ft_printf("Problems with execveS\n");
+	//g_exit_status = 1;
 	return 0;
 }
 
@@ -170,10 +169,11 @@ int ft_execute_first(t_minishell *mini, int **pipes, t_list *head, int cmd_num, 
 		close(pipes[i][1]);
 		i++;
 	}
+	printf("cmd1: %s\\n", head->cmd_m[0]);
 	if (execve(head->cmd_m[0], head->cmd_m, NULL) == -1)
-		g_exit_status = 1;
+		//g_exit_status = 1;
 	ft_printf("Problems with execveF\n");
-	g_exit_status = 127;
+	//g_exit_status = 127;
 	return (1);
 }
 
@@ -221,8 +221,9 @@ int	ft_execute_middle(t_minishell *mini, int **pipes, t_list *head, int cmd_num,
 		close(pipes[i][1]);
 		i++;
 	}
+	//fprintf(2, "cmd: %s\\n", head->cmd_m[0]);
 	execve(head->cmd_m[0], head->cmd_m, NULL);
-	g_exit_status = 1;
+	//g_exit_status = 1;
 	return (1);
 }
 
@@ -255,10 +256,11 @@ int	ft_execute_last(int **pipes, t_list *head, int cmd_num, int index)
 		close(pipes[i][1]);
 		i++;
 	}
+	printf("cmd1: %s\\n", head->cmd_m[0]);
 	if (execve(head->cmd_m[0], head->cmd_m, NULL) == -1)
-		g_exit_status = 1;
+		//g_exit_status = 1;
 	ft_printf("Problems with execveL\n");
-	g_exit_status = 127;
+	//g_exit_status = 127;
 	return (1);
 }
 
@@ -305,7 +307,7 @@ int handle_non_builtin(t_minishell *mini, t_list *head, t_list **envp, int **pip
     if (head->cmd_m[0] == NULL)
     {
         ft_printf("Command not found\n");
-		g_exit_status = 127;
+		//g_exit_status = 127;
         return (127);
     }
     pid = fork();

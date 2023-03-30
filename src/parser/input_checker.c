@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_checker.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 20:47:30 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/26 13:28:31 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/30 21:30:41 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,7 @@ int	ft_input_checker(char	*input, int quotes, int qcount, bool onlytab)
 	
 	if (ft_is_onlytab(input, onlytab))
 	{
-		ft_printf("Coglione\n");
-		return (1);
+		return (0);
 	}
 	res = ft_quotes_checker(input, 0, 0);
 	if (res != 0)

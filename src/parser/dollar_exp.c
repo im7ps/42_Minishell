@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:51:10 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/30 20:42:15 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/30 22:43:35 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,12 @@ char *take_dollar(char *args, int i)
 	return(NULL);
 }
 
+// char	*ft_adapt_exit()
+// {
+// 	ft_printf("Exit status: %s\n", g_exit_status);
+// 	return ();
+// }
+
 char *take_env(char *args, t_list *env, int i)
 {
 	char *dollar;
@@ -68,7 +74,10 @@ char *take_env(char *args, t_list *env, int i)
 	value = NULL;
 	dollar = take_dollar(args, i);
 	if (!ft_strncmp(dollar, "?", 1))
+	{
 		value = ft_itoa(g_exit_status);
+	}
+		// value = ft_adapt_exit();
 	else if (dollar != NULL)
 	{
 		value = search_content_env(&env, dollar);

@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:36:13 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/29 00:06:27 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/30 22:33:32 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,16 +72,20 @@ void ft_echo_write(int fd, t_echo echo, char *str)
 
 int	ft_echo(t_minishell *mini, t_list *head, int **pipes, int index, int cmd_num)
 {
-	t_echo echo;
-	int fd;
+	t_echo 	echo;
+	int 	fd;
 
+	if (ft_count_rows(head->cmd_m) == 1)
+	{
+		write(STDOUT_FILENO, "\n", sizeof(char));
+		return (0);
+	}
 	echo.len = ft_echo_flag(head->cmd_m, &echo);
 	echo.i = 1;
 	while (head->cmd_m[echo.i])
 	{
 		if (head->final_red != 0)
 		{
-			//ft_printf("Scrivo dentro la pipes con index %d\n", index+1);
 			fd = pipes[index + 1][1];
 		}
 		else if (head->final_red == 0)
@@ -90,8 +94,6 @@ int	ft_echo(t_minishell *mini, t_list *head, int **pipes, int index, int cmd_num
 		echo.i++;
 	}
 	if (echo.flag_index == 0)
-	{
 		write(fd, "\n", sizeof(char));
-	}
 	return (0);
 }

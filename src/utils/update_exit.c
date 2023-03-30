@@ -1,35 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   update_exit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/16 22:10:59 by dgioia            #+#    #+#             */
-/*   Updated: 2023/03/30 22:39:00 by sgerace          ###   ########.fr       */
+/*   Created: 2023/03/30 23:11:21 by sgerace           #+#    #+#             */
+/*   Updated: 2023/03/30 23:11:36 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+int g_exit_status;
 
-int	g_exit_status;
-
-int	ft_perror(int err, char *cmd)
+int	ft_set_exit_status(int value)
 {
-	if (err == ERR_NCMD)
-	{
-		ft_printf("%s: Command not found!\n", cmd);
-		////g_exit_status = 127;
-	}
-	if (err == ERR_QUOTE)
-	{
-		ft_printf("Double quotes not closed properly!\n");
-		// //g_exit_status = 127;
-	}
-	if (err == ERR_INPUT)
-	{
-		ft_printf("Character not valid!\n");
-		// //g_exit_status = 127;
-	}
-	return (1);
+	g_exit_status = value;
+	return (value);
 }
