@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 19:31:05 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 18:52:45 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 20:23:13 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,25 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-
 int	g_exit_status;
 
 int	handle_command(t_minishell *mini, t_list *head, t_list **envp, int **pipes, int index, int cmd_num)
 {
-    if (handle_builtin(mini, head, envp, pipes, index, cmd_num))
-    {
+	if (handle_builtin(mini, head, envp, pipes, index))
+	{
 		g_exit_status = 0;
-    }
-    else
-    {
-        if (handle_non_builtin(mini, head, envp, pipes, index, cmd_num) == 1)
+	}
+	else
+	{
+		if (handle_non_builtin(mini, head, envp, pipes, index, cmd_num) == 1)
 		{
-			//g_exit_status = 1;
 			return (1);
 		}
-		// else
-		// 	//g_exit_status = 0;
-    }
+	}
 	return (0);
 }
 
-int ft_init_file()
+int	ft_init_file()
 {
 	int	fd;
 
@@ -52,12 +48,10 @@ int ft_init_file()
 }
 
 //heredoc
-int	ft_heredoc(t_minishell *mini, t_list *head, int **pipes, char *str)
+int	ft_heredoc(t_minishell *mini, int **pipes, char *str)
 {
-	int			buffer_size;
 	int			fd;
 	char		*file_content;
-	struct 		stat st;
 
 	if (ft_init_file())
 		return (1);
@@ -65,9 +59,7 @@ int	ft_heredoc(t_minishell *mini, t_list *head, int **pipes, char *str)
 	{
 		file_content = readline("heredoc > ");
 		if (!ft_strncmp(file_content, str, ft_strlen(file_content)))
-		{
 			break ;
-		}
 		fd = open("heredoc_tmp.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
 		if (!fd)
 		{
@@ -78,36 +70,27 @@ int	ft_heredoc(t_minishell *mini, t_list *head, int **pipes, char *str)
 		write(fd, "\n", 1);
 		write(pipes[mini->index][1], file_content, ft_strlen(file_content));
 		write(pipes[mini->index][1], "\n", 1);
-		//free(file_content);
 		close(fd);
 	}
-	//head->final_red = 6;
 	return (0);
 }
 
 int	ft_red_router(t_minishell	*mini, t_list *head, int **pipes, t_list **envp)
 {
-	//ft_printf("Il comando %s ha la prima red = %d\n", head->cmd_m[0], head->start_red);
 	if (head->start_red == 0 || head->start_red == 1)
 	{
 		if (head->final_red == 3)
 		{
-			if (ft_heredoc(mini, head, pipes, head->next->cmd_m[0]) == 1)
+			if (ft_heredoc(mini, pipes, head->next->cmd_m[0]) == 1)
 				return (1);
 		}
 		else if (head->final_red == 5)
 		{
 			if (ft_redirect_input(mini, head, pipes, mini->index) == 1)
 				return (1);
-			//mini->index++;
 		}
-		//esegui ls, scrivi il suo contenuto sulla pipe anziché lo STDOUT
 		if (handle_command(mini, head, envp, pipes, mini->index, mini->cmd_num) == 1)
-		{
-			ft_printf("Here2!\n");
 			return (1);
-		}
-		//ft_printf("Here3!\n");
 	}
 	else if (head->start_red == 2)
 	{
@@ -115,7 +98,6 @@ int	ft_red_router(t_minishell	*mini, t_list *head, int **pipes, t_list **envp)
 		mini->built_in_counter++;
 		ft_append_output(pipes, head, mini->index);
 	}
-	//leggi il contenuto della pipe scritta da ls e scrivilo sul file
 	else if (head->start_red == 4)
 	{
 		waitpid(0, &g_exit_status, 0);
@@ -134,12 +116,11 @@ int	ft_dedicated(char *str)
 	return (1);
 }
 
-int ft_start_executing(t_minishell **minip, t_list	**cmd_list, t_list **envp)
+int	ft_start_executing(t_minishell **minip, t_list **envp)
 {
 	t_minishell	*mini;
 	t_list		*head;
-	int			i;
-	int 		**pipes;
+	int			**pipes;
 
 	mini = *minip;
 	head = mini->cmd_list;
@@ -149,9 +130,9 @@ int ft_start_executing(t_minishell **minip, t_list	**cmd_list, t_list **envp)
 	}
 	else if (!ft_dedicated(mini->cmd_list->cmd_m[0]))
 		return (0);
-	pipes = gc_alloc(&mini->garbage, (sizeof(int*) * (mini->cmd_num + 1)), 0);
+	pipes = gc_alloc(&mini->garbage, (sizeof (int *) * (mini->cmd_num + 1)), 0);
 	open_pipes(pipes, mini->cmd_num, &mini->garbage);
-	while(head)
+	while (head)
 	{
 		if (ft_red_router(mini, head, pipes, envp))
 			return (1);

@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:36:24 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 19:23:08 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 20:19:56 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	ft_var_isnew(t_list **head, int j, char *str)
 	return (0);
 }
 
-void ft_addnode(t_minishell *mini, t_list **head, char *str, int j)
+void ft_addnode(t_minishell *mini, char *str, int j)
 {
 	t_list *newnode;
 
@@ -94,7 +94,7 @@ void ft_replace(t_minishell *mini, t_list **head, char *str, int j)
 		}
 		node = node->next;
 	}
-	ft_addnode(mini, head, str, j);
+	ft_addnode(mini, str, j);
 }
 
 t_list **ft_whichlist(t_list ** export, t_list ** env, char *str)
@@ -106,11 +106,11 @@ t_list **ft_whichlist(t_list ** export, t_list ** env, char *str)
 	return (export);
 }
 
-int	ft_export(t_minishell *mini, t_list *head, t_list **envp, int **pipes, int index)
+int	ft_export(t_minishell *mini, t_list *head)
 {
 	int		i;
 	int		j;
-	t_list **heade;
+	t_list	**heade;
 
 	if (ft_export_alone(&mini->export_list, head->cmd_m))
 		return (0);
@@ -123,7 +123,7 @@ int	ft_export(t_minishell *mini, t_list *head, t_list **envp, int **pipes, int i
 		j = ft_whereis_equal(head->cmd_m[i]);
 		if (!ft_var_isnew(heade, j, head->cmd_m[i]))
 		{
-			ft_addnode(mini, heade, head->cmd_m[i], j);
+			ft_addnode(mini, head->cmd_m[i], j);
 		}
 		else
 		{

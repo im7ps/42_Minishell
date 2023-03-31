@@ -6,13 +6,13 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 18:33:46 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 18:42:41 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 19:36:29 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void ft_envp_initialize(t_list *new_node)
+void	ft_envp_initialize(t_list *new_node)
 {
 	new_node->start_red = 0;
 	new_node->final_red = 0;
@@ -25,11 +25,11 @@ void ft_envp_initialize(t_list *new_node)
 
 t_minishell	*ft_load_export(t_minishell **minip, char **envp)
 {
-	t_minishell *mini;
-	t_list 		*new_node;
+	t_minishell	*mini;
+	t_list		*new_node;
 	char		**split_ret;
 	int			i;
-	
+
 	mini = *minip;
 	i = 0;
 	while (envp[i])
@@ -49,11 +49,11 @@ t_minishell	*ft_load_export(t_minishell **minip, char **envp)
 
 t_minishell	*ft_load_envp(t_minishell **minip, char **envp)
 {
-	t_minishell *mini;
-	t_list 		*new_node;
+	t_minishell	*mini;
+	t_list		*new_node;
 	char		**split_ret;
 	int			i;
-	
+
 	mini = *minip;
 	i = 0;
 	while (envp[i])
@@ -73,7 +73,7 @@ t_minishell	*ft_load_envp(t_minishell **minip, char **envp)
 
 void	ft_mini_initializer(t_minishell **mini, char **envp, int flag)
 {
-	t_minishell *minip;
+	t_minishell	*minip;
 
 	minip = *mini;
 	minip->input = NULL;
@@ -92,6 +92,5 @@ void	ft_mini_initializer(t_minishell **mini, char **envp, int flag)
 		ft_load_envp(&minip, envp);
 		ft_load_export(&minip, envp);
 	}
-	//minip = ft_get_mini(minip);
 	return ;
 }

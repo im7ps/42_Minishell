@@ -1,3 +1,3 @@
 Terminal › External: Linux Exec (da verificare il valore con il vscode di qualcun altro)
 
-i comandi con il path devono funzionare anche se path é unsettato
+

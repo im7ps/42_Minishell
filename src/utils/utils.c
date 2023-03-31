@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 18:29:08 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 18:45:50 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 20:35:55 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*ft_trypath(t_minishell **minip, char	*cmd, t_list **envp)
 {
-	t_list 	*env;
+	t_list	*env;
 	char	**trypath;
 	char	*cmdcopy;
 	int		i;
@@ -30,9 +30,7 @@ char	*ft_trypath(t_minishell **minip, char	*cmd, t_list **envp)
 		i++;
 		env = env->next;
 	}
-
 	cmdcopy = cmd;
-
 	i = 0;
 	while (trypath[i])
 	{
@@ -51,44 +49,6 @@ char	*ft_trypath(t_minishell **minip, char	*cmd, t_list **envp)
 	return (NULL);
 }
 
-void	ft_clean_all(t_minishell **minip)
-{
-	t_minishell *mini;
-
-	mini = *minip;
-
-	free_stuff(NULL, NULL, &mini->envp_list);
-	free_stuff(NULL, NULL, &mini->cmd_list);
-	free_stuff(NULL, NULL, &mini->envp_list);
-}
-
-int	free_stuff(t_list *node, char **matrix, t_list **stack)
-{
-	int	i;
-
-	i = 0;
-	if (node != NULL)
-	{
-		free(node);
-		node = NULL;
-	}
-	if (matrix != NULL)
-	{
-		while (matrix[i])
-		{
-			//ft_printf("FREE %p\n", matrix[i]);
-			free(matrix[i++]);
-		}
-		free(matrix);
-		matrix = NULL;
-	}
-	if (stack != NULL)
-	{
-		ft_lst_delete(stack);
-	}
-	return (0);
-}
-
 void	ft_lst_delete(t_list **stack)
 {
 	t_list	*tmp;
@@ -104,42 +64,6 @@ void	ft_lst_delete(t_list **stack)
 	}
 }
 
-size_t ft_smaller_string(char *str1, char *str2)
-{
-	if (ft_strlen(str1) > ft_strlen(str2))
-		return (ft_strlen(str2));
-	else
-		return (ft_strlen(str1));
-}
-
-void	ft_free_stuff(t_minishell *mini, char *str)
-{
-	if (str)
-		free(str);
-	if (mini)
-		free(mini);
-	return ;
-}
-
-t_minishell *ft_get_mini(t_minishell *mini)
-{
-	static t_minishell *mini_s;
-	if (mini != NULL)
-	{
-		mini_s = mini;
-	}
-	return (mini_s);
-}
-
-int	ft_strerr(char *str)
-{
-	int	i;
-
-	i = 0;
-	write(1, str, ft_strlen(str));
-	return (1);
-}
-
 int	ft_count_commands(t_list **cmd_list)
 {
 	t_list	*head;
@@ -147,7 +71,7 @@ int	ft_count_commands(t_list **cmd_list)
 
 	i = 0;
 	head = *cmd_list;
-	while(head)
+	while (head)
 	{
 		i++;
 		head = head->next;
@@ -155,9 +79,9 @@ int	ft_count_commands(t_list **cmd_list)
 	return (i);
 }
 
-int		ft_count_rows(char **cmd_m)
+int	ft_count_rows(char **cmd_m)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (cmd_m[i])
@@ -165,4 +89,21 @@ int		ft_count_rows(char **cmd_m)
 		i++;
 	}
 	return (i);
+}
+
+bool	ft_define_squotes(char c)
+{
+	int		qtoggle;
+	bool	res;
+
+	//per la norma
+	res = false;
+	//per la norma
+	ft_is_escaped('r', 1);
+	qtoggle = ft_is_escaped(c, 0);
+	if (qtoggle == 2)
+		res = true;
+	else if (qtoggle == -2)
+		res = false;
+	return (res);
 }

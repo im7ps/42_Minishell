@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:44:36 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/30 17:17:13 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 20:00:41 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ void	ft_initialize_newnode(t_list *new_node)
 	new_node->next = NULL;
 }
 
-t_list *ft_create_list(t_minishell **minip, t_list **cmd_list, char	**full_cmd)
+t_list	*ft_create_list(t_minishell **minip, t_list **cmd_list, char **full_cmd)
 {
 	int		i;
 	int		j;
-    t_list *new_node;
-	t_list *prev_node; // nuovo puntatore al nodo precedente
-	
+	t_list	*new_node;
+	t_list	*prev_node;
+
 	i = 0;
 	while (full_cmd[i])
 	{
@@ -39,18 +39,16 @@ t_list *ft_create_list(t_minishell **minip, t_list **cmd_list, char	**full_cmd)
 		while (new_node->cmd_m[j])
 		{
 			if (new_node->cmd_m[j][ft_strlen(new_node->cmd_m[j]) - 1] == ' ')
-				new_node->cmd_m[j][ft_strlen(new_node->cmd_m[j]) - 1] = '\0';	//l ultimo char é uno spazio, sicuramente dovuto allo split
+				new_node->cmd_m[j][ft_strlen(new_node->cmd_m[j]) - 1] = '\0';
 			j++;
 		}
-		if (i == 0) {
-			new_node->prev = NULL; // il primo nodo non ha un nodo precedente
-		} 
-		else 
+		if (i == 0)
+			new_node->prev = NULL;
+		else
 		{
-			prev_node = ft_lstlast(*cmd_list); // il nodo precedente è l'ultimo nodo della lista
+			prev_node = ft_lstlast(*cmd_list);
 			new_node->prev = prev_node;
 		}
-		
 		ft_lstadd_back(cmd_list, new_node);
 		i++;
 	}
@@ -59,11 +57,10 @@ t_list *ft_create_list(t_minishell **minip, t_list **cmd_list, char	**full_cmd)
 	return (*cmd_list);
 }
 
-
 char	ft_define_quote(char *str)
 {
-	int	i;
-	char c;
+	int		i;
+	char	c;
 
 	c = 0;
 	i = 0;
@@ -78,16 +75,17 @@ char	ft_define_quote(char *str)
 	return (c);
 }
 
-char *ft_quotes_eraser(t_minishell *mini, char *str, int i, int j)
+char	*ft_quotes_eraser(t_minishell *mini, char *str, int i, int j)
 {
-	char *tmp;
-	char c;
+	char	*tmp;
+	char	c;
 
 	tmp = NULL;
 	c = ft_define_quote(str);
 	if (c != 0)
 	{
-		tmp = gc_alloc(&mini->garbage, (sizeof(char) * (ft_strlen(str) - 1)), ft_strlen(str) - 1);
+		tmp = gc_alloc(&mini->garbage, (sizeof(char) * (ft_strlen(str) - 1)), \
+			ft_strlen(str) - 1);
 		while (str[i])
 		{
 			if (str[i] != c)
@@ -106,7 +104,7 @@ char *ft_quotes_eraser(t_minishell *mini, char *str, int i, int j)
 
 int	ft_parser(t_minishell **minip)
 {
-	t_minishell *mini;
+	t_minishell	*mini;
 	t_list		*cmd;
 	int			i;
 
@@ -119,7 +117,8 @@ int	ft_parser(t_minishell **minip)
 		i = 0;
 		while (cmd->cmd_m[i])
 		{
-			cmd->cmd_m[i] = ft_dollar_expander(&mini->garbage, cmd->cmd_m[i], mini->envp_list);
+			cmd->cmd_m[i] = ft_dollar_expander(&mini->garbage, cmd->cmd_m[i], \
+				mini->envp_list);
 			if (cmd->cmd_m[i] == NULL)
 				return (1);
 			cmd->cmd_m[i] = ft_quotes_eraser(mini, cmd->cmd_m[i], 0, 0);

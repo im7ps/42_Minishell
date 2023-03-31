@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 20:07:45 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 18:53:35 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 20:29:51 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,19 +106,14 @@ int	ft_redirect_output(int **pipes, t_list *head, int i)
 	int			buffer_size;
 	int			fd;
 	char		*file_content;
-	struct 		stat st;
-	
-	int			len;
+	struct stat	st;
 	int			j;
 
-	//legge 0 da questa pipe
 	if (fstat(pipes[i][0], &st) == -1)
 	{
 		ft_printf("Errore lettura pipe\n");
 	}
 	buffer_size = st.st_size;
-	ft_printf("Len >: %d\n", buffer_size);
-
 	file_content = (char *) malloc (sizeof(char) * (buffer_size + 1));
 	read(pipes[i][0], file_content, buffer_size);
 	file_content[buffer_size] = '\0';

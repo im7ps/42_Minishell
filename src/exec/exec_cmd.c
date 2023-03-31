@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 17:52:56 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 18:46:28 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 20:29:19 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,22 @@ int	wait_for_execution(int cmd_num, int built_in_counter)
 	return (0);
 }
 
-int	ft_execute_single(int **pipes, t_list *head, int cmd_num)
+int	ft_execute_single(int **pipes, t_list *head)
 {
-	//ft_printf("Single command: %s\n", head->cmd_m[0]);
 	close(pipes[0][0]);
 	close(pipes[0][1]);
 	close(pipes[1][0]);
 	close(pipes[1][1]);
 	if (execve(head->cmd_m[0], head->cmd_m, NULL) == -1)
 		ft_printf("Problems with execveS\n");
-	//g_exit_status = 1;
-	return 0;
+	return (0);
 }
 
-int	ft_exec_redinput(int fd, t_list *head, int **pipes, int i)
+int	ft_exec_redinput(t_list *head, int **pipes, int i)
 {
 	int err;
+	int	fd;
 
-	//ft_printf("Il comando |%s| legge da |%s|\n", head->cmd_m[0], head->next->cmd_m[0]);
 	fd = open(head->next->cmd_m[0], O_RDONLY);
 	if (!fd)
 	{
@@ -69,9 +67,10 @@ int	ft_exec_redinput(int fd, t_list *head, int **pipes, int i)
 	return (0);
 }
 
-void	ft_exec_redheredoc(int fd, t_list *head, int **pipes, int i)
+void	ft_exec_redheredoc(t_list *head, int **pipes, int i)
 {
 	int	err;
+	int	fd;
 
 	fd = open("heredoc_tmp.txt", O_RDONLY);
 	if (!fd)
@@ -92,11 +91,11 @@ void	ft_exec_redheredoc(int fd, t_list *head, int **pipes, int i)
 	close(fd);
 }
 
-void	ft_exec_redout(int fd, t_list *head)
+void	ft_exec_redout(t_list *head)
 {
 	int	err;
+	int	fd;
 
-	//ft_printf("Opening this file: %s\n", head->next->cmd_m[0]);
 	fd = open(head->next->cmd_m[0], O_RDWR);
 	err = dup2(fd, STDOUT_FILENO);
 	if (err == -1)
@@ -106,12 +105,12 @@ void	ft_exec_redout(int fd, t_list *head)
 	close(fd);
 }
 
-void	ft_exec_redout_v(int fd, t_list *head, int **pipes, int i)
+void	ft_exec_redout_v(t_list *head, int **pipes, int i)
 {
 	int	err;
 
-	//ft_printf("Final red: %d\n", head->next->final_red);
-	if (head->next->final_red == 2 || head->next->final_red == 4 || head->next->final_red == 1)
+	if (head->next->final_red == 2 || head->next->final_red == 4 \
+		|| head->next->final_red == 1)
 	{
 		err = dup2(pipes[i + 1][1], STDOUT_FILENO);
 		if (err == -1)
@@ -132,35 +131,29 @@ void ft_exec_basered(int **pipes, int i)
 	}
 }
 
-//esegue il primo comando, pipes sono le pipe in cui scrivere l output e scrivere l input, args non viene //utilizzato, head é il mio nodo che contiene tutte le informazioni del comando, cmd_num é il numero dei comandi, index é la posizione del comando nell elenco dei comandi, in questo caso é il primo comando quindi index = 1
-int ft_execute_first(t_minishell *mini, int **pipes, t_list *head, int cmd_num, int index)
+int ft_execute_first(int **pipes, t_list *head, int cmd_num, int index)
 {
-	int		err;
-	char	*file_content;
-	int 	i;
-	
-	int	fd;
+	int	i;
 
 	if (head->final_red == 1)
 	{
-		//ft_exec_redout_v(fd, head, pipes, index);
 		ft_exec_basered(pipes, index);
 	}
 	else if (head->final_red == 5)
 	{
-		ft_exec_redinput(fd, head, pipes, index);
+		ft_exec_redinput(head, pipes, index);
 	}
 	else if (head->final_red == 3)
 	{
-		ft_exec_redheredoc(fd, head, pipes, index);
+		ft_exec_redheredoc(head, pipes, index);
 	}
 	else if (head->final_red == 2 || head->final_red == 4)
 	{
-		ft_exec_redout(fd, head);
+		ft_exec_redout(head);
 	}
 	else
 	{
-		ft_exec_redout_v(fd, head, pipes, index);
+		ft_exec_redout_v(head, pipes, index);
 	}
 	i = 0;
 	while (i < cmd_num + 1)
@@ -171,30 +164,17 @@ int ft_execute_first(t_minishell *mini, int **pipes, t_list *head, int cmd_num, 
 	}
 	printf("cmd1: %s\\n", head->cmd_m[0]);
 	if (execve(head->cmd_m[0], head->cmd_m, NULL) == -1)
-		//g_exit_status = 1;
-	ft_printf("Problems with execveF\n");
-	//g_exit_status = 127;
+		ft_printf("Problems with execveF\n");
 	return (1);
 }
 
-int	ft_execute_middle(t_minishell *mini, int **pipes, t_list *head, int cmd_num, int index)
+int	ft_execute_middle(t_minishell *mini, int **pipes, t_list *head, int index)
 {
-	int err = 0;
-	int	fd;
+	int	err;
 
-	//ft_printf("Final red middle: %d\n", head->final_red);
+	err = 0;
 	if (head->final_red == 3 || head->final_red == 5)
 	{
-		//ft_printf("Sto cambiando stdin e stdout\n");
-		struct 		stat st;
-		int			buffer_size;
-
-		if (fstat(pipes[index][0], &st) == -1)
-		{
-			ft_printf("Error calculating size\n");
-		}
-		buffer_size = st.st_size;
-		ft_printf("Size: %d\n", buffer_size);
 		err = dup2(pipes[index][0], STDIN_FILENO);
 		if (err == -1)
 			ft_printf("Error using dup2M2\n");
@@ -268,24 +248,22 @@ int	ft_execute_command(t_minishell *mini, int **pipes, t_list *head, int cmd_num
 {
 	if (head->start_red == 0 && head->final_red == 0)
 	{
-		if(ft_execute_single(pipes, head, cmd_num))
+		if(ft_execute_single(pipes, head))
 			return (0);
 	}
 	else if (head->start_red == 0)
 	{
-		//ft_printf("First command: %s\n", head->cmd_m[0]);
-		if (ft_execute_first(mini, pipes, head, cmd_num, index))
+		if (ft_execute_first(pipes, head, cmd_num, index))
 			return (0);
 	}
 	else if (head->start_red != 0 && head->final_red != 0)
 	{
 		ft_printf("Middle command: %s\n", head->cmd_m[0]);
-		if (ft_execute_middle(mini, pipes, head, cmd_num, index))
+		if (ft_execute_middle(mini, pipes, head, index))
 			return (0);
 	}
 	else if (head->final_red == 0)
 	{
-		//ft_printf("Last command: %s\n", head->cmd_m[0]);
 		if (ft_execute_last(pipes, head, cmd_num, index))
 			return (0);
 	}

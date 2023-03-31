@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 16:23:15 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/28 19:57:02 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 19:26:08 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@
 
 typedef struct s_list
 {
-	int		start_red;
-	int		final_red;
-	int		red;
-	char	**cmd_m;			//node variables
-	char	*name;				//node variables
-	char	**flags;			//node variables
-	char	*args;				//node variables
-	char	*end;
-	char	*key;				//env variables
-	char	*value;				//env variables
+	int				start_red;
+	int				final_red;
+	int				red;
+	char			**cmd_m;
+	char			*name;	
+	char			**flags;
+	char			*args;	
+	char			*end;
+	char			*key;
+	char			*value;
 	struct s_list	*next;
 	struct s_list	*prev;
 }	t_list;

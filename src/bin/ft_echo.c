@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:36:13 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 18:39:38 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 20:16:49 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,10 @@ void ft_echo_write(int fd, t_echo echo, char *str)
 	}
 }
 
-int	ft_echo(t_minishell *mini, t_list *head, int **pipes, int index, int cmd_num)
+int	ft_echo(t_list *head, int **pipes, int index)
 {
-	t_echo 	echo;
-	int 	fd;
+	t_echo	echo;
+	int		fd;
 
 	if (ft_count_rows(head->cmd_m) == 1 && head->final_red == 0)
 	{

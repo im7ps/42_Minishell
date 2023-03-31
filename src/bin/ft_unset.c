@@ -5,41 +5,39 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/06 16:36:34 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 19:18:48 by sgerace          ###   ########.fr       */
+/*   Created: 2023/03/31 20:20:33 by sgerace           #+#    #+#             */
+/*   Updated: 2023/03/31 20:22:04 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void ft_delete_node(t_list **list, t_list *nodeToDelete) 
+void	ft_delete_node(t_list **list, t_list *node_to_delete)
 {
-	t_list *prevNode;
+	t_list	*prev_node;
 
-    if (*list == NULL || nodeToDelete == NULL) 
-        return;
-    if (*list == nodeToDelete) 
+	if (*list == NULL || node_to_delete == NULL)
+		return ;
+	if (*list == node_to_delete)
 	{
-        *list = nodeToDelete->next;
-        //free(nodeToDelete);
-        return;
-    }
-    prevNode = *list;
-    while (prevNode->next != NULL && prevNode->next != nodeToDelete) 
+		*list = node_to_delete->next;
+		return ;
+	}
+	prev_node = *list;
+	while (prev_node->next != NULL && prev_node->next != node_to_delete)
 	{
-        prevNode = prevNode->next;
-    }
-    if (prevNode->next == NULL) 
-        return;
-    prevNode->next = nodeToDelete->next;
-    //free(nodeToDelete);
-	nodeToDelete = NULL;
+		prev_node = prev_node->next;
+	}
+	if (prev_node->next == NULL)
+		return ;
+	prev_node->next = node_to_delete->next;
+	node_to_delete = NULL;
 }
 
-void	ft_find_node(t_list *head, t_list **envp, char  *str, t_list **expp)
+void	ft_find_node(t_list **envp, char *str, t_list **expp)
 {
-	t_list *env;
-	t_list *exp;
+	t_list	*env;
+	t_list	*exp;
 
 	env = *envp;
 	while (env)
@@ -63,22 +61,22 @@ void	ft_find_node(t_list *head, t_list **envp, char  *str, t_list **expp)
 	}
 }
 
-int	ft_unset(t_list *head, t_list **envp, char  *var, t_list **expp)
+int	ft_unset(t_list *head, t_list **envp, char *var, t_list **expp)
 {
 	int		i;
 
 	i = 0;
 	if (var != NULL)
 	{
-		ft_find_node(head, envp, var, expp);
+		ft_find_node(envp, var, expp);
 	}
-    else if (head != NULL)
-    {
-        while (head->cmd_m[i])
-        {
-			ft_find_node(head, envp, head->cmd_m[i], expp);
+	else if (head != NULL)
+	{
+		while (head->cmd_m[i])
+		{
+			ft_find_node(envp, head->cmd_m[i], expp);
 			i++;
-        }
-    }
+		}
+	}
 	return (0);
 }
