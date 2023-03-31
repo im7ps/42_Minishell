@@ -6,11 +6,21 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 18:33:46 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 19:36:29 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 23:58:54 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+void	ft_initialize_newnode(t_list *new_node)
+{
+	new_node->name = NULL;
+	new_node->args = NULL;
+	new_node->flags = NULL;
+	new_node->key = NULL;
+	new_node->value = NULL;
+	new_node->next = NULL;
+}
 
 void	ft_envp_initialize(t_list *new_node)
 {

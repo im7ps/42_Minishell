@@ -6,19 +6,14 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 18:04:53 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 21:52:11 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 23:43:40 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/libft.h"
 
-char	*ft_strjoin(char const *s1, char const *s2, int flag)
+char	*ft_strjoin_utils(int flag, char const *s1, char const *s2)
 {
-	size_t		len1;
-	size_t		len2;
-	size_t		i;
-	char		*stack;
-
 	if (flag == 1)
 	{
 		if (!s2)
@@ -31,6 +26,18 @@ char	*ft_strjoin(char const *s1, char const *s2, int flag)
 			return (NULL);
 		return ((char *)s1);
 	}
+	return (NULL);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2, int flag)
+{
+	size_t		len1;
+	size_t		len2;
+	size_t		i;
+	char		*stack;
+
+	if (flag == 1 || flag == 2)
+		return (ft_strjoin_utils(flag, s1, s2));
 	else
 	{
 		if (!s1 || !s2)

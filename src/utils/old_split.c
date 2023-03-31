@@ -6,13 +6,13 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 15:11:37 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 20:30:56 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 22:53:46 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-char	**old_fill_m(t_minishell **minip, const char *s, t_xfillmv *fmv, char **matrix)
+char	**old_fill_m(t_minishell **min, const char *s, t_xfillmv *fmv, char **m)
 {
 	t_xsubstr	sub;
 	int			j;
@@ -28,14 +28,14 @@ char	**old_fill_m(t_minishell **minip, const char *s, t_xfillmv *fmv, char **mat
 			sub.len++;
 		if (sub.len != 0)
 		{
-			matrix[j] = ft_substr_m(&(*minip)->garbage, s, sub);
-			matrix[j][ft_strlen(matrix[j])] = '\0';
+			m[j] = ft_substr_m(&(*min)->garbage, s, sub);
+			m[j][ft_strlen(m[j])] = '\0';
 			j++;
 		}
 		sub.i += sub.len;
 		sub.len = 0;
 	}
-	return (matrix);
+	return (m);
 }
 
 int	old_count_w(char *str, char c)

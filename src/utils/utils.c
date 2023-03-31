@@ -6,11 +6,27 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 18:29:08 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 21:15:00 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/01 00:02:30 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+char	**ft_upload_trypath(t_list	*env, t_minishell **minip)
+{
+	char	**trypath;
+
+	while (env)
+	{
+		if (!(ft_strncmp("PATH", env->key, 4)))
+		{
+			trypath = ft_old_split(minip, env->value, ':');
+			return (trypath);
+		}
+		env = env->next;
+	}
+	return (NULL);
+}
 
 char	*ft_trypath(t_minishell **minip, char	*cmd, t_list **envp)
 {
@@ -19,17 +35,8 @@ char	*ft_trypath(t_minishell **minip, char	*cmd, t_list **envp)
 	char	*cmdcopy;
 	int		i;
 
-	i = 0;
 	env = *envp;
-	while (env)
-	{
-		if (!(ft_strncmp("PATH", env->key, 4)))
-		{
-			trypath = ft_old_split(minip, env->value, ':');
-		}
-		i++;
-		env = env->next;
-	}
+	trypath = ft_upload_trypath(env, minip);
 	cmdcopy = cmd;
 	i = 0;
 	while (trypath[i])
@@ -37,31 +44,12 @@ char	*ft_trypath(t_minishell **minip, char	*cmd, t_list **envp)
 		trypath[i] = ftm_strjoin(&(*minip)->garbage, trypath[i], "/", 0);
 		cmd = ftm_strjoin(&(*minip)->garbage, trypath[i], cmd, 0);
 		if (access(cmd, X_OK) == 0)
-		{
 			return (cmd);
-		}
 		else
-		{
 			cmd = cmdcopy;
-		}
 		i++;
 	}
 	return (NULL);
-}
-
-void	ft_lst_delete(t_list **stack)
-{
-	t_list	*tmp;
-
-	if (*stack == NULL)
-		return ;
-	tmp = *stack;
-	while (*stack != NULL)
-	{
-		tmp = (*stack)->next;
-		free (*stack);
-		*stack = tmp;
-	}
 }
 
 int	ft_count_commands(t_list **cmd_list)

@@ -6,54 +6,48 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:44:36 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 20:00:41 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/01 00:09:22 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	ft_initialize_newnode(t_list *new_node)
+void	ft_link_prev(int i, t_list *n_node, t_list *p_node, t_list *cmd_list)
 {
-	new_node->name = NULL;
-	new_node->args = NULL;
-	new_node->flags = NULL;
-	new_node->key = NULL;
-	new_node->value = NULL;
-	new_node->next = NULL;
+	if (i == 0)
+		n_node->prev = NULL;
+	else
+	{
+		p_node = ft_lstlast(cmd_list);
+		n_node->prev = p_node;
+	}
 }
 
-t_list	*ft_create_list(t_minishell **minip, t_list **cmd_list, char **full_cmd)
+t_list	*ft_c_list(t_minishell **m, t_list **cmd_list, char **full_cmd, int i)
 {
-	int		i;
 	int		j;
 	t_list	*new_node;
 	t_list	*prev_node;
 
-	i = 0;
 	while (full_cmd[i])
 	{
 		j = 0;
 		new_node = (t_list *) malloc (sizeof(t_list));
 		ft_initialize_newnode(new_node);
-		new_node->cmd_m = ftm_split(&(*minip)->garbage, full_cmd[i], ' ');
+		new_node->cmd_m = ftm_split(&(*m)->garbage, full_cmd[i], ' ');
 		while (new_node->cmd_m[j])
 		{
 			if (new_node->cmd_m[j][ft_strlen(new_node->cmd_m[j]) - 1] == ' ')
 				new_node->cmd_m[j][ft_strlen(new_node->cmd_m[j]) - 1] = '\0';
 			j++;
 		}
-		if (i == 0)
-			new_node->prev = NULL;
-		else
-		{
-			prev_node = ft_lstlast(*cmd_list);
-			new_node->prev = prev_node;
-		}
+		prev_node = NULL;
+		ft_link_prev(i, new_node, prev_node, *cmd_list);
 		ft_lstadd_back(cmd_list, new_node);
 		i++;
 	}
-	(*minip)->cmd_num = ft_count_commands(&(*minip)->cmd_list);
-	ft_upload_redirection(&(*minip)->cmd_list);
+	(*m)->cmd_num = ft_count_commands(&(*m)->cmd_list);
+	ft_upload_redirection(&(*m)->cmd_list);
 	return (*cmd_list);
 }
 
@@ -110,7 +104,7 @@ int	ft_parser(t_minishell **minip)
 
 	mini = *minip;
 	mini->full_cmd = ft_split_variant(mini, mini->input);
-	mini->cmd_list = ft_create_list(minip, &mini->cmd_list, mini->full_cmd);
+	mini->cmd_list = ft_c_list(minip, &mini->cmd_list, mini->full_cmd, 0);
 	cmd = mini->cmd_list;
 	while (cmd)
 	{

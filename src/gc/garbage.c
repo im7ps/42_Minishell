@@ -6,11 +6,26 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 21:37:49 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 21:38:04 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/01 00:02:41 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+void	ft_lst_delete(t_list **stack)
+{
+	t_list	*tmp;
+
+	if (*stack == NULL)
+		return ;
+	tmp = *stack;
+	while (*stack != NULL)
+	{
+		tmp = (*stack)->next;
+		free (*stack);
+		*stack = tmp;
+	}
+}
 
 void	add_node(t_garbage **head, void *ptr)
 {

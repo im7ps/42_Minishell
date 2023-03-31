@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 19:40:25 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 21:14:40 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/01 00:07:29 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	ft_handle_shllv(t_minishell **minip)
 	{
 		if (ft_update_shellv(&mini->garbage, &mini->envp_list, -1))
 		{
-			ft_printf("Caricamento procedura d'uscita in corso, non spegnere il computer\n");
+			ft_printf("Procedura d'uscita in corso, non spegnere il computer\n");
 			return (0);
 		}
 	}

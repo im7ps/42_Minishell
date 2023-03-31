@@ -6,13 +6,13 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 23:42:07 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 21:34:02 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/01 00:06:43 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-char	**ftm_fill_mv(t_garbage **garbage, t_xfillmv *fmv, const char *s, char **matrix)
+char	**ftm_fill_mv(t_garbage **g, t_xfillmv *fmv, const char *s, char **mat)
 {
 	t_xsubstr	sub;
 
@@ -32,13 +32,13 @@ char	**ftm_fill_mv(t_garbage **garbage, t_xfillmv *fmv, const char *s, char **ma
 		{
 			sub.i = fmv->i;
 			sub.len = fmv->len;
-			matrix[fmv->j] = ft_substr_m(garbage, s, sub);
+			mat[fmv->j] = ft_substr_m(g, s, sub);
 			fmv->j++;
 		}
 		fmv->i += fmv->len;
 		fmv->len = 0;
 	}
-	return (matrix);
+	return (mat);
 }
 
 int	ftm_count_w(char *str, char c)

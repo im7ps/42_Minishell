@@ -6,11 +6,24 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 20:04:37 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 21:31:44 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/01 00:01:43 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+void	ft_exec_closepipes(int **pipes, int cmd_num)
+{
+	int	i;
+
+	i = 0;
+	while (i < cmd_num + 1)
+	{
+		close(pipes[i][0]);
+		close(pipes[i][1]);
+		i++;
+	}
+}
 
 // Funzione esterna per la parte 1
 void	open_pipes(int **pipes, int cmd_num, t_garbage **garbage)

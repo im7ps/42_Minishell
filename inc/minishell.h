@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 21:42:52 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/01 00:09:07 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,14 @@ int			ft_cd(t_list *head, t_list **envp);
 t_minishell	*ft_load_export(t_minishell **minip, char **envp);
 void		ft_check_path(t_minishell **minip, t_list **envp);
 
+//initialize
+void		ft_initialize_newnode(t_list *new_node);
+
 //function to check and manipulate the input read from readline
 int			ft_parser(t_minishell **minip);
 int			ft_is_escaped(char c, int flag);
 int			ft_input_checker(char	*input, bool onlytab);
-t_list		*ft_create_list(t_minishell **minip, t_list **cmd_l, char **f_cmd);
+t_list		*ft_c_list(t_minishell **mp, t_list **c_l, char **f_c, int i);
 int			ft_double_red_checker(char *input, bool redtoggle);
 
 //building functions
@@ -105,12 +108,12 @@ t_minishell	*ft_load_envp(t_minishell **minip, char **envp);
 void		ft_mini_initializer(t_minishell **mini, char **envp, int flag);
 
 //builtins
-int			handle_command(t_minishell *m, t_list *head, t_list **envp, int **p);
-int			handle_builtin(t_minishell *m, t_list *head, t_list **envp, int **p);
+int			handle_command(t_minishell *m, t_list *h, t_list **envp, int **p);
+int			handle_builtin(t_minishell *m, t_list *h, t_list **envp, int **p);
 int			ft_echo(t_list *head, int **pipes, int index);
 int			ft_pwd(t_list *head, char **cmd_m, int **pipes, int index);
 int			ft_export(t_minishell *mini, t_list *head);
-int			ft_unset(t_list *head, t_list **envp, char *var, t_list **export_list);
+int			ft_unset(t_list *head, t_list **envp, char *var, t_list **exp_l);
 void		ft_delete_node(t_list **head, t_list *node_to_delete);
 int			ft_env(t_list **envp, int **pipes, int index, char **cmd_m);
 
@@ -127,8 +130,8 @@ void		ft_exec_basered(int **pipes, int i);
 //redirection
 char		**ft_delete_redirection(char **cmd_m);
 int			ft_redirection_type(char **command);
-int			ft_redirect_output(int **pipes, t_list *head, int i);
-int			ft_append_output(int **pipes, t_list *head, int i);
+int			ft_redirect_output(int **pipes, t_list *head, int i, int j);
+int			ft_append_output(int **pipes, t_list *head, int i, int j);
 int			ft_redirect_input(t_minishell *m, t_list *head, int **pipes, int i);
 void		ft_upload_redirection(t_list **cmd_list);
 int			ft_is_redirection(char *str);
@@ -177,7 +180,15 @@ t_list		**ft_whichlist(t_list **export, t_list **env, char *str);
 int			ft_whereis_equal(char *str);
 int			ft_var_isnew(t_list **head, int j, char *str);
 
+//redirection utils
+int			ft_open_fd_a(t_list *head, char *file_content);
+int			ft_open_fd_t(t_list *head, char *file_content);
+int			ft_calc_buffsize(int **pipes, int i);
+void		ft_norma_append_out(t_minishell	*mini, int	**pipes, t_list	*h);
+void		ft_norma_redirect_out(t_minishell	*mini, int	**p, t_list	*h);
+
 //pipes
+void		ft_exec_closepipes(int **pipes, int cmd_num);
 void		open_pipes(int **pipes, int cmd_num, t_garbage **garbage);
 void		close_pipes(int **pipes, int cmd_num);
 

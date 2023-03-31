@@ -6,13 +6,11 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 19:31:05 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 21:00:43 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 23:32:09 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-#include <readline/readline.h>
-#include <readline/history.h>
 
 int	g_exit_status;
 
@@ -94,15 +92,11 @@ int	ft_red_router(t_minishell	*mini, t_list *head, int **pipes, t_list **envp)
 	}
 	else if (head->start_red == 2)
 	{
-		waitpid(0, &g_exit_status, 0);
-		mini->built_in_counter++;
-		ft_append_output(pipes, head, mini->index);
+		ft_norma_append_out(mini, pipes, head);
 	}
 	else if (head->start_red == 4)
 	{
-		waitpid(0, &g_exit_status, 0);
-		mini->built_in_counter++;
-		ft_redirect_output(pipes, head, mini->index);
+		ft_norma_redirect_out(mini, pipes, head);
 	}
 	return (0);
 }
@@ -116,9 +110,7 @@ int	ft_start_executing(t_minishell **minip, t_list **envp)
 	mini = *minip;
 	head = mini->cmd_list;
 	if (mini->input[0] == '\0' || (mini->input[0] != '/' && mini->nopath == 1))
-	{
 		return (1);
-	}
 	else if (!ft_dedicated(mini->cmd_list->cmd_m[0]))
 		return (0);
 	pipes = gc_alloc(&mini->garbage, (sizeof (int *) * (mini->cmd_num + 1)), 0);

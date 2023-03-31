@@ -6,7 +6,7 @@
 #    By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 21:39:43 by dgioia            #+#    #+#              #
-#    Updated: 2023/03/31 21:43:23 by sgerace          ###   ########.fr        #
+#    Updated: 2023/03/31 23:24:07 by sgerace          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,6 +54,7 @@ SRC	=	./src/init/main.c \
 		./src/pipes/ft_pipes.c \
 		./src/redirection/ft_redirection.c \
 		./src/redirection/redirection_utils.c \
+		./src/redirection/redirection_utils2.c \
 		./src/signals/signals.c \
 		./src/utils/old_split.c \
 		./src/utils/utils.c \
