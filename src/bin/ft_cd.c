@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:35:55 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/30 23:24:19 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 18:52:08 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	cd_path(t_list **envp)
 	{
 		if (!ft_strncmp(env->key, "PWD", 3))
 		{
-			free(env->value);
+			//free(env->value);
 			env->value = getcwd(NULL, 0);
 		}
 		env = env->next;

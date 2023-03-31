@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/03/30 23:38:22 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 18:47:22 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,11 +191,32 @@ int	ft_handle_shllv(t_minishell **minip)
 	return (1);
 }
 
-int ft_input_checklist(t_minishell **minip)
+void	ft_check_path(t_minishell **minip, t_list **envp)
+{
+	t_list *env;
+	t_minishell *mini;
+
+	mini = *minip;
+	env = *envp;
+	while (env != NULL)
+	{
+		if (!(ft_strncmp(env->key, "PATH", 5)))
+		{
+			mini->nopath = 0;
+			return ;	
+		}
+		env = env->next;
+	}
+	mini->nopath = 1;
+	return ;
+}
+
+int ft_input_checklist(t_minishell **minip, t_list **envp)
 {
 	t_minishell *mini;
 
 	mini = *minip;
+	ft_check_path(minip, envp);
 	if (!ft_handle_shllv(minip))
 	{
 		return (1);
@@ -225,7 +246,7 @@ void	ft_execute_mini(t_minishell **minip, char **envp)
 			ft_ctrl_d_handler(0);
 			return ;
 		}
-		if (ft_input_checklist(minip) == 1)
+		if (ft_input_checklist(minip, &(*minip)->envp_list) == 1)
 			return ;
 		add_history(mini->input);
 		if (ft_parser(minip))

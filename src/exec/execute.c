@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 19:31:05 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/30 23:39:56 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 18:52:45 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,6 @@
 
 
 int	g_exit_status;
-
-int	ft_check_path(t_list **envp)
-{
-	t_list *env;
-	
-	env = *envp;
-	while (env != NULL)
-	{
-		if (!(ft_strncmp(env->key, "PATH", 5)))
-			return (0);
-		env = env->next;
-	}
-	return (1);
-}
 
 int	handle_command(t_minishell *mini, t_list *head, t_list **envp, int **pipes, int index, int cmd_num)
 {
@@ -92,7 +78,7 @@ int	ft_heredoc(t_minishell *mini, t_list *head, int **pipes, char *str)
 		write(fd, "\n", 1);
 		write(pipes[mini->index][1], file_content, ft_strlen(file_content));
 		write(pipes[mini->index][1], "\n", 1);
-		free(file_content);
+		//free(file_content);
 		close(fd);
 	}
 	//head->final_red = 6;
@@ -157,12 +143,10 @@ int ft_start_executing(t_minishell **minip, t_list	**cmd_list, t_list **envp)
 
 	mini = *minip;
 	head = mini->cmd_list;
-	if (mini->input[0] == '\0')
+	if (mini->input[0] == '\0' || (mini->input[0] != '/' && mini->nopath == 1))
 	{
 		return (1);
 	}
-	if (ft_check_path(envp))
-		return (1);
 	else if (!ft_dedicated(mini->cmd_list->cmd_m[0]))
 		return (0);
 	pipes = gc_alloc(&mini->garbage, (sizeof(int*) * (mini->cmd_num + 1)), 0);

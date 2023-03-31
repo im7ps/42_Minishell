@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 18:33:46 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/30 19:20:26 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 18:42:41 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	ft_mini_initializer(t_minishell **mini, char **envp, int flag)
 	minip->cmd_num = 0;
 	minip->built_in_counter = 0;
 	minip->flush = 0;
-	minip->path_flag = 0;
+	minip->nopath = 0;
 	if (flag != 0)
 	{
 		minip->garbage = NULL;

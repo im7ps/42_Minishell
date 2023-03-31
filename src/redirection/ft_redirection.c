@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 20:07:45 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/30 22:39:00 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 18:53:35 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int	ft_append_output(int **pipes, t_list *head, int i)
 	if (fd < 0)
 	{
 		//g_exit_status = 1;
+		free(file_content);
 		ft_printf("Problems with file opening\n");
 		return (1);
 	}
@@ -124,7 +125,7 @@ int	ft_redirect_output(int **pipes, t_list *head, int i)
 	fd = open(head->cmd_m[0], O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
-		//g_exit_status = 1;
+		free(file_content);
 		ft_printf("Problems with file opening\n");
 		return (1);
 	}

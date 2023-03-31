@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 17:52:56 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/30 23:10:00 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 18:46:28 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -307,8 +307,7 @@ int handle_non_builtin(t_minishell *mini, t_list *head, t_list **envp, int **pip
     if (head->cmd_m[0] == NULL)
     {
         ft_printf("Command not found\n");
-		//g_exit_status = 127;
-        return (127);
+        return (1);
     }
     pid = fork();
     if (pid < 0)

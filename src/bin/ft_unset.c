@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:36:34 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/26 13:34:27 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 18:52:30 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void ft_delete_node(t_list **list, t_list *nodeToDelete)
     if (*list == nodeToDelete) 
 	{
         *list = nodeToDelete->next;
-        free(nodeToDelete);
+        //free(nodeToDelete);
         return;
     }
     prevNode = *list;
@@ -32,7 +32,7 @@ void ft_delete_node(t_list **list, t_list *nodeToDelete)
     if (prevNode->next == NULL) 
         return;
     prevNode->next = nodeToDelete->next;
-    free(nodeToDelete);
+    //free(nodeToDelete);
 	nodeToDelete = NULL;
 }
 

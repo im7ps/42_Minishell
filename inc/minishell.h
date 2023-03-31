@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/30 23:29:05 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 18:44:41 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ typedef struct s_garbage
 
 typedef struct s_minishell
 {
-	int			path_flag;
+	int			nopath;
 	int			built_in_counter;	//tiene conto di quante built in sono state eseguite dal programma
 	int			cmd_num;			//numero dei comandi
 	int			index;				//indice del comando
@@ -95,7 +95,7 @@ t_minishell	*ft_load_export(t_minishell **minip, char **envp);
 //char *final_exp(char *args, t_list *env);
 //char *ft_dollar_expander(char *args, t_list *env);
 
-int	ft_input_null(t_minishell *mini);
+void	ft_check_path(t_minishell **minip, t_list **envp);
 
 //function to check and manipulate the input read from readline
 int		ft_parser(t_minishell **minip);
