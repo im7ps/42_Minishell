@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 18:44:41 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 19:16:25 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int		ft_echo(t_minishell *mini, t_list *head, int **pipes, int index, int cmd_nu
 //char	*ft_cd(t_list *head, t_list **envp, int cmd_num);
 int		ft_pwd(t_list *head, char **cmd_m, int **pipes, int index);
 int		ft_export(t_minishell *mini, t_list *head, t_list **envp, int **pipes, int index);
-int		ft_unset(t_list *head, t_list **envp, char *var);
+int		ft_unset(t_list *head, t_list **envp, char *var, t_list **export_list);
 void 	ft_delete_node(t_list **head, t_list *node_to_delete);
 int		ft_env(t_list **envp, int **pipes, int index, char **cmd_m);
 

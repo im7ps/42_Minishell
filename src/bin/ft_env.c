@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:36:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/26 00:53:00 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 19:21:04 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,22 @@ int	ft_env(t_list **envp, int **pipes, int index, char **cmd_m)
 		{
 			if (env->key)
 				write(pipes[index + 1][1], env->key, (sizeof(char) * ft_strlen(env->key)));
-			write(pipes[index + 1][1], "=", sizeof(char));
 			if (env->value)
+			{
+				write(pipes[index + 1][1], "=", sizeof(char));
 				write(pipes[index + 1][1], env->value, (sizeof(char) * ft_strlen(env->value)));
+			}
 			write(pipes[index + 1][1], "\n", sizeof(char));
 		}
 		else
-			ft_printf("%s=%s\n", env->key, env->value);
+			if (env->key)
+				write(STDOUT_FILENO, env->key, (sizeof(char) * ft_strlen(env->key)));
+			if (env->value)
+			{
+				write(STDOUT_FILENO, "=", sizeof(char));
+				write(STDOUT_FILENO, env->value, (sizeof(char) * ft_strlen(env->value)));
+			}
+			write(STDOUT_FILENO, "\n", sizeof(char));
 		env = env->next;
 	}
 	return (0);

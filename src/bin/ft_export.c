@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:36:24 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/26 13:18:29 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 19:23:08 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,13 @@ void ft_addnode(t_minishell *mini, t_list **head, char *str, int j)
 	{
 		newnode->value = gc_alloc(&mini->garbage, (sizeof(char) * ft_strlen(str)), 0);
 		ft_strlcpy(newnode->value, str + j + 1, ft_strlen(str) - j + 1);	
+		ft_lstadd_back(&mini->envp_list, newnode);
 	}
 	ft_envp_initialize(newnode);
-	ft_lstadd_back(head, newnode);
+	ft_lstadd_back(&mini->export_list, newnode);
 }
 
-void ft_delete_replace(t_minishell *mini, t_list **head, char *str, int j)
+void ft_replace(t_minishell *mini, t_list **head, char *str, int j)
 {
 	t_list 	*node;
 	char	*tmp;
@@ -89,7 +90,7 @@ void ft_delete_replace(t_minishell *mini, t_list **head, char *str, int j)
 		if (!ft_strncmp(node->key, str, j))
 		{
 			ft_strlcpy(tmp, str, j + 1);
-			ft_unset(NULL, head, tmp);
+			ft_unset(NULL, head, tmp, NULL);
 		}
 		node = node->next;
 	}
@@ -126,7 +127,7 @@ int	ft_export(t_minishell *mini, t_list *head, t_list **envp, int **pipes, int i
 		}
 		else
 		{
-			ft_delete_replace(mini, heade, head->cmd_m[i], j);
+			ft_replace(mini, heade, head->cmd_m[i], j);
 		}
 		i++;
 	}
