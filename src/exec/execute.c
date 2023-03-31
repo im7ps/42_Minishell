@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 19:31:05 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 20:23:13 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 21:00:43 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@
 
 int	g_exit_status;
 
-int	handle_command(t_minishell *mini, t_list *head, t_list **envp, int **pipes, int index, int cmd_num)
+int	handle_command(t_minishell *mini, t_list *head, t_list **envp, int **pipes)
 {
-	if (handle_builtin(mini, head, envp, pipes, index))
+	if (handle_builtin(mini, head, envp, pipes))
 	{
 		g_exit_status = 0;
 	}
 	else
 	{
-		if (handle_non_builtin(mini, head, envp, pipes, index, cmd_num) == 1)
+		if (handle_non_builtin(mini, head, envp, pipes) == 1)
 		{
 			return (1);
 		}
@@ -32,7 +32,7 @@ int	handle_command(t_minishell *mini, t_list *head, t_list **envp, int **pipes, 
 	return (0);
 }
 
-int	ft_init_file()
+int	ft_init_file(void)
 {
 	int	fd;
 
@@ -89,7 +89,7 @@ int	ft_red_router(t_minishell	*mini, t_list *head, int **pipes, t_list **envp)
 			if (ft_redirect_input(mini, head, pipes, mini->index) == 1)
 				return (1);
 		}
-		if (handle_command(mini, head, envp, pipes, mini->index, mini->cmd_num) == 1)
+		if (handle_command(mini, head, envp, pipes) == 1)
 			return (1);
 	}
 	else if (head->start_red == 2)
@@ -105,15 +105,6 @@ int	ft_red_router(t_minishell	*mini, t_list *head, int **pipes, t_list **envp)
 		ft_redirect_output(pipes, head, mini->index);
 	}
 	return (0);
-}
-
-int	ft_dedicated(char *str)
-{
-	if (!(ft_strncmp(str, "exit", 4)))
-		return (0);
-	else if (!(ft_strncmp(str, "./minishell", 11)))
-		return (0);
-	return (1);
 }
 
 int	ft_start_executing(t_minishell **minip, t_list **envp)

@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:36:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 19:21:04 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 21:44:03 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ int	ft_env(t_list **envp, int **pipes, int index, char **cmd_m)
 		else
 			if (env->key)
 				write(STDOUT_FILENO, env->key, (sizeof(char) * ft_strlen(env->key)));
-			if (env->value)
-			{
-				write(STDOUT_FILENO, "=", sizeof(char));
-				write(STDOUT_FILENO, env->value, (sizeof(char) * ft_strlen(env->value)));
-			}
-			write(STDOUT_FILENO, "\n", sizeof(char));
+		if (env->value)
+		{
+			write(STDOUT_FILENO, "=", sizeof(char));
+			write(STDOUT_FILENO, env->value, (sizeof(char) * ft_strlen(env->value)));
+		}
+		write(STDOUT_FILENO, "\n", sizeof(char));
 		env = env->next;
 	}
 	return (0);

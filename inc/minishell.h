@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 20:23:35 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 21:42:52 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,9 @@ int			ft_double_red_checker(char *input, bool redtoggle);
 t_minishell	*ft_load_envp(t_minishell **minip, char **envp);
 void		ft_mini_initializer(t_minishell **mini, char **envp, int flag);
 
-//error
-int			ft_perror(int err, char *cmd);
-
 //builtins
-int			handle_command(t_minishell *mini, t_list *head, t_list **envp, int **pipes, int index, int cmd_num);
-int			handle_builtin(t_minishell *mini, t_list *head, t_list **envp, int **pipes, int index);
+int			handle_command(t_minishell *m, t_list *head, t_list **envp, int **p);
+int			handle_builtin(t_minishell *m, t_list *head, t_list **envp, int **p);
 int			ft_echo(t_list *head, int **pipes, int index);
 int			ft_pwd(t_list *head, char **cmd_m, int **pipes, int index);
 int			ft_export(t_minishell *mini, t_list *head);
@@ -120,38 +117,34 @@ int			ft_env(t_list **envp, int **pipes, int index, char **cmd_m);
 //without the proto of this func readline does not work
 void		rl_replace_line(const char *text, int clear_undo);
 
-//get next line
-char		*get_next_line(int fd, int buffer_size);
-char		*read_and_join(int fd, char *dst, int buffer_size);
-char		*get_line(char *buffer);
-char		*store_extra_char(char	*buffer);
+//exec redirection
+int			ft_exec_redinput(t_list *head, int **pipes, int i);
+void		ft_exec_redheredoc(t_list *head, int **pipes, int i);
+void		ft_exec_redout(t_list *head);
+void		ft_exec_redout_v(t_list *head, int **pipes, int i);
+void		ft_exec_basered(int **pipes, int i);
 
 //redirection
 char		**ft_delete_redirection(char **cmd_m);
 int			ft_redirection_type(char **command);
 int			ft_redirect_output(int **pipes, t_list *head, int i);
 int			ft_append_output(int **pipes, t_list *head, int i);
-int			ft_redirect_input(t_minishell *mini, t_list *head, int **pipes, int i);
+int			ft_redirect_input(t_minishell *m, t_list *head, int **pipes, int i);
 void		ft_upload_redirection(t_list **cmd_list);
 int			ft_is_redirection(char *str);
 
-//malloc & free
-void		*ft_malloc_stuff(int n);
-
 //executing commands
 int			ft_start_executing(t_minishell **minip, t_list **envp);
-int			ft_execute_command(t_minishell *mini, int **pipes, t_list *head, int cmd_num, int index);
+int			ft_execute_command(t_minishell *mini, int **pipes, t_list *head);
 int			wait_for_execution(int cmd_num, int built_in_counter);
-int			handle_non_builtin(t_minishell *mini, t_list *head, t_list **envp, int **pipes, int index, int cmd_num);
+int			handle_non_builtin(t_minishell *m, t_list *h, t_list **ep, int **p);
 
 //signals
 void		ft_ctrl_c_handler(int signum);
 void		ft_ctrl_d_handler(int signum);
 void		ft_ctrl_s_handler(int signum);
-void		ft_sig_handler(int signum, siginfo_t *info, void *ucontext);
 
-char		*ft_expander_helper(t_minishell **mini, char *input);
-char		*ft_expander_finder(t_minishell **minip, int i, char *input);
+//dollar expander
 char		*ft_dollar_expander(t_garbage **garbage, char *args, t_list *env);
 
 //utils
@@ -176,15 +169,20 @@ int			ft_handle_shllv(t_minishell **minip);
 int			ft_get_word_length(const char *s, t_xfillmv *fmv);
 void		ft_init_fmv(t_xfillmv *fmv);
 
+//exec utils
+int			ft_dedicated(char *str);
+
+//export utils
+t_list		**ft_whichlist(t_list **export, t_list **env, char *str);
+int			ft_whereis_equal(char *str);
+int			ft_var_isnew(t_list **head, int j, char *str);
+
 //pipes
 void		open_pipes(int **pipes, int cmd_num, t_garbage **garbage);
 void		close_pipes(int **pipes, int cmd_num);
 
 //free
 void		ft_lst_delete(t_list **stack);
-
-//attributes management
-void		ft_set_attributes(t_minishell **minip);
 
 //garbage collector
 void		*gc_alloc(t_garbage **head, int size, int count);

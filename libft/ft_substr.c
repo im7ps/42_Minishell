@@ -3,16 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 17:52:29 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/25 14:35:00 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 21:12:07 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-//inietta in una nuova strina allocata in memoria una parte di una precedente stringa
-// il numero di char da copiare e' dato dall inizio (start) della stringa da cui partire
-// e dal numero di caratteri (len) da iniettarci, finendo con un '\0'
 
 #include "../inc/libft.h"
 #include "../inc/minishell.h"
@@ -36,8 +32,8 @@ char	*ft_substr_m(t_garbage **garbage, char const *s, t_xsubstr sub)
 	stack = gc_alloc(garbage, (sizeof(char) * sub.len + 2), sub.len + 2);
 	if (!stack)
 		return (NULL);
-	while (1 + sub.len--)										//MINISHELL: 1 + len-- (it was len--) per fargli includere la redirection nella stringa, che altrimenti verrebbe ignorata essendo il char separatore
-		stack[i++] = s[sub.i++];								//MINISHELL: stack[i] = '\0'; era l originale, cambiato per mettere in pos stack[i] il reindirizzamento
+	while (1 + sub.len--)
+		stack[i++] = s[sub.i++];
 	stack[i] = '\0';
 	return (stack);
 }

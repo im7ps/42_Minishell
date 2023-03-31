@@ -6,14 +6,9 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/03 16:41:37 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/07 18:21:43 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 21:49:05 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// Deletes and frees the given node and every
-// successor of that node, using the function ’del’
-// and free.
-// source: 42libft subject 03/2022
 
 #include "../inc/libft.h"
 
@@ -27,7 +22,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void*))
 	{
 		while (*lst != NULL)
 		{
-			prev = *lst;			//stesso ragionamento di swap, copi il riferimento del nodo da eliminare, vai al prossimo e POI elimini il nodo precedente, grazie al riferimento stai eliminando l originale e non una copia
+			prev = *lst;
 			*lst = (*lst)->next;
 			del(prev->content);
 			free(prev);

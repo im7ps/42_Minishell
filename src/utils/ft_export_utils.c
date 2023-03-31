@@ -1,35 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ft_export_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/16 22:10:59 by dgioia            #+#    #+#             */
-/*   Updated: 2023/03/30 22:39:00 by sgerace          ###   ########.fr       */
+/*   Created: 2023/03/31 21:41:10 by sgerace           #+#    #+#             */
+/*   Updated: 2023/03/31 21:41:55 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	g_exit_status;
-
-int	ft_perror(int err, char *cmd)
+t_list	**ft_whichlist(t_list **export, t_list **env, char *str)
 {
-	if (err == ERR_NCMD)
+	if (ft_strchr(str, '='))
 	{
-		ft_printf("%s: Command not found!\n", cmd);
-		////g_exit_status = 127;
+		return (env);
 	}
-	if (err == ERR_QUOTE)
+	return (export);
+}
+
+int	ft_whereis_equal(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
 	{
-		ft_printf("Double quotes not closed properly!\n");
-		// //g_exit_status = 127;
+		if (str[i] == '=')
+			break ;
+		i++;
 	}
-	if (err == ERR_INPUT)
+	return (i);
+}
+
+int	ft_var_isnew(t_list **head, int j, char *str)
+{
+	t_list	*node;
+
+	node = *head;
+	while (node)
 	{
-		ft_printf("Character not valid!\n");
-		// //g_exit_status = 127;
+		if (!ft_strncmp(node->key, str, j))
+			return (1);
+		node = node->next;
 	}
-	return (1);
+	return (0);
 }

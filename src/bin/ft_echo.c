@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:36:13 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 20:16:49 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 21:44:37 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ int	ft_is_flag(char *cmd_arg)
 {
 	int	i;
 
-	if (cmd_arg[0] != '-')			//se il primo char non é un - sicuramente non é una flag
+	if (cmd_arg[0] != '-')
 		return (0);
 	i = 1;
 	while (cmd_arg[i])
 	{
-		if (cmd_arg[i] != 'n')		//se un char dell argomento non é n non é una flag
+		if (cmd_arg[i] != 'n')
 			return (0);
 		i++;
 	}
@@ -30,7 +30,7 @@ int	ft_is_flag(char *cmd_arg)
 
 int	ft_echo_flag(char **cmd_m, t_echo *echo)
 {
-	int i;
+	int	i;
 	int	flag_ended;
 	int	flag;
 
@@ -54,13 +54,12 @@ int	ft_echo_flag(char **cmd_m, t_echo *echo)
 	return (i);
 }
 
-void ft_echo_write(int fd, t_echo echo, char *str)
+void	ft_echo_write(int fd, t_echo echo, char *str)
 {
 	if (echo.i > echo.flag_index)
 	{
 		if (echo.i != echo.len)
 		{
-			//ft_printf("im writing into fd: |%s|\n", str);
 			write(fd, str, ((ft_strlen(str)) * sizeof(char)));
 			if (echo.i != echo.len - 1)
 			{

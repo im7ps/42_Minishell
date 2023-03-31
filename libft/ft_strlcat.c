@@ -6,15 +6,9 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 14:23:33 by sgerace           #+#    #+#             */
-/*   Updated: 2023/02/07 18:21:43 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 21:47:01 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// The strlcat() function (with the L) appends one string onto the end of the other.
-// Characters from string src are appended to string dst.
-// !!The dstsize argument is equal to the size of the dst buffer, which caps the number of characters copied to this size, minus one for the null character!!
-// The strlcat() function returns the combined length of both src and dst strings (not counting their terminating null characters). This result is used to determine whether the final string was truncated.
-// source: https://c-for-dummies.com/blog/?p=3896
 
 #include "../inc/libft.h"
 

@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 18:29:08 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 20:35:55 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 21:15:00 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,7 @@ bool	ft_define_squotes(char c)
 	int		qtoggle;
 	bool	res;
 
-	//per la norma
 	res = false;
-	//per la norma
 	ft_is_escaped('r', 1);
 	qtoggle = ft_is_escaped(c, 0);
 	if (qtoggle == 2)

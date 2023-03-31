@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:36:29 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/26 00:09:05 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 21:38:44 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_pwd(t_list *head, char **cmd_m, int **pipes, int index)
 {
-	char 	*cwd;
+	char	*cwd;
 	int		i;
 	int		fd;
 

@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   malloc_stuff.c                                     :+:      :+:    :+:   */
+/*   ft_exec_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sgerace <sgerace@student.42roma.it>        +#+  +:+       +#+        */
+/*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/23 17:32:53 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/24 19:00:40 by sgerace          ###   ########.fr       */
+/*   Created: 2023/03/31 21:01:04 by sgerace           #+#    #+#             */
+/*   Updated: 2023/03/31 21:15:23 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void    *ft_malloc_stuff(int n)
+int	ft_dedicated(char *str)
 {
-    t_list *node;
-    if (n == NODE_NUM)
-    {
-        node = (t_list *)malloc(sizeof(t_list));
-        return (node);
-    }
-    return (NULL);
+	if (!(ft_strncmp(str, "exit", 4)))
+		return (0);
+	else if (!(ft_strncmp(str, "./minishell", 11)))
+		return (0);
+	return (1);
 }

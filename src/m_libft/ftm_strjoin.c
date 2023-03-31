@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 19:28:12 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/30 20:41:53 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 21:32:43 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ char	*ftm_strjoin(t_garbage **garbage, char const *s1, char const *s2, int flag)
 		i = 0;
 		len1 = ft_strlen(s1);
 		len2 = ft_strlen(s2);
-		//stack = (char *) malloc(sizeof(char) * (len1 + len2 + 1));
 		stack = gc_alloc(garbage, (sizeof(char) * (len1 + len2 + 1)), 1);
 		if (!stack)
 			return (NULL);
@@ -47,6 +46,6 @@ char	*ftm_strjoin(t_garbage **garbage, char const *s1, char const *s2, int flag)
 	}
 	while (*s2 != '\0')
 		stack[i++] = *s2++;
-	stack[i] = '\0';			// il null character va messo solo alla fine, fra una stringa e l'altra non ci va
+	stack[i] = '\0';
 	return (stack);
 }

@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 17:56:56 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/27 17:43:38 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 21:16:04 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,19 +51,20 @@ int	ft_redirection_type(char **command)
 
 char	**ft_delete_redirection(char **cmd_m)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (cmd_m[i])
 	{
 		i++;
 	}
-	if (cmd_m[i - 1][ft_strlen(cmd_m[i - 1]) - 1] == '>' || cmd_m[i - 1][ft_strlen(cmd_m[i - 1]) - 1] == '<' || cmd_m[i - 1][ft_strlen(cmd_m[i - 1]) - 1] == '|')
+	if (cmd_m[i - 1][ft_strlen(cmd_m[i - 1]) - 1] == '>' \
+		|| cmd_m[i - 1][ft_strlen(cmd_m[i - 1]) - 1] == '<' \
+		|| cmd_m[i - 1][ft_strlen(cmd_m[i - 1]) - 1] == '|')
 	{
-		// ft_printf("Sostituito redirection with NULL\n");
 		cmd_m[i - 1] = NULL;
 	}
-	return (cmd_m);	
+	return (cmd_m);
 }
 
 void	ft_upload_redirection(t_list **cmd_list)
@@ -73,7 +74,7 @@ void	ft_upload_redirection(t_list **cmd_list)
 
 	i = 0;
 	head = *cmd_list;
-	while(head)
+	while (head)
 	{
 		if (i == 0)
 		{
@@ -85,8 +86,6 @@ void	ft_upload_redirection(t_list **cmd_list)
 			head->next->start_red = head->final_red;
 		}
 		i++;
-		//ft_printf("Start: %d\n", head->start_red);
-		//ft_printf("End: %d\n", head->final_red);
 		head->cmd_m = ft_delete_redirection(head->cmd_m);
 		head = head->next;
 	}

@@ -6,29 +6,11 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 17:52:56 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 20:29:19 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/03/31 21:38:32 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-int g_exit_status;
-
-int	wait_for_execution(int cmd_num, int built_in_counter) 
-{
-    int i = 0;
-    while (i < cmd_num - built_in_counter)
-	{
-		waitpid(-1, &g_exit_status, 0);
-		if (WIFEXITED(g_exit_status))
-		{
-			printf("Exit status del processo figlio: %d\n", WEXITSTATUS(g_exit_status));
-			//WEXITSTATUS(g_exit_status);
-		}
-        i++;
-    }
-	return (0);
-}
 
 int	ft_execute_single(int **pipes, t_list *head)
 {
@@ -41,97 +23,7 @@ int	ft_execute_single(int **pipes, t_list *head)
 	return (0);
 }
 
-int	ft_exec_redinput(t_list *head, int **pipes, int i)
-{
-	int err;
-	int	fd;
-
-	fd = open(head->next->cmd_m[0], O_RDONLY);
-	if (!fd)
-	{
-		ft_printf("Error opening file\n");
-	}
-	err = dup2(fd, STDIN_FILENO);
-	if (err == -1)
-		ft_printf("Error using dup2F2\n");
-	if (head->next->final_red == 2 || head->next->final_red == 4 || head->next->final_red == 1)
-	{
-		err = dup2(pipes[i + 1][1], STDOUT_FILENO);
-		if (err == -1)
-		{
-			ft_printf("Error using dup2F\n");
-			return (1);
-		}
-	}
-	close(fd);
-	return (0);
-}
-
-void	ft_exec_redheredoc(t_list *head, int **pipes, int i)
-{
-	int	err;
-	int	fd;
-
-	fd = open("heredoc_tmp.txt", O_RDONLY);
-	if (!fd)
-	{
-		ft_printf("Error opening file\n");
-	}
-	err = dup2(fd, STDIN_FILENO);
-	if (err == -1)
-		ft_printf("Error using dup2F2\n");
-	if (head->next->final_red == 2 || head->next->final_red == 4 || head->next->final_red == 1)
-	{
-		err = dup2(pipes[i + 1][1], STDOUT_FILENO);
-		if (err == -1)
-		{
-			ft_printf("Error using dup2F\n");
-		}
-	}
-	close(fd);
-}
-
-void	ft_exec_redout(t_list *head)
-{
-	int	err;
-	int	fd;
-
-	fd = open(head->next->cmd_m[0], O_RDWR);
-	err = dup2(fd, STDOUT_FILENO);
-	if (err == -1)
-	{
-		ft_printf("Error using dup2F\n");
-	}
-	close(fd);
-}
-
-void	ft_exec_redout_v(t_list *head, int **pipes, int i)
-{
-	int	err;
-
-	if (head->next->final_red == 2 || head->next->final_red == 4 \
-		|| head->next->final_red == 1)
-	{
-		err = dup2(pipes[i + 1][1], STDOUT_FILENO);
-		if (err == -1)
-		{
-			ft_printf("Error using dup2F\n");
-		}
-	}
-}
-
-void ft_exec_basered(int **pipes, int i)
-{
-	int err;
-
-	err = dup2(pipes[i + 1][1], STDOUT_FILENO);
-	if (err == -1)
-	{
-		ft_printf("Error using dup2F\n");
-	}
-}
-
-int ft_execute_first(int **pipes, t_list *head, int cmd_num, int index)
+int	ft_execute_first(int **pipes, t_list *head, int cmd_num, int index)
 {
 	int	i;
 
@@ -162,7 +54,6 @@ int ft_execute_first(int **pipes, t_list *head, int cmd_num, int index)
 		close(pipes[i][1]);
 		i++;
 	}
-	printf("cmd1: %s\\n", head->cmd_m[0]);
 	if (execve(head->cmd_m[0], head->cmd_m, NULL) == -1)
 		ft_printf("Problems with execveF\n");
 	return (1);
@@ -171,6 +62,7 @@ int ft_execute_first(int **pipes, t_list *head, int cmd_num, int index)
 int	ft_execute_middle(t_minishell *mini, int **pipes, t_list *head, int index)
 {
 	int	err;
+	int	i;
 
 	err = 0;
 	if (head->final_red == 3 || head->final_red == 5)
@@ -194,24 +86,21 @@ int	ft_execute_middle(t_minishell *mini, int **pipes, t_list *head, int index)
 		if (err == -1)
 			ft_printf("Error using dup2M\n");
 	}
-	int i = 0;
+	i = 0;
 	while (i < mini->cmd_num + 1)
 	{
 		close(pipes[i][0]);
 		close(pipes[i][1]);
 		i++;
 	}
-	//fprintf(2, "cmd: %s\\n", head->cmd_m[0]);
 	execve(head->cmd_m[0], head->cmd_m, NULL);
-	//g_exit_status = 1;
 	return (1);
 }
 
-
 int	ft_execute_last(int **pipes, t_list *head, int cmd_num, int index)
 {
-	int err;
-	int i;
+	int	err;
+	int	i;
 	int	fd;
 
 	err = 0;
@@ -236,65 +125,32 @@ int	ft_execute_last(int **pipes, t_list *head, int cmd_num, int index)
 		close(pipes[i][1]);
 		i++;
 	}
-	printf("cmd1: %s\\n", head->cmd_m[0]);
-	if (execve(head->cmd_m[0], head->cmd_m, NULL) == -1)
-		//g_exit_status = 1;
+	execve(head->cmd_m[0], head->cmd_m, NULL);
 	ft_printf("Problems with execveL\n");
-	//g_exit_status = 127;
 	return (1);
 }
 
-int	ft_execute_command(t_minishell *mini, int **pipes, t_list *head, int cmd_num, int index)
+int	ft_execute_command(t_minishell *mini, int **pipes, t_list *head)
 {
 	if (head->start_red == 0 && head->final_red == 0)
 	{
-		if(ft_execute_single(pipes, head))
+		if (ft_execute_single(pipes, head))
 			return (0);
 	}
 	else if (head->start_red == 0)
 	{
-		if (ft_execute_first(pipes, head, cmd_num, index))
+		if (ft_execute_first(pipes, head, mini->cmd_num, mini->index))
 			return (0);
 	}
 	else if (head->start_red != 0 && head->final_red != 0)
 	{
-		ft_printf("Middle command: %s\n", head->cmd_m[0]);
-		if (ft_execute_middle(mini, pipes, head, index))
+		if (ft_execute_middle(mini, pipes, head, mini->index))
 			return (0);
 	}
 	else if (head->final_red == 0)
 	{
-		if (ft_execute_last(pipes, head, cmd_num, index))
+		if (ft_execute_last(pipes, head, mini->cmd_num, mini->index))
 			return (0);
 	}
 	return (1);
-}
-
-
-// funzione per gestire i comandi non built-in
-int handle_non_builtin(t_minishell *mini, t_list *head, t_list **envp, int **pipes, int index, int cmd_num)
-{
-    pid_t pid;
-
-	//ft_printf("index non builtin: %d del comando num: %s\n", index, head->cmd_m[0]);
-
-	if (head->cmd_m[0][0] != '/')
-	{
-		head->cmd_m[0] = ft_trypath(&mini, head->cmd_m[0], envp);
-	}
-    if (head->cmd_m[0] == NULL)
-    {
-        ft_printf("Command not found\n");
-        return (1);
-    }
-    pid = fork();
-    if (pid < 0)
-        return (2);
-    if (pid == 0)
-    {
-        if (ft_execute_command(mini, pipes, head, cmd_num, index))
-            return (1);
-        return (0);
-    }
-	return (0);
 }
