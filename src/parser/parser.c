@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:44:36 by sgerace           #+#    #+#             */
-/*   Updated: 2023/04/01 00:09:22 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/02 12:42:40 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_list	*ft_c_list(t_minishell **m, t_list **cmd_list, char **full_cmd, int i)
 	while (full_cmd[i])
 	{
 		j = 0;
-		new_node = (t_list *) malloc (sizeof(t_list));
+		new_node = gc_alloc(&(*m)->garbage, (sizeof(t_list)), 0);
 		ft_initialize_newnode(new_node);
 		new_node->cmd_m = ftm_split(&(*m)->garbage, full_cmd[i], ' ');
 		while (new_node->cmd_m[j])

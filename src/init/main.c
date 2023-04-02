@@ -6,13 +6,25 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/04/02 11:48:08 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/02 12:41:50 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
 int	g_exit_status;
+
+void	ft_print_list(t_list **headp)
+{
+	t_list	*head;
+
+	head = *headp;
+	while (head)
+	{
+		ft_printf("%p\n", head);
+		head = head->next;
+	}
+}
 
 void	ft_execute_mini(t_minishell **minip, char **envp)
 {
@@ -38,7 +50,6 @@ void	ft_execute_mini(t_minishell **minip, char **envp)
 			return ;
 		ft_start_executing(&mini, &mini->envp_list);
 		ft_mini_initializer(&mini, envp, 0);
-		ft_lst_delete(&mini->cmd_list);
 	}
 	return ;
 }

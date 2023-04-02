@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:16:59 by sgerace           #+#    #+#             */
-/*   Updated: 2023/04/02 11:19:47 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/02 12:50:32 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	handle_builtin(t_minishell *mini, t_list *head, t_list **envp, int **pipes)
 	if (!ft_strncmp(head->cmd_m[0], "echo", 4))
 		return (!(ft_echo(head, pipes, mini->index)));
 	else if (!ft_strncmp(head->cmd_m[0], "cd", 2))
-		return (!ft_cd(head, envp));
+		return (!ft_cd(&mini->garbage, head, envp));
 	else if (!ft_strncmp(head->cmd_m[0], "pwd", 3))
 		return (!(ft_pwd(head, head->cmd_m, pipes, mini->index)));
 	else if (!ft_strncmp(head->cmd_m[0], "export", 6))

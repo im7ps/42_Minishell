@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 20:07:45 by sgerace           #+#    #+#             */
-/*   Updated: 2023/04/02 11:30:06 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/02 12:40:32 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	ft_append_output(int **pipes, t_list *head, int i, int j)
 	file_content = (char *) malloc (sizeof(char) * (buffer_size + 1));
 	file_content[buffer_size] = '\0';
 	read(pipes[i][0], file_content, buffer_size);
-	fd = ft_open_fd_t(head, file_content);
+	fd = ft_open_fd_a(head, file_content);
 	write(fd, file_content, buffer_size);
 	write(pipes[i + 1][1], file_content, buffer_size);
 	while (head->cmd_m[j])
@@ -80,7 +80,7 @@ int	ft_redirect_output(int **pipes, t_list *head, int i, int j)
 	file_content = (char *) malloc (sizeof(char) * (buffer_size + 1));
 	file_content[buffer_size] = '\0';
 	read(pipes[i][0], file_content, buffer_size);
-	fd = ft_open_fd_a(head, file_content);
+	fd = ft_open_fd_t(head, file_content);
 	write(fd, file_content, buffer_size);
 	write(pipes[i + 1][1], file_content, buffer_size);
 	while (head->cmd_m[j])

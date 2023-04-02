@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/04/02 11:22:08 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/02 12:54:20 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,14 +87,10 @@ typedef struct s_minishell
 	int			fd;
 }	t_minishell;
 
-bool		ft_char_red(char c);
-void		ft_envp_initialize(t_list *new_node);
-int			ft_cd(t_list *head, t_list **envp);
-t_minishell	*ft_load_export(t_minishell **minip, char **envp);
-void		ft_check_path(t_minishell **minip, t_list **envp);
-
 //initialize
 void		ft_initialize_newnode(t_list *new_node);
+void		ft_envp_initialize(t_list *new_node);
+t_minishell	*ft_load_export(t_minishell **minip, char **envp);
 
 //function to check and manipulate the input read from readline
 int			ft_parser(t_minishell **minip);
@@ -102,6 +98,7 @@ int			ft_is_escaped(char c, int flag);
 int			ft_input_checker(char	*input, bool onlytab);
 t_list		*ft_c_list(t_minishell **mp, t_list **c_l, char **f_c, int i);
 int			ft_double_red_checker(char *input, bool redtoggle);
+void		ft_check_path(t_minishell **minip, t_list **envp);
 
 //building functions
 t_minishell	*ft_load_envp(t_minishell **minip, char **envp);
@@ -111,6 +108,7 @@ void		ft_mini_initializer(t_minishell **mini, char **envp, int flag);
 int			handle_command(t_minishell *m, t_list *h, t_list **envp, int **p);
 int			handle_builtin(t_minishell *m, t_list *h, t_list **envp, int **p);
 int			ft_echo(t_list *head, int **pipes, int index);
+int			ft_cd(t_garbage **garbage, t_list *head, t_list **envp);
 int			ft_pwd(t_list *head, char **cmd_m, int **pipes, int index);
 int			ft_export(t_minishell *mini, t_list *head);
 int			ft_unset(t_list *head, t_list **envp, char *var, t_list **exp_l);
@@ -135,6 +133,7 @@ int			ft_append_output(int **pipes, t_list *head, int i, int j);
 int			ft_redirect_input(t_minishell *m, t_list *head, int **pipes, int i);
 void		ft_upload_redirection(t_list **cmd_list);
 int			ft_is_redirection(char *str);
+bool		ft_char_red(char c);
 
 //executing commands
 int			ft_start_executing(t_minishell **minip, t_list **envp);

@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 23:23:06 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 23:32:14 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/02 12:40:24 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	ft_open_fd_t(t_list *head, char *file_content)
 {
 	int	fd;
 
-	fd = open(head->cmd_m[0], O_WRONLY | O_CREAT | O_APPEND, 0644);
+	fd = open(head->cmd_m[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
 		free(file_content);
