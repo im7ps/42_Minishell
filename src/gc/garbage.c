@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 21:37:49 by sgerace           #+#    #+#             */
-/*   Updated: 2023/04/02 14:36:36 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/02 15:04:40 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,10 @@ void	ft_garbage_collector(t_garbage **head)
 	temp = NULL;
 	while (*head != NULL)
 	{
-		//free variabile allocata prece
 		free((*head)->ptr);
 		(*head)->ptr = NULL;
-		
 		temp = (*head);
 		(*head) = (*head)->next;
-		
 		free(temp);
 		temp = NULL;
 	}

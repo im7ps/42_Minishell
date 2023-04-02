@@ -6,13 +6,11 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/04/02 14:46:05 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/02 15:05:17 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-int	g_exit_status;
 
 void	ft_execute_mini(t_minishell **minip, char **envp)
 {
@@ -37,7 +35,6 @@ void	ft_execute_mini(t_minishell **minip, char **envp)
 		if (ft_parser(minip))
 			return ;
 		ft_start_executing(&mini, &mini->envp_list);
-		//ft_garbage_collector(&mini->garbage);
 		free(mini->input);
 		ft_mini_initializer(&mini, envp, 0);
 	}
@@ -58,7 +55,6 @@ int	main(int argc, char **argv, char **envp)
 	ft_mini_initializer(&mini, envp, 1);
 	ft_execute_mini(&mini, envp);
 	ft_garbage_collector(&mini->garbage);
-	//printf("%s\n", ptr->prev->flags);
 	free(mini);
 	return (0);
 }
