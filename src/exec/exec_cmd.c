@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 17:52:56 by sgerace           #+#    #+#             */
-/*   Updated: 2023/04/01 00:01:34 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/02 11:00:53 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_execute_single(int **pipes, t_list *head)
 	close(pipes[1][0]);
 	close(pipes[1][1]);
 	if (execve(head->cmd_m[0], head->cmd_m, NULL) == -1)
-		ft_printf("Problems with execveS\n");
+		ft_printf("Error\n");
 	return (0);
 }
 
@@ -45,7 +45,7 @@ int	ft_execute_first(int **pipes, t_list *head, int cmd_num, int index)
 		i++;
 	}
 	if (execve(head->cmd_m[0], head->cmd_m, NULL) == -1)
-		ft_printf("Problems with execveF\n");
+		ft_printf("Error\n");
 	return (1);
 }
 
@@ -68,7 +68,8 @@ int	ft_execute_middle(t_minishell *mini, int **pipes, t_list *head, int index)
 		err = dup2(pipes[index + 1][1], STDOUT_FILENO);
 	}
 	ft_exec_closepipes(pipes, mini->cmd_num);
-	execve(head->cmd_m[0], head->cmd_m, NULL);
+	if (execve(head->cmd_m[0], head->cmd_m, NULL) == -1)
+		ft_printf("Error\n");
 	return (1);
 }
 
@@ -90,8 +91,8 @@ int	ft_execute_last(int **pipes, t_list *head, int cmd_num, int index)
 		close(fd);
 	}
 	ft_exec_closepipes(pipes, cmd_num);
-	execve(head->cmd_m[0], head->cmd_m, NULL);
-	ft_printf("Problems with execveL\n");
+	if (execve(head->cmd_m[0], head->cmd_m, NULL) == -1)
+		ft_printf("Error\n");
 	return (1);
 }
 

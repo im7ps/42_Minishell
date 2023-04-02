@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 21:37:49 by sgerace           #+#    #+#             */
-/*   Updated: 2023/04/01 00:02:41 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/02 11:46:37 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	ft_lst_delete(t_list **stack)
 		free (*stack);
 		*stack = tmp;
 	}
+	*stack = NULL;
 }
 
 void	add_node(t_garbage **head, void *ptr)
@@ -58,8 +59,11 @@ void	ft_garbage_collector(t_garbage *head)
 	while (head != NULL)
 	{
 		free(head->ptr);
+		head->ptr = NULL;
 		temp = head;
 		head = head->next;
 		free(temp);
+		temp = NULL;
 	}
+	head = NULL;
 }

@@ -1,3 +1,2 @@
 Terminal › External: Linux Exec (da verificare il valore con il vscode di qualcun altro)
-
-echo test > file.txt | echo testone >> file.txt | cat < da_debugg.txt non printa il contenuto del file in da_debugg
+Necchi798

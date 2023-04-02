@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:20:33 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 20:22:04 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/02 11:19:18 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,9 @@ void	ft_delete_node(t_list **list, t_list *node_to_delete)
 	node_to_delete = NULL;
 }
 
-void	ft_find_node(t_list **envp, char *str, t_list **expp)
+void	ft_handle_envp(t_list **envp, char *str)
 {
 	t_list	*env;
-	t_list	*exp;
 
 	env = *envp;
 	while (env)
@@ -49,6 +48,12 @@ void	ft_find_node(t_list **envp, char *str, t_list **expp)
 		}
 		env = env->next;
 	}
+}
+
+void	ft_handle_export(t_list **expp, char *str)
+{
+	t_list	*exp;
+
 	exp = *expp;
 	while (exp)
 	{
@@ -58,6 +63,18 @@ void	ft_find_node(t_list **envp, char *str, t_list **expp)
 			break ;
 		}
 		exp = exp->next;
+	}
+}
+
+void	ft_find_node(t_list **envp, char *str, t_list **expp)
+{
+	if (envp != NULL)
+	{
+		ft_handle_envp(envp, str);
+	}
+	if (expp != NULL)
+	{
+		ft_handle_export(expp, str);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 20:49:13 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 23:03:39 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/02 11:01:38 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ int	wait_for_execution(int cmd_num, int built_in_counter)
 		waitpid(-1, &g_exit_status, 0);
 		if (WIFEXITED(g_exit_status))
 		{
-			printf("Exit status del processo figlio: %d\n", \
-				WEXITSTATUS(g_exit_status));
+			WEXITSTATUS(g_exit_status);
 		}
 		i++;
 	}

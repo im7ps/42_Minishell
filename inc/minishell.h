@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/04/01 00:09:07 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/02 11:22:08 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int			ft_pwd(t_list *head, char **cmd_m, int **pipes, int index);
 int			ft_export(t_minishell *mini, t_list *head);
 int			ft_unset(t_list *head, t_list **envp, char *var, t_list **exp_l);
 void		ft_delete_node(t_list **head, t_list *node_to_delete);
-int			ft_env(t_list **envp, int **pipes, int index, char **cmd_m);
+int			ft_env(t_list **envp, int **pipes, int index, t_list *head);
 
 //without the proto of this func readline does not work
 void		rl_replace_line(const char *text, int clear_undo);

@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 20:07:45 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 23:51:25 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/02 11:30:06 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,17 @@ int	ft_redirect_input(t_minishell *mini, t_list *head, int **pipes, int i)
 	{
 		fd = open(head->next->cmd_m[0], O_RDONLY);
 		if (fd < 0)
-		{
 			return (1);
-		}
 		if (fstat(fd, &st) == -1)
-		{
 			return (1);
-		}
 		buffer_size = st.st_size;
 		file_content = gc_alloc(&mini->garbage, \
 			(sizeof(char) * (buffer_size + 1)), 1);
 		read(fd, file_content, buffer_size);
-		write(pipes[i + 2][1], file_content, buffer_size);
+		if (head->next && head->next->final_red != 0)
+			write(pipes[i + 2][1], file_content, buffer_size);
+		else if (head->next && head->next->final_red == 0 && mini->cmd_num != 2)
+			write(1, file_content, buffer_size);
 		close(fd);
 		head = head->next;
 	}

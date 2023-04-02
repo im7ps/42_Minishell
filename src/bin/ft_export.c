@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:36:24 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 21:41:50 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/02 11:17:34 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,15 @@ void	ft_addnode(t_minishell *mini, char *str, int j)
 	{
 		newnode->value = gc_alloc(&mini->garbage, \
 			(sizeof(char) * ft_strlen(str)), 0);
+		ft_envp_initialize(newnode);
 		ft_strlcpy(newnode->value, str + j + 1, ft_strlen(str) - j + 1);
 		ft_lstadd_back(&mini->envp_list, newnode);
 	}
-	ft_envp_initialize(newnode);
-	ft_lstadd_back(&mini->export_list, newnode);
+	else
+	{
+		ft_envp_initialize(newnode);
+		ft_lstadd_back(&mini->export_list, newnode);
+	}
 }
 
 void	ft_replace(t_minishell *mini, t_list **head, char *str, int j)

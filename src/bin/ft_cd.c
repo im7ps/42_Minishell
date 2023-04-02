@@ -6,11 +6,27 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:35:55 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 21:45:00 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/02 12:03:09 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+void	ft_change_oldpwd(t_list **envp, char *oldpwd)
+{
+	t_list	*env;
+
+	env = *envp;
+	while (env)
+	{
+		if (!ft_strncmp(env->key, "OLDPWD", 6))
+		{
+			env->value = oldpwd;
+			ft_printf("Changing oldpwd value to: %s\n", env->value);
+		}
+		env = env->next;
+	}
+}
 
 void	cd_path(t_list **envp)
 {
@@ -21,7 +37,9 @@ void	cd_path(t_list **envp)
 	{
 		if (!ft_strncmp(env->key, "PWD", 3))
 		{
+			ft_change_oldpwd(envp, env->value);
 			env->value = getcwd(NULL, 0);
+			ft_printf("Changing pwd value to: %s\n", env->value);
 		}
 		env = env->next;
 	}
