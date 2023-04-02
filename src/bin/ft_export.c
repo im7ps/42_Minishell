@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:36:24 by sgerace           #+#    #+#             */
-/*   Updated: 2023/04/02 11:17:34 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/02 13:39:33 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	ft_replace(t_minishell *mini, t_list **head, char *str, int j)
 		{
 			ft_strlcpy(tmp, str, j + 1);
 			ft_unset(NULL, head, tmp, NULL);
+			break ;
 		}
 		node = node->next;
 	}

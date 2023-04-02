@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 17:46:19 by sgerace           #+#    #+#             */
-/*   Updated: 2023/04/02 12:54:20 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/02 14:32:00 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,7 @@ void		ft_lst_delete(t_list **stack);
 
 //garbage collector
 void		*gc_alloc(t_garbage **head, int size, int count);
-void		ft_garbage_collector(t_garbage *head);
+void		ft_garbage_collector(t_garbage **head);
 void		add_node(t_garbage **head, void *ptr);
 
 //modified libft

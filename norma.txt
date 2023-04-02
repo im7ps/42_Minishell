@@ -1,1 +1,0 @@
-varaibile res inizializzata a false per silenziare l errore nel file src/utils/utils.c

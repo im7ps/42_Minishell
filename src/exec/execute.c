@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 19:31:05 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 23:32:09 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/02 14:28:54 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	ft_init_file(void)
 	fd = open("heredoc_tmp.txt", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (!fd)
 	{
-		ft_printf("Error opening the tmp file\n");
+		ft_printf("Error opening the heredoc file\n");
 		return (1);
 	}
 	write(fd, NULL, 1);
@@ -61,7 +61,7 @@ int	ft_heredoc(t_minishell *mini, int **pipes, char *str)
 		fd = open("heredoc_tmp.txt", O_RDWR | O_CREAT | O_APPEND, 0644);
 		if (!fd)
 		{
-			ft_printf("Error opening the tmp file\n");
+			ft_printf("Error opening the heredoc file\n");
 			return (1);
 		}
 		write(fd, file_content, ft_strlen(file_content));

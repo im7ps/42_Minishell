@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 19:38:13 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 20:15:56 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/02 13:12:53 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	ft_input_checklist(t_minishell **minip, t_list **envp)
 	}
 	if (ft_input_checker(mini->input, true) != 0)
 	{
-		ft_printf("Error: è stata scritta qualche cagata astronomica\n");
+		ft_printf("Input error\n");
 		return (1);
 	}
 	return (0);

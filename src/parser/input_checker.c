@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 20:47:30 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 20:15:08 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/02 13:13:14 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,19 +86,19 @@ int	ft_input_checker(char	*input, bool onlytab)
 	res = ft_quotes_checker(input, 0, 0);
 	if (res != 0)
 	{
-		ft_printf("Quotes deesparee salveenee\n");
+		ft_printf("Input error\n");
 		return (1);
 	}
 	if (input[ft_strlen(input) - 1] == '>' || \
 		input[ft_strlen(input) - 1] == '|' || \
 		input[ft_strlen(input) - 1] == '<')
 	{
-		ft_printf("L ultimo char non può eser una rojadirecta\n");
+		ft_printf("Input error\n");
 		return (1);
 	}
 	if (ft_double_red_checker(input, false))
 	{
-		ft_printf("Double rojadirection!\n");
+		ft_printf("Input error\n");
 		return (1);
 	}
 	return (res);

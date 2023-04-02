@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:14:12 by dgioia            #+#    #+#             */
-/*   Updated: 2023/04/02 12:41:50 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/02 14:46:05 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,14 @@
 
 int	g_exit_status;
 
-void	ft_print_list(t_list **headp)
-{
-	t_list	*head;
-
-	head = *headp;
-	while (head)
-	{
-		ft_printf("%p\n", head);
-		head = head->next;
-	}
-}
-
 void	ft_execute_mini(t_minishell **minip, char **envp)
 {
 	t_minishell	*mini;
 
-	if (signal(SIGQUIT, &ft_ctrl_d_handler) == SIG_ERR)
-		printf("failed to register quit\n");
 	if (signal(SIGINT, &ft_ctrl_c_handler) == SIG_ERR)
 		printf("failed to register interrupt\n");
+	if (signal(SIGQUIT, &ft_ctrl_d_handler) == SIG_ERR)
+		printf("failed to register quit\n");
 	mini = *minip;
 	while (1)
 	{
@@ -49,6 +37,8 @@ void	ft_execute_mini(t_minishell **minip, char **envp)
 		if (ft_parser(minip))
 			return ;
 		ft_start_executing(&mini, &mini->envp_list);
+		//ft_garbage_collector(&mini->garbage);
+		free(mini->input);
 		ft_mini_initializer(&mini, envp, 0);
 	}
 	return ;
@@ -62,13 +52,13 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (signal(SIGINT, &ft_ctrl_c_handler) == SIG_ERR)
 		ft_printf("failed to register interrupt\n");
-	if (signal(SIGQUIT, &ft_ctrl_s_handler) == SIG_ERR)
+	if (signal(SIGQUIT, &ft_ctrl_d_handler) == SIG_ERR)
 		ft_printf("failed to register quit\n");
 	mini = (t_minishell *) malloc (sizeof(t_minishell));
 	ft_mini_initializer(&mini, envp, 1);
 	ft_execute_mini(&mini, envp);
-	ft_printf("Fine programma\n");
-	ft_garbage_collector(mini->garbage);
+	ft_garbage_collector(&mini->garbage);
+	//printf("%s\n", ptr->prev->flags);
 	free(mini);
 	return (0);
 }

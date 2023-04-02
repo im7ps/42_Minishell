@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 16:35:55 by sgerace           #+#    #+#             */
-/*   Updated: 2023/04/02 13:08:45 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/02 14:49:34 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	ft_change_oldpwd(t_garbage **garbage, t_list **envp, char *oldpwd)
 		}
 		env = env->next;
 	}
+	free(oldpwd);
+	oldpwd = NULL;
 }
 
 void	cd_path(t_garbage **garbage, t_list **envp)

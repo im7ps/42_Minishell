@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:51:10 by sgerace           #+#    #+#             */
-/*   Updated: 2023/03/31 20:04:33 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/02 13:33:33 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ char	*ft_dollar_expander(t_garbage **garbage, char *args, t_list *env)
 	int		j;
 	bool	squotes;
 
-	if (ft_strlen(args) == 1 && args[0] == '$')
+	if ((ft_strlen(args) == 1 && args[0] == '$') || args[0] == '\'')
 		return (args);
 	tmp = gc_alloc(garbage, (sizeof(char) * 2048), 2048);
 	i = 0;

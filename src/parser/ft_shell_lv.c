@@ -6,7 +6,7 @@
 /*   By: sgerace <sgerace@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 19:40:25 by sgerace           #+#    #+#             */
-/*   Updated: 2023/04/01 00:07:29 by sgerace          ###   ########.fr       */
+/*   Updated: 2023/04/02 14:47:15 by sgerace          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	ft_handle_exit_digit(char *str)
 	if (ft_atoi(tmp) > 255)
 		return (-1);
 	free(tmp);
+	tmp = NULL;
 	return (0);
 }
 
@@ -43,6 +44,7 @@ int	ft_type_router(char c)
 {
 	if (ft_whatis(c) == 'c')
 	{
+		ft_printf("Error numeric argument required\n");
 		return (1);
 	}
 	else if (ft_whatis(c) == 'd')
@@ -51,6 +53,7 @@ int	ft_type_router(char c)
 	}
 	else if (ft_whatis(c) == 's')
 	{
+		ft_printf("Error numeric argument required\n");
 		return (1);
 	}
 	return (1);
@@ -121,7 +124,7 @@ int	ft_handle_shllv(t_minishell **minip)
 	{
 		if (ft_update_shellv(&mini->garbage, &mini->envp_list, -1))
 		{
-			ft_printf("Procedura d'uscita in corso, non spegnere il computer\n");
+			free((*minip)->input);
 			return (0);
 		}
 	}
