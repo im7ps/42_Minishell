@@ -26,8 +26,8 @@ void	ft_change_oldpwd(t_garbage **garbage, t_list **envp, char *oldpwd)
 		}
 		env = env->next;
 	}
-	free(oldpwd);
-	oldpwd = NULL;
+	//free(oldpwd);
+	//oldpwd = NULL;
 }
 
 void	cd_path(t_garbage **garbage, t_list **envp)
